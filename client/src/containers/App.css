@@ -40,3 +40,10 @@ body {
     height: 0;
     visibility: hidden;
 }
+
+
+/* helpers */
+
+.red {
+    color: red;
+}
