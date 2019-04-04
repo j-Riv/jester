@@ -29,7 +29,7 @@ class Home extends Component {
             <Container>
                 <Row>
                     <Col sm={12} className="text-center">
-                        <h3 className={this.props.color}>Welcome! Sign up or sign in!</h3>
+                        <h3 style={ { color: `${this.props.color}`} }>Welcome! Sign up or sign in!</h3>
                         <Button variant="secondary" data-color="red" onClick={dispatchBtnAction}>Red</Button>
                         <Button variant="secondary" data-color="black" onClick={dispatchBtnAction}>Black</Button>
                     </Col>
