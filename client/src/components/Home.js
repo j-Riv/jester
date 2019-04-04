@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import store from '../store/index';
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 class Home extends Component {
@@ -43,8 +42,4 @@ function mapStateToProps(state) {
     return { color: state.color.color };
 }
 
-export default compose(
-    connect(mapStateToProps),
-)(Home);
-
-// export default Home;
+export default connect(mapStateToProps)(Home);
