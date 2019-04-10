@@ -38,10 +38,7 @@ export const signin = (formProps, callback) => async dispatch => {
 export const signout = () => async dispatch =>{
     localStorage.removeItem('token');
     dispatch({ type: CURRENT_USER, payload: '' });
-    return {
-        type: AUTH_USER,
-        payload: ''
-    };
+    dispatch({ type: AUTH_USER, payload: '' });
 };
 
 export const addMessage = (formProps) => async dispatch => {
