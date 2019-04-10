@@ -7,6 +7,7 @@ import Signup from './auth/Signup';
 import Protected from '../components/Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
+import Chat from './Chat';
 import "./App.css";
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
                         <Route path="/protected" component={Protected} />
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
+                        <Route path="/chat" component={Chat} />
                     </Switch>
                 </div>
                 <Footer />

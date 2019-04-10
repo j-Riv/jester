@@ -11,7 +11,7 @@ function tokenForUser(user) {
 exports.signin = function (req, res, next) {
     // User has already had their email and password auth'd
     // We just need to give them a token
-    res.send({ token: tokenForUser(req.user) });
+    res.send({ token: tokenForUser(req.user), currentUser: req.user });
 }
 
 exports.signup = function (req, res, next) {
@@ -41,7 +41,15 @@ exports.signup = function (req, res, next) {
             if (err) { return next(err); }
 
             // Repond to request indicating the user was created
-            res.json({ token: tokenForUser(user) });
+            res.json({ token: tokenForUser(user), currentUser: user});
         });
+    });
+}
+
+exports.update = function (req, res, next) {
+    const email = req.body.email;
+    const username = req.body.username;
+    User.findOneAndUpdate(email, { $set: { username: username } }).then(function(res){
+        res.json({currentUser: res});
     });
 }
