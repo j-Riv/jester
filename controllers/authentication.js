@@ -46,10 +46,20 @@ exports.signup = function (req, res, next) {
     });
 }
 
+exports.getCurrentUser = function (req, res, next) {
+    const token = req.params.token;
+    const decoded = jwt.decode(token, process.env.PASSPORT_SECRET);
+    User.findOne({ _id: decoded.sub }).then(function (result) {
+        res.json({ currentUser: result });
+    });
+}
+
 exports.update = function (req, res, next) {
-    const email = req.body.email;
+    const id = req.body.id;
     const username = req.body.username;
-    User.findOneAndUpdate(email, { $set: { username: username } }).then(function(res){
-        res.json({currentUser: res});
+    console.log('this is the id: ' + id);
+    console.log('this is the username: ' + username);
+    User.findOneAndUpdate({ _id: id }, { $set: { username: username } }).then(function(result){
+        res.json({currentUser: result});
     });
 }

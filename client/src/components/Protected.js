@@ -10,9 +10,9 @@ import Col from 'react-bootstrap/Col';
 
 class Protected extends Component {
     onSubmit = formProps => {
-        
+        formProps.id = this.props.currentUser._id;
+        console.log(formProps);
         this.props.updateUser(formProps, () => {
-            console.log(formProps);
             console.log('submitted');
         });
     };
@@ -28,14 +28,22 @@ class Protected extends Component {
                 </Row>
                 <Row>
                     <Col sm={12}>
+                        <h2>Current User Info:</h2>
+                        <p>{this.props.currentUser.email}</p>
+                        <p>{this.props.currentUser.username}</p>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12}>
                         <form onSubmit={handleSubmit(this.onSubmit)}>
                             <fieldset>
                                 <label>Username</label>
                                 <Field
-                                    name="User"
+                                    name="username"
                                     type="text"
                                     component="input"
                                     autoComplete="none"
+                                    placeholder={this.props.currentUser.username}
                                 />
                             </fieldset>
                             <button>Update!</button>
@@ -50,7 +58,7 @@ class Protected extends Component {
 // export default requireAuth(Protected);
 
 function mapStateToProps(state) {
-    return { currentUser: state.user };
+    return { currentUser: state.currentUser.user };
 }
 export default compose(
     connect(mapStateToProps, actions),

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 import Button from 'react-bootstrap/Button';
 import Message from '../components/Message';
-import store from '../store/index';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -12,9 +11,9 @@ import server from '../config/config';
 
 class Chat extends Component {
     componentDidMount = () => {
-        const socket = socketIOClient(server, { secure: true });
-        // socket.on('new message', data => this.setState({ savedBook: data, showDeleted: true }));
-        socket.on('new message', data => store.dispatch());
+        // const socket = socketIOClient(server, { secure: true });
+        // // socket.on('new message', data => this.setState({ savedBook: data, showDeleted: true }));
+        // socket.on('new message', data => store.dispatch());
     }
 
     onSubmit = formProps => {
