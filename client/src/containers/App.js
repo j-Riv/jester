@@ -7,7 +7,9 @@ import Signup from './auth/Signup';
 import Protected from '../components/Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
+import Profile from "../components/profileBar";
 import "./App.css";
+
 
 class App extends Component {
     render() {
@@ -22,6 +24,7 @@ class App extends Component {
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
                     </Switch>
+                    <Profile />
                 </div>
                 <Footer />
             </div>
