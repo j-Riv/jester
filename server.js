@@ -33,19 +33,27 @@ routes(app);
 
 // socket for chat
 const socketController = require('./controllers/socket');
-io.on('connection', socketController.respond);
+// io.on('connection', socketController.respond);
 
 // DB Setup
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/project_3', { useNewUrlParser: true });
 
 // Send every other request to the React app
 // Define any API routes before this runs
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// });
 
 io.on('connection', function (socket) {
   console.log('a user connected');
+  socket.on('new message', function (msg) {
+    console.log('server got new message id: ' + msg.gameId);
+    console.log('user: ' + msg.user);
+    console.log('msg: ' + msg.message);
+    // socket.broadcast.to(msg.gameId).emit('new bc message', msg);
+    // socket.in(msg.gameId).emit('new bc message', msg);
+    socket.emit('new message', msg)
+  });
 });
 
 // Start the API server

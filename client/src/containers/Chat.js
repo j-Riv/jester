@@ -8,7 +8,6 @@ import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/';
-import server from '../config/config';
 import "./styles/Chat.css";
 import io from 'socket.io-client';
 
@@ -31,17 +30,16 @@ class Chat extends Component {
             console.log('chat game response');
             console.log(game);
         });
-        const socket = io(this.props.game._id);
-        socket.on('new bc message', msg => {
+        const socket = io('http://localhost:3001');
+        // const socket = io('/' + this.props.game._id);
+        socket.on('new message', msg => {
             console.log('new message in client');
             console.log(msg);
         });
     }
 
     componentDidUpdate = () => {
-        // const socket = socketIOClient(server, { secure: true });
-        // const socket = socketIOClient('http://localhost:3001');
-        
+
     }
 
     onSubmit = formProps => {
@@ -49,9 +47,6 @@ class Chat extends Component {
         formProps.gameId = this.props.game._id;
         this.props.addMessage(formProps, () => {
             console.log('Added message');
-            const socket = io('http://localhost:3001');
-            socket.emit('new message', formProps);
-            console.log(this.props.game.messages);
         });
     };
 
@@ -78,13 +73,6 @@ class Chat extends Component {
                 <div id="chat" className="tab-content">
                     <div className="chatArea">
                         <ul className="messages">
-                            {/* {this.props.messages.map((msg, index) =>
-                                <Message
-                                    key={index}
-                                    // user={msg.user}
-                                    // msg={msg.message}
-                                />
-                            )} */}
                             {theMessages}
                         </ul>
                     </div>
@@ -110,13 +98,6 @@ class Chat extends Component {
                 <h1>ID: {this.props.game._id}</h1>
             </div>
         );
-    }
-}
-
-function setMessage(msg) {
-    return {
-        type: "ADD_CHAT",
-        payload: msg
     }
 }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import socketIOClient from 'socket.io-client';
+import io from 'socket.io-client';
 import { 
     AUTH_USER, 
     AUTH_ERROR, 
@@ -7,7 +7,6 @@ import {
     CURRENT_USER,
     CURRENT_GAME
 } from './types';
-import { identity } from 'rxjs';
 
 export const signup = (formProps, callback) => async dispatch => {
     try {
@@ -69,7 +68,8 @@ export const addMessage = (formProps, callback) => async dispatch => {
     // this might change
     dispatch({ type: ADD_CHAT, payload: formProps });
 
-    const socket = socketIOClient('http://localhost:3001');
+    const socket = io('http://localhost:3001');
+    socket.emit('new message', formProps);
     callback();
 };
 
