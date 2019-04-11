@@ -30,11 +30,14 @@ class Chat extends Component {
             console.log('chat game response');
             console.log(game);
         });
-        const socket = io('http://localhost:3001');
+        const socket = io('http://127.0.0.1:3001');
         // const socket = io('/' + this.props.game._id);
-        socket.on('new message', msg => {
+        socket.on('new message server', msg => {
             console.log('new message in client');
             console.log(msg);
+            this.props.addMessage(msg, () => {
+                console.log('Added message cdm');
+            });
         });
     }
 
@@ -55,8 +58,6 @@ class Chat extends Component {
         const { handleSubmit } = this.props;
         let theMessages = '';
         if(Array.isArray(this.props.messages)) {
-            console.log('changing it');
-
             theMessages = this.props.messages.map((msg, index) =>
                     <Message
                         key={index}

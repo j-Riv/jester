@@ -48,13 +48,16 @@ io.on('connection', function (socket) {
   console.log('a user connected');
   socket.on('new message', function (msg) {
     console.log('server got new message id: ' + msg.gameId);
-    console.log('user: ' + msg.user);
-    console.log('msg: ' + msg.message);
-    // socket.broadcast.to(msg.gameId).emit('new bc message', msg);
-    // socket.in(msg.gameId).emit('new bc message', msg);
-    socket.emit('new message', msg)
+    emitMsg(socket, msg);
   });
 });
+
+const emitMsg = (socket, msg) => {
+  console.log('socket:');
+  console.log('user: ' + msg.user);
+  console.log('msg: ' + msg.message);
+  socket.emit('new message server', msg);
+}
 
 // Start the API server
 server.listen(PORT, function () {
