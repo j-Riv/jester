@@ -3,10 +3,11 @@ import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/';
-import requireAuth from './requireAuth';
+import requireAuth from '../containers/requireAuth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 
 class Protected extends Component {
     onSubmit = formProps => {
@@ -16,6 +17,14 @@ class Protected extends Component {
             console.log('submitted');
         });
     };
+
+    handleNewGame = () => {
+        this.props.createGame((response) => {
+            const game = response.data.game;
+            console.log(game._id);
+            this.props.history.push('/chat/' + game._id);
+        });
+    }
 
     render() {
         const { handleSubmit } = this.props;
@@ -50,6 +59,11 @@ class Protected extends Component {
                         </form>
                     </Col>
                 </Row>
+                <Row>
+                    <Col sm={12}>
+                        <Button variant="secondary" className="mt-3" onClick={this.handleNewGame}>New Chat</Button>
+                    </Col>
+                </Row>
             </Container>
         );
     }
@@ -60,6 +74,7 @@ class Protected extends Component {
 function mapStateToProps(state) {
     return { currentUser: state.currentUser.user };
 }
+
 export default compose(
     connect(mapStateToProps, actions),
     reduxForm({ form: 'updateUser' })

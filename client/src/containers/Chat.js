@@ -1,39 +1,75 @@
 import React, { Component } from 'react';
-import socketIOClient from 'socket.io-client';
+import requireAuth from './requireAuth';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Message from '../components/Message';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/';
 import server from '../config/config';
-// import "./Chat.css";
+import "./styles/Chat.css";
+import io from 'socket.io-client';
 
 class Chat extends Component {
+    theMessages = () => {
+        this.props.game.message.map((msg, index) =>
+            <Message
+                key={index}
+                user={msg.user}
+                msg={msg.message}
+            />
+        )
+    }
+
     componentDidMount = () => {
+        // get game object
+        const { match: { params } } = this.props;
+        this.props.getGame(params.gameId, (response) => {
+            const game = response.data.game;
+            console.log('chat game response');
+            console.log(game);
+        });
+        const socket = io(this.props.game._id);
+        socket.on('new bc message', msg => {
+            console.log('new message in client');
+            console.log(msg);
+        });
+    }
+
+    componentDidUpdate = () => {
         // const socket = socketIOClient(server, { secure: true });
-        // // socket.on('new message', data => this.setState({ savedBook: data, showDeleted: true }));
-        // socket.on('new message', data => store.dispatch());
+        // const socket = socketIOClient('http://localhost:3001');
+        
     }
 
     onSubmit = formProps => {
+        formProps.user = this.props.currentUser.username;
+        formProps.gameId = this.props.game._id;
         this.props.addMessage(formProps, () => {
-            console.log(formProps);
-            console.log('submitted');
+            console.log('Added message');
+            const socket = io('http://localhost:3001');
+            socket.emit('new message', formProps);
+            console.log(this.props.game.messages);
         });
     };
 
     render() {
         console.log(this.props.chat);
         const { handleSubmit } = this.props;
-        // socket
-        let connected = false;
-        let typing = false;
-        var lastTypingTime;
-        const socket = socketIOClient();
-        socket.emit('add user', 'username');
-        // end socket
+        let theMessages = '';
+        if(Array.isArray(this.props.messages)) {
+            console.log('changing it');
 
+            theMessages = this.props.messages.map((msg, index) =>
+                    <Message
+                        key={index}
+                    user={msg.user}
+                    msg={msg.message}
+                    />
+                )
+        }
         return (
             <div id="chatWrapper">
                 <div className="nav nav-tabs" id="nav-tab" role="tablist">
@@ -42,38 +78,36 @@ class Chat extends Component {
                 <div id="chat" className="tab-content">
                     <div className="chatArea">
                         <ul className="messages">
-                            {this.props.chat.map((msg, index) =>
+                            {/* {this.props.messages.map((msg, index) =>
                                 <Message
                                     key={index}
-                                    msg={msg.Message}
+                                    // user={msg.user}
+                                    // msg={msg.message}
                                 />
-                            )}
+                            )} */}
+                            {theMessages}
                         </ul>
                     </div>
-                    {/* <div id="chatForm" className="input-group mb-1">
-                        <div className="input-group-prepend">
-                            <img id="chatPhoto" src="./images/default-user.png" alt="user" />
-                        </div>
-                        <input type="text" className="form-control inputMessage" placeholder="Type here..." aria-describedby="sendMessage" />
-                        <div className="input-group-append">
-                            <Button variant="secondary" id="sendMessage">Send</Button>
-                        </div>
-                    </div> */}
-
-                    <form onSubmit={handleSubmit(this.onSubmit)}>
-                        <fieldset>
-                            <label>Message</label>
+                    <Form id="chatForm" className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <img id="chatPhoto" src="./images/default-user.png" alt="user" />
+                            </InputGroup.Prepend>
                             <Field
-                                name="Message"
+                                className="form-control"
+                                placeholder="Type here..."
+                                name="message"
                                 type="text"
                                 component="input"
                                 autoComplete="none"
                             />
-                        </fieldset>
-                        <button>Send!</button>
-                    </form>
-
+                            <InputGroup.Append>
+                                <Button variant="secondary" id="sendMessage" type="submit">Send!</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    </Form>
                 </div>
+                <h1>ID: {this.props.game._id}</h1>
             </div>
         );
     }
@@ -87,10 +121,10 @@ function setMessage(msg) {
 }
 
 function mapStateToProps(state) {
-    return { chat: state.chat.chat };
+    return { currentUser: state.currentUser.user, chat: state.chat, game: state.game.game, messages: state.game.game.messages};
 }
 
 export default compose(
     connect(mapStateToProps, actions),
     reduxForm({ form: 'chat' })
-)(Chat);
+)(requireAuth(Chat));

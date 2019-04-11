@@ -5,7 +5,7 @@ class Message extends Component {
     render() {
         return (
             <li>
-                {this.props.msg}
+                {this.props.user} - {this.props.msg}
             </li>
         );
     }

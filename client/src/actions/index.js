@@ -1,5 +1,13 @@
 import axios from 'axios';
-import { AUTH_USER, AUTH_ERROR, ADD_CHAT, CURRENT_USER } from './types';
+import socketIOClient from 'socket.io-client';
+import { 
+    AUTH_USER, 
+    AUTH_ERROR, 
+    ADD_CHAT, 
+    CURRENT_USER,
+    CURRENT_GAME
+} from './types';
+import { identity } from 'rxjs';
 
 export const signup = (formProps, callback) => async dispatch => {
     try {
@@ -14,7 +22,7 @@ export const signup = (formProps, callback) => async dispatch => {
         dispatch({ type: CURRENT_USER, payload: response.data.currentUser });
         callback();
     } catch (e) {
-        dispatch({ type: AUTH_ERROR, payload: 'Email in use' });
+        dispatch({ type: AUTH_ERROR, payload: 'Email or Username in use' });
     }
 };
 
@@ -48,19 +56,24 @@ export const getCurrentUser = userToken => async dispatch => {
     }
 }
 
-export const signout = () => async dispatch =>{
+export const signout = () => async dispatch => {
     localStorage.removeItem('token');
     dispatch({ type: CURRENT_USER, payload: '' });
     dispatch({ type: AUTH_USER, payload: '' });
 };
 
-export const addMessage = (formProps) => async dispatch => {
+export const addMessage = (formProps, callback) => async dispatch => {
     console.log('Add_Chat');
     console.log(formProps);
+    // no saving to mongo
+    // this might change
     dispatch({ type: ADD_CHAT, payload: formProps });
+
+    const socket = socketIOClient('http://localhost:3001');
+    callback();
 };
 
-export const updateUser = (formProps) => async dispatch => {
+export const updateUser = formProps => async dispatch => {
     try {
         const response = await axios.post(
             'http://localhost:3001/users/update',
@@ -72,6 +85,31 @@ export const updateUser = (formProps) => async dispatch => {
         // current user
         // dispatch({ type: CURRENT_USER, payload: response.data.currentUser });
         // callback();
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const createGame = callback => async dispatch => {
+    try {
+        const response = await axios.get(
+            'http://localhost:3001/games/new'
+        );
+        console.log('created game?');
+        callback(response);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const getGame = (id, callback) => async dispatch => {
+    try {
+        const response = await axios.get(
+            'http://localhost:3001/games/' + id
+        );
+        console.log('got game?');
+        dispatch({ type: CURRENT_GAME, payload: response.data.game });
+        callback(response);
     } catch (e) {
         console.log(e);
     }
