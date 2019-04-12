@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const server = require('http').createServer(app);
 const routes = require('./routes/authRoutes');
+const profileRoutes = require('./routes/profileroute');
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -22,13 +23,14 @@ app.use(cors());
 
 // Define API routes here
 routes(app);
+profileRoutes(app)
 
 // DB Setup
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/project_3', { useNewUrlParser: true });
 
 // Send every other request to the React app
 // Define any API routes before this runs
-require('./routes/profileroute')(app);
+// require('./routes/profileroute')(app);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
