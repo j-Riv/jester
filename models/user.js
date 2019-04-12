@@ -4,19 +4,10 @@ const bcrypt = require('bcrypt-nodejs');
 
 // Define our model
 const userSchema = new Schema({
-  email: {
-    type: String,
-    unique: true,
-    lowercase: true
-  },
-  password: {
-    type: String
-  },
+  email: { type: String, unique: true, lowercase: true },
+  password: String,
+  username: { type: String, unique: true },
   // stuff Miguel is adding
-  username: {
-    type: String,
-    default: 'username'
-  },
   picture: {
     type: String,
     default: 'https://i.imgur.com/AQKsp6n.jpg'

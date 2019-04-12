@@ -11,4 +11,8 @@ module.exports = function (app) {
     });
     app.post('/signin', requireSignin, Authentication.signin);
     app.post('/signup', Authentication.signup);
+    app.get('/users/current/:token', Authentication.getCurrentUser);
+    app.post('/users/update', Authentication.update);
+    app.get('/games/new', Authentication.createGame);
+    app.get('/games/:id', Authentication.getGame);
 }

@@ -1,0 +1,120 @@
+/* Chat page */
+
+#goToChat,
+.go-to-chat {
+    position: fixed;
+    bottom: 0;
+}
+
+#chatWrapper {
+    position: fixed;
+    z-index: 10000;
+    height: 500px;
+    width: 400px;
+    max-width: 100%;
+    right: 0;
+    left: 0;
+    /* bottom: -458px; */
+}
+
+#chatWrapper .nav-tabs {
+    border-bottom: 1px solid #e9ecef;
+}
+
+#chatWrapper .nav-tabs #letsChat {
+    background-color: #e9ecef;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: -2px;
+}
+
+#chatWrapper.slide-up {
+    bottom: 0px !important;
+}
+
+#chatWrapper.slide-down {
+    bottom: -458px !important;
+}
+
+#chatWrapper #chat {
+    width: 400px;
+    max-width: 100%;
+    height: 100%;
+    display: block;
+    padding: 10px;
+    background: #e9ecef;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-top-right-radius: .25rem;
+}
+
+#chatWrapper #chat .chatArea {
+    height: 80%;
+}
+
+#chatWrapper #chat .chatArea .username {
+    font-weight: 700;
+    overflow: hidden;
+    padding-right: 15px;
+    text-align: right;
+}
+
+#chatWrapper #chat .chatArea .messages {
+    text-align: left;
+    height: 100%;
+    margin: 0;
+    overflow-y: scroll;
+    font-size: 100%;
+    list-style: none;
+    padding: 0;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+#chatWrapper #chat .chatArea .messages::-webkit-scrollbar {
+    display: none;
+}
+
+#chatWrapper #chat .chatArea .log {
+    color: gray;
+    font-size: 70%;
+    margin: 5px;
+    list-style: none;
+    text-align: center;
+}
+
+#chatWrapper #chat .chatArea .message.typing .messageBody {
+    color: gray;
+}
+
+#chatWrapper #chat #chatForm {
+    width: 90%;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+#chatWrapper #chat #chatForm #chatPhoto {
+    height: 38px;
+    width: auto;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
+#chatWrapper #chat #chatForm input:focus {
+    border-color: transparent;
+}
+
+@media screen and (max-width: 480px) {
+    #chatWrapper {
+        width: 100%;
+    }
+    #chatWrapper #chat {
+        width: 100%;
+    }
+}
