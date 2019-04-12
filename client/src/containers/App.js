@@ -7,15 +7,14 @@ import * as actions from '../actions/';
 // import { meFromToken, resetToken } from '../actions';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Home from '../components/Home';
+// import Home from '../components/Home';
 import Signup from './auth/Signup';
 import Protected from '../components/Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-import Chat from './Chat';
-import "./styles/App.css";
-
-const socket = io('http://localhost:3001');
+import Test from '../components/Test';
+import GameContainer from '../pages/GameContainer';
+import "./App.css";
 
 class App extends Component {
     componentDidMount = () => {
@@ -35,12 +34,13 @@ class App extends Component {
                 <div className="site-content">
                     <Header />
                     <Switch>
-                        <Route path="/" exact component={Home} />
+                        <Route path="/" exact component={Test} />
                         <Route path="/signup" component={Signup} />
                         <Route path="/protected" component={Protected} />
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
                         <Route path="/chat/:gameId" component={Chat} socket={socket} />
+                        <Route path='/game' component={GameContainer} />
                     </Switch>
                 </div>
                 <Footer />

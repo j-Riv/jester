@@ -7,6 +7,10 @@ import {
     CURRENT_GAME
 } from './types';
 
+export const getGifs = callback => async dispatch => {
+    
+}
+
 export const signup = (formProps, callback) => async dispatch => {
     try {
         const response = await axios.post(
