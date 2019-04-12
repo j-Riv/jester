@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import requireAuth from './requireAuth';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -27,18 +30,19 @@ class Chat extends Component {
     }
 
     componentDidMount = () => {
-        // get game object
-        const { match: { params } } = this.props;
-        this.props.getGame(params.gameId, (response) => {
-            const game = response.data.game;
-            console.log(game);
-        });
+        // // get game object
+        // const { match: { params } } = this.props;
+        // this.props.getGame(params.gameId, (response) => {
+        //     const game = response.data.game;
+        //     console.log(game);
+        // });
+        console.log('Chat game id: ' + this.props.gameId);
         
         socket.on('connect', () => {
             console.log("socket connected");
         });
 
-        socket.on('msg-' + params.gameId, (r) => {
+        socket.on('msg-' + this.props.gameId, (r) => {
             this.props.addMessage(r, () => {
                 console.log('Added message');
             });
@@ -75,43 +79,38 @@ class Chat extends Component {
                 )
         }
         return (
-            <div id="chatWrapper">
-                <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                    <Button variant="secondary">Chat <i className="fas fa-comment-alt"></i></Button>
+            <div id="chatComponent">
+                <div id="chatArea">
+                    <ul className="messages">
+                        {theMessages}
+                    </ul>
                 </div>
-                <div id="chat" className="tab-content">
-                    <div className="chatArea">
-                        <ul className="messages">
-                            {theMessages}
-                        </ul>
-                    </div>
-                    <Form id="chatForm" className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
-                        <InputGroup>
-                            <InputGroup.Prepend>
-                                <img id="chatPhoto" src="./images/default-user.png" alt="user" />
-                            </InputGroup.Prepend>
-                            <Field
-                                className="form-control"
-                                placeholder="Type here..."
-                                name="message"
-                                type="text"
-                                component="input"
-                                autoComplete="none"
-                            />
-                            <InputGroup.Append>
-                                <Button variant="secondary" id="sendMessage" type="submit">Send!</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </Form>
-                </div>
-                <h1>ID: {this.props.game._id}</h1>
+                <Form id="chatForm" className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
+                    <InputGroup>
+                        <InputGroup.Prepend>
+                            <img id="chatPhoto" src="/images/default-user.png" alt="user" />
+                        </InputGroup.Prepend>
+                        <Field
+                            className="form-control"
+                            placeholder="Type here..."
+                            name="message"
+                            type="text"
+                            component="input"
+                            autoComplete="none"
+                        />
+                        <InputGroup.Append>
+                            <Button variant="secondary" id="sendMessage" type="submit">Send!</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Form>
             </div>
+
         );
     }
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser.user, chat: state.chat, game: state.game.game, messages: state.game.game.messages};
+    return { currentUser: state.currentUser.user, game: state.game.game, messages: state.game.game.messages};
 }
 
 export default compose(

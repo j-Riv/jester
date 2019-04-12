@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import io from 'socket.io-client';
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -12,10 +11,8 @@ import Signup from './auth/Signup';
 import Protected from '../components/Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-import Chat from './Chat';
+import Test from './Test';
 import "./styles/App.css";
-
-const socket = io('http://localhost:3001');
 
 class App extends Component {
     componentDidMount = () => {
@@ -40,7 +37,8 @@ class App extends Component {
                         <Route path="/protected" component={Protected} />
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
-                        <Route path="/chat/:gameId" component={Chat} socket={socket} />
+                        {/* <Route path="/chat/:gameId" component={Chat} /> */}
+                        <Route path="/test/:gameId" component={Test} />
                     </Switch>
                 </div>
                 <Footer />
