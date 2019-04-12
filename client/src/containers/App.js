@@ -12,10 +12,12 @@ import Signup from './auth/Signup';
 import Protected from '../components/Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
+import GamesLobby from "../components/lobby/gamesLobby/lobby";
 import Chat from './Chat';
 import "./styles/App.css";
 
 const socket = io('http://localhost:3001');
+
 
 class App extends Component {
     componentDidMount = () => {
@@ -43,6 +45,7 @@ class App extends Component {
                         <Route path="/chat/:gameId" component={Chat} socket={socket} />
                     </Switch>
                 </div>
+                <GamesLobby />
                 <Footer />
             </div>
         );
