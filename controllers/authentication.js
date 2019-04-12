@@ -65,6 +65,8 @@ exports.update = function(req, res, next) {
     console.log('this is the username: ' + username);
     User.findOneAndUpdate({ _id: id }, { $set: { username: username } }).then(function(result){
         res.json({currentUser: result});
+    }).catch(function(error){
+        console.log(error);
     });
 }
 

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import io from 'socket.io-client';
 import { 
     AUTH_USER, 
     AUTH_ERROR, 
@@ -67,9 +66,6 @@ export const addMessage = (formProps, callback) => async dispatch => {
     // no saving to mongo
     // this might change
     dispatch({ type: ADD_CHAT, payload: formProps });
-
-    const socket = io('http://localhost:3001');
-    socket.emit('new message', formProps);
     callback();
 };
 
@@ -82,9 +78,6 @@ export const updateUser = formProps => async dispatch => {
         console.log(formProps);
         console.log('updated user');
         console.log(response.data.currentUser);
-        // current user
-        // dispatch({ type: CURRENT_USER, payload: response.data.currentUser });
-        // callback();
     } catch (e) {
         console.log(e);
     }

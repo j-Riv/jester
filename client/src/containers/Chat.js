@@ -11,6 +11,10 @@ import * as actions from '../actions/';
 import "./styles/Chat.css";
 import io from 'socket.io-client';
 
+const socket = io('http://localhost:3001', {
+    transports: ['websocket']
+});
+
 class Chat extends Component {
     theMessages = () => {
         this.props.game.message.map((msg, index) =>
@@ -27,29 +31,33 @@ class Chat extends Component {
         const { match: { params } } = this.props;
         this.props.getGame(params.gameId, (response) => {
             const game = response.data.game;
-            console.log('chat game response');
             console.log(game);
         });
-        const socket = io('http://127.0.0.1:3001');
-        // const socket = io('/' + this.props.game._id);
-        socket.on('new message server', msg => {
-            console.log('new message in client');
-            console.log(msg);
-            this.props.addMessage(msg, () => {
-                console.log('Added message cdm');
+        
+        socket.on('connect', () => {
+            console.log("socket connected");
+        });
+
+        socket.on('msg-' + params.gameId, (r) => {
+            this.props.addMessage(r, () => {
+                console.log('Added message');
             });
         });
-    }
 
-    componentDidUpdate = () => {
+        socket.on('connect_error', (err) => {
+            console.log(err)
+        });
 
+        socket.on('disconnect', () => {
+            console.log("Disconnected Socket!")
+        });
     }
 
     onSubmit = formProps => {
         formProps.user = this.props.currentUser.username;
         formProps.gameId = this.props.game._id;
         this.props.addMessage(formProps, () => {
-            console.log('Added message');
+            socket.emit('client msg', formProps);
         });
     };
 

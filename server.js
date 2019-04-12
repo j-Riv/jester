@@ -33,7 +33,7 @@ routes(app);
 
 // socket for chat
 const socketController = require('./controllers/socket');
-// io.on('connection', socketController.respond);
+io.on('connection', socketController.respond);
 
 // DB Setup
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/project_3', { useNewUrlParser: true });
@@ -44,20 +44,21 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/project_3', { u
 //   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 // });
 
-io.on('connection', function (socket) {
-  console.log('a user connected');
-  socket.on('new message', function (msg) {
-    console.log('server got new message id: ' + msg.gameId);
-    emitMsg(socket, msg);
-  });
-});
-
-const emitMsg = (socket, msg) => {
-  console.log('socket:');
-  console.log('user: ' + msg.user);
-  console.log('msg: ' + msg.message);
-  socket.emit('new message server', msg);
-}
+// io.on('connection', function (socket) {
+//   console.log('a user connected');
+//   socket.on('client msg', function (msg) {
+//     console.log('server got new message id: ' + msg.gameId);
+//     emitMsg(socket, msg);
+//   });
+// });
+// // io.sockets.clients
+// const emitMsg = (socket, msg) => {
+//   // console.log('socket:');
+//   console.log('user: ' + msg.user);
+//   console.log('msg: ' + msg.message);
+//   // io.emit('msg-' + msg.gameId, msg);
+//   socket.broadcast.emit('msg-' + msg.gameId, msg);
+// }
 
 // Start the API server
 server.listen(PORT, function () {
