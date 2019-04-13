@@ -1,16 +1,16 @@
-import { ADD_CHAT } from '../actions/types';
+import { ALL_GAMES} from '../actions/types';
 
 const INITIAL_STATE = {
-    chat: []
+    games: []
 };
 
 export default function (state = INITIAL_STATE, action) {
     console.log(action);
     switch (action.type) {
-        case ADD_CHAT:
+        case ALL_GAMES:
             return {
                 ...state,
-                chat: state.chat.concat(action.payload)
+                games: action.payload
             };
         default:
             return state;

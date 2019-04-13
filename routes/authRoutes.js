@@ -9,10 +9,13 @@ module.exports = function (app) {
     app.get('/', requireAuth, function (req, res) {
         res.send({ hi: 'there' });
     });
+    app.get('/api/tenor/search/:query', Authentication.search)
     app.post('/signin', requireSignin, Authentication.signin);
     app.post('/signup', Authentication.signup);
     app.get('/users/current/:token', Authentication.getCurrentUser);
     app.post('/users/update', Authentication.update);
-    app.get('/games/new', Authentication.createGame);
-    app.get('/games/:id', Authentication.getGame);
+    app.post('/games/new', Authentication.createGame);
+    app.get('/games/game/:id', Authentication.getGame);
+    app.get('/games/all', Authentication.getAllGames);
+    app.post('/games/update/:id', Authentication.updateGame);
 }

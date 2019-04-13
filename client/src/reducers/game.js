@@ -1,4 +1,4 @@
-import { CURRENT_GAME, ADD_CHAT } from '../actions/types';
+import { CURRENT_GAME, ADD_CHAT, GET_GIFS } from '../actions/types';
 
 const INITIAL_STATE = {
     game: []
@@ -23,6 +23,17 @@ export default function (state = INITIAL_STATE, action) {
                     ]
                 }
             };
+        case GET_GIFS:
+        console.log('setting gifs into state')
+        console.log(action.payload);
+        console.log('end of state set');
+            return {
+                ...state,
+                game: {
+                    ...state.game,
+                    images: action.payload
+                }
+            }
         default:
             return state;
     }
