@@ -11,7 +11,7 @@ import Signup from './auth/Signup';
 import Protected from '../components/Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-import Test from './Test';
+import Room from './Room';
 import "./styles/App.css";
 
 class App extends Component {
@@ -20,10 +20,16 @@ class App extends Component {
         if (!token || token === '') {//if there is no token, dont bother
             return;
         }
-        //fetch user from token (if server deems it's valid token)
+        // fetch user from token (if server deems it's valid token)
         this.props.getCurrentUser(token, (response) => {
-                console.log(response);
-            });
+            console.log(response);
+        });
+        // fetch games
+        this.props.getAllGames((response) => {
+            const games = response.data.games;
+            console.log('these should be all the games currently in db:');
+            console.log(games);
+        });
     }
 
     render() {
@@ -38,7 +44,7 @@ class App extends Component {
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
                         {/* <Route path="/chat/:gameId" component={Chat} /> */}
-                        <Route path="/test/:gameId" component={Test} />
+                        <Route path="/room/:gameId" component={Room} />
                     </Switch>
                 </div>
                 <Footer />

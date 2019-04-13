@@ -72,28 +72,55 @@ exports.update = function(req, res, next) {
 
 exports.createGame = function(req, res, next) {
     // create new game
+    // need to update with form inputs
     const game = new Game({
         users: [],
         current_turn: '',
         images: [],
         messages: []
     });
-    game.save(function (err, newGame) {
+    game.save(function(err, newGame) {
         if (err) { return next(err); }
-
         // Repond to request indicating the game was created
         // Send new game object back
         res.json({ game: newGame });
     });
 }
 
-exports.getGame = function (req, res, next) {
+exports.getGame = function(req, res, next) {
     const id = req.params.id;
     console.log('this is the id of the game we are looking for:');
     console.log(id);
-    Game.findOne({ _id: id }).then(function (result) {
+    Game.findById(id).then(function (result) {
         res.json({ game: result });
     }).catch(function (error){
+        console.log(error);
+    });
+}
+
+exports.getAllGames = function(req, res, next) {
+    console.log('getting all games for lobby update:');
+    Game.find({}).then(function (result) {
+        console.log(result)
+        res.json({ games: result });
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+
+exports.updateGame = function(req, res, next) {
+    const id = req.params.id;
+    const game = {
+        title: req.body.title,
+        users: req.body.users,
+        // other props
+    }
+    // might be easeier to just send req.body as
+    // { title: 'the title', users: [user1, user2, user3 ] }
+    console.log('updating game with id: ' + id);
+    Game.findOneAndUpdate({ _id: id }, { $set: { game } }).then(function (result) {
+        res.json({ updatedGame: result });
+    }).catch(function (error) {
         console.log(error);
     });
 }

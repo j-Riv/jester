@@ -22,7 +22,7 @@ class Protected extends Component {
         this.props.createGame((response) => {
             const game = response.data.game;
             console.log(game._id);
-            this.props.history.push('/chat/' + game._id);
+            this.props.history.push('/game/' + game._id);
         });
     }
 

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import requireAuth from './requireAuth';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -66,7 +63,6 @@ class Chat extends Component {
     };
 
     render() {
-        console.log(this.props.chat);
         const { handleSubmit } = this.props;
         let theMessages = '';
         if(Array.isArray(this.props.messages)) {

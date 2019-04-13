@@ -1,36 +1,21 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../actions/';
-import requireAuth from '../containers/requireAuth';
+import * as actions from '../actions';
+import requireAuth from './requireAuth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 // import Button from 'react-bootstrap/Button';
 import Chat from './Chat';
 
-class Test extends Component {
-    onSubmit = formProps => {
-        formProps.id = this.props.currentUser._id;
-        console.log(formProps);
-        this.props.updateUser(formProps, () => {
-            console.log('submitted');
-        });
-    };
-
-    handleNewGame = () => {
-        this.props.createGame((response) => {
-            const game = response.data.game;
-            console.log(game._id);
-            this.props.history.push('/chat/' + game._id);
-        });
-    }
-
+class Game extends Component {
     componentDidMount = () => {
         // get game object
         const { match: { params } } = this.props;
         this.props.getGame(params.gameId, (response) => {
             const game = response.data.game;
+            console.log('this is the game');
             console.log(game);
         });
     }
@@ -66,4 +51,4 @@ function mapStateToProps(state) {
 
 export default compose(
     connect(mapStateToProps, actions),
-)(requireAuth(Test));
+)(requireAuth(Game));

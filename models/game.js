@@ -5,12 +5,7 @@ const Schema = mongoose.Schema;
 const gameSchema = new Schema({
   users: [{}],
   current_turn: '',
-  images: [{}],
-  messages: [{}]
-  // messages: [{
-  //     type: Schema.Types.ObjectId,
-  //     ref: 'Message'
-  // }]
+  images: [{}]
 });
 
 // Create the model class
