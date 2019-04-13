@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "name": "Tyler",
+        "image": "https://via.placeholder.com/100.png",
+        "gameName": "Tyler's Game",
+        "maxPlayers": 6,
+        "category": "NSFW",
+        "status": "Private"
+    },
+    {
+        "id": 2,
+        "name": "Jose",
+        "image": "https://via.placeholder.com/100.png",
+        "gameName": "Jose's Game",
+        "maxPlayers": 8,
+        "category": "NSFW",
+        "status": "Private"
+    },
+    {
+        "id": 3,
+        "name": "Miguel",
+        "image": "https://via.placeholder.com/100.png",
+        "gameName": "Miguel's Game",
+        "maxPlayers": 10,
+        "category": "SFW",
+        "status": "Public"
+    },
+    {
+        "id": 4,
+        "name": "David",
+        "image": "https://via.placeholder.com/100.png",
+        "gameName": "David's Game",
+        "maxPlayers": 4,
+        "category": "SFW",
+        "status": "Public"
+    },
+    {
+        "id": 5,
+        "name": "Yusef",
+        "image": "https://via.placeholder.com/100.png",
+        "gameName": "Yusef's Game",
+        "maxPlayers": 10,
+        "category": "SFW",
+        "status": "Public"
+    }
+]
