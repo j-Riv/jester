@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const PORT = process.env.PORT || 3001;;
 const routes = require('./routes/authRoutes');
-const profileRoutes = require('./routes/profileroute');
+
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -31,7 +31,6 @@ app.use(function (req, res, next) {
 
 // Define API routes here
 routes(app);
-profileRoutes(app)
 
 // socket for chat
 const socketController = require('./controllers/socket');

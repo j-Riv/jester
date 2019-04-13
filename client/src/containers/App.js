@@ -12,8 +12,9 @@ import Signup from './auth/Signup';
 import Protected from '../components/Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-import Profile from "../components/profileBar";
+import Profile from "../components/Profile/ProfileBar";
 import "./styles/App.css";
+import Chat from "./Chat";
 
 
 class App extends Component {
@@ -24,8 +25,8 @@ class App extends Component {
         }
         //fetch user from token (if server deems it's valid token)
         this.props.getCurrentUser(token, (response) => {
-                console.log(response);
-            });
+            console.log(response);
+        });
     }
 
     render() {
@@ -39,9 +40,9 @@ class App extends Component {
                         <Route path="/protected" component={Protected} />
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
-                        <Route path="/chat/:gameId" component={Chat} socket={socket} />
+                        <Route path="/chat/:gameId" component={Chat} />
+                        <Route path="/profile" component={Profile} />
                     </Switch>
-                    <Profile />
                 </div>
                 <Footer />
             </div>
