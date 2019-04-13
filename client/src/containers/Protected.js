@@ -76,7 +76,7 @@ class Protected extends Component {
                 </Row>
                 <Row>
                     <Col sm={12}>
-                        <Button variant="secondary" className="mt-3" onClick={this.handleClickCreate}>New Chat</Button>
+                        <Button variant="secondary" className="mt-3" onClick={this.handleClickCreate}>New Game</Button>
                     </Col>
                 </Row>
                 <VerticallyCenteredModal

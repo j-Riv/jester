@@ -11,6 +11,7 @@ import Chat from './Chat';
 import words from '../words/words-clean';
 
 class Game extends Component {
+
     componentDidMount = () => {
         // get game object
         const { match: { params } } = this.props;
@@ -31,6 +32,10 @@ class Game extends Component {
 
     render() {
         const { match: { params } } = this.props;
+        let theImages = '';
+        if (Array.isArray(this.props.game.images)) {
+            theImages = this.props.game.images.map(img => <p>{img.itemurl}</p>)
+        }
         return (
             <Container fluid={true}>
                 <Row>
@@ -45,6 +50,8 @@ class Game extends Component {
                     <Col sm={8}>
                         <h2>Current Game Info:</h2>
                         <p>ID: {this.props.game._id}</p>
+                        <p>Images:</p>
+                        {theImages}
                     </Col>
                 </Row>
             </Container>
