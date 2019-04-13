@@ -12,6 +12,7 @@ import Signup from './auth/Signup';
 import Protected from './Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
+import Profile from "../components/Profile/ProfileBar";
 import GamesLobby from "../components/lobby/gamesLobby/lobby";
 import Chat from './Chat';
 import "./styles/App.css";
@@ -30,6 +31,7 @@ class App extends Component {
         this.props.getCurrentUser(token, (response) => {
             console.log(response);
         });
+
         // fetch games
         this.props.getAllGames((response) => {
             const games = response.data.games;
@@ -49,7 +51,7 @@ class App extends Component {
                         <Route path="/protected" component={Protected} />
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
-                        {/* <Route path="/chat/:gameId" component={Chat} /> */}
+                        <Route path="/profile" component={Profile} />
                         <Route path="/room/:gameId" component={Room} />
                         <Route path='/game' component={GameContainer} />
                     </Switch>

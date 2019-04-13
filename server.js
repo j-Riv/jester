@@ -9,6 +9,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 3001;;
 const routes = require('./routes/authRoutes');
 
+
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
