@@ -2,32 +2,47 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../actions/';
-import requireAuth from '../containers/requireAuth';
+import * as actions from '../actions';
+import requireAuth from './requireAuth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import VerticallyCenteredModal from './VerticallyCenteredModal';
 
 class Protected extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showCreatedGame: false
+        }
+    }
+
     onSubmit = formProps => {
         formProps.id = this.props.currentUser._id;
         console.log(formProps);
         this.props.updateUser(formProps, () => {
             console.log('submitted');
-        });
+        });const { handleSubmit } = this.props;
     };
 
     handleNewGame = () => {
         this.props.createGame((response) => {
             const game = response.data.game;
             console.log(game._id);
-            this.props.history.push('/game/' + game._id);
+            this.props.history.push('/room/' + game._id);
         });
+    }
+
+    handleClickCreate = () => {
+        console.log('show modal');
+        this.setState({ showCreateGame: true });
     }
 
     render() {
         const { handleSubmit } = this.props;
+        
+        const closeCreateGame = () => this.setState({ showCreateGame: false });
         return(
             <Container>
                 <Row>
@@ -61,9 +76,14 @@ class Protected extends Component {
                 </Row>
                 <Row>
                     <Col sm={12}>
-                        <Button variant="secondary" className="mt-3" onClick={this.handleNewGame}>New Chat</Button>
+                        <Button variant="secondary" className="mt-3" onClick={this.handleClickCreate}>New Chat</Button>
                     </Col>
                 </Row>
+                <VerticallyCenteredModal
+                    show={this.state.showCreateGame}
+                    onHide={closeCreateGame}
+                    heading={"Create Game"}
+                />
             </Container>
         );
     }

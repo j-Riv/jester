@@ -2,7 +2,6 @@ require('dotenv').config();
 const jwt = require('jwt-simple');
 const User = require('../models/user');
 const Game = require('../models/game');
-const Message = require('../models/message');
 // const config = require('../config');
 
 function tokenForUser(user) {
@@ -74,10 +73,15 @@ exports.createGame = function(req, res, next) {
     // create new game
     // need to update with form inputs
     const game = new Game({
-        users: [],
-        current_turn: '',
+        users: [req.body.username],
+        current_turn: req.body.current_turn,
         images: [],
-        messages: []
+        messages: [],
+        username: req.body.username,
+        user_pic: req.body.user_pic,
+        game_name: req.body.game_name,
+        category: req.body.game_category,
+        status: req.body.game_status
     });
     game.save(function(err, newGame) {
         if (err) { return next(err); }

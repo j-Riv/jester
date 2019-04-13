@@ -8,7 +8,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Home from '../components/Home';
 import Signup from './auth/Signup';
-import Protected from '../components/Protected';
+import Protected from './Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
 import Room from './Room';

@@ -13,7 +13,7 @@ module.exports = function (app) {
     app.post('/signup', Authentication.signup);
     app.get('/users/current/:token', Authentication.getCurrentUser);
     app.post('/users/update', Authentication.update);
-    app.get('/games/new', Authentication.createGame);
+    app.post('/games/new', Authentication.createGame);
     app.get('/games/game/:id', Authentication.getGame);
     app.get('/games/all', Authentication.getAllGames);
     app.post('/games/update/:id', Authentication.updateGame);

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { reset } from 'redux-form';
 import { 
     ADD_CHAT,
     CURRENT_GAME,
@@ -11,13 +12,15 @@ export const addMessage = (formProps, callback) => async dispatch => {
     // no saving to mongo
     // this might change
     dispatch({ type: ADD_CHAT, payload: formProps });
+    dispatch(reset('chat'));
     callback();
 };
 
-export const createGame = callback => async dispatch => {
+export const createGame = (formProps, callback) => async dispatch => {
     try {
-        const response = await axios.get(
-            'http://localhost:3001/games/new'
+        const response = await axios.post(
+            'http://localhost:3001/games/new',
+            formProps
         );
         console.log('created game?');
         callback(response);
