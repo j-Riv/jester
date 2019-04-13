@@ -9,7 +9,6 @@ module.exports = function (app) {
     app.get('/', requireAuth, function (req, res) {
         res.send({ hi: 'there' });
     });
-    app.get('/api/tenor/search/:query', Authentication.search)
     app.post('/signin', requireSignin, Authentication.signin);
     app.post('/signup', Authentication.signup);
     app.get('/users/current/:token', Authentication.getCurrentUser);
