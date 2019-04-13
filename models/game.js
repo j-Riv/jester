@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const gameSchema = new Schema({
   users: [{}],
   current_turn: { type: String },
-  images: [{}],
+  images: [],
   messages: [{}],
   username: { type: String },
   user_pic: { type: String },

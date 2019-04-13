@@ -3,16 +3,19 @@ import { reset } from 'redux-form';
 import { 
     ADD_CHAT,
     CURRENT_GAME,
-    ALL_GAMES
+    ALL_GAMES,
+    GET_GIFS
 } from './types';
 
-export const getGifs = (callback, word) => async dispatch => {
+export const getGifs = (word, callback) => async dispatch => {
     try {
         const response = await axios.get(
             `https://api.tenor.com/v1/search?tag=${word}&limit=7&media_filter=minimal&key=OZVKWPE1OFF3`
         )
-        callback(response)
         dispatch({ type: GET_GIFS, payload: response.data.results })
+        // callback(response)
+        console.log('============================================')
+        console.log(response.data.results)
     } catch (e) {
         // dispatch({ e })
         console.log(e)

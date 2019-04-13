@@ -21,23 +21,6 @@ class GameContainer extends Component {
         userGifs: []
     }
 
-    initGame = () => {
-        const word = words.words[~~(Math.random() * words.words.length)];
-        axios.get(`https://api.tenor.com/v1/search?tag=${word}&limit=7&media_filter=minimal&key=OZVKWPE1OFF3`)
-        .then(data => {
-            data.data.results.forEach(e => {
-                console.log('again')
-                const img = e.media[0].tinygif.url;
-                console.log(img)
-                // this.setState({ userGifs: [...this.state.userGifs, img]});
-            });
-            console.log(this.state.userGifs)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
     addGif = gif => {
         this.setState({
             selectGif: true,
@@ -60,7 +43,6 @@ class GameContainer extends Component {
 
     renderTurn = () => {
         const s = this.state;
-        this.initGame();
         return s.user === s.king ? <Phrase newPhrase={this.newPhrase}/> : <Gifs addGif={this.addGif} gifs={this.state.userGifs} />
     }
 

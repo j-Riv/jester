@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-<<<<<<< Updated upstream
-=======
 // import io from 'socket.io-client';
->>>>>>> Stashed changes
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -15,15 +12,10 @@ import Signup from './auth/Signup';
 import Protected from './Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-// import Test from '../components/Test';
+import Test from '../components/Test';
 import GameContainer from '../pages/GameContainer';
-<<<<<<< Updated upstream
-import "./App.css";
 import Room from './Room';
 import "./styles/App.css";
-=======
-// import "./App.css";
->>>>>>> Stashed changes
 
 class App extends Component {
     componentDidMount = () => {
