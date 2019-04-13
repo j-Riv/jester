@@ -5,3 +5,4 @@ export const ADD_CHAT = 'ADD_CHAT';
 export const CURRENT_USER = 'CURRENT_USER';
 export const CURRENT_GAME = 'CURRENT_GAME';
 export const ALL_GAMES = 'ALL_GAMES';
+export const GET_GIFS = 'GET_GIFS';

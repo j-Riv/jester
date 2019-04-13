@@ -26,8 +26,10 @@ class GameContainer extends Component {
         axios.get(`https://api.tenor.com/v1/search?tag=${word}&limit=7&media_filter=minimal&key=OZVKWPE1OFF3`)
         .then(data => {
             data.data.results.forEach(e => {
+                console.log('again')
                 const img = e.media[0].tinygif.url;
-                this.setState({ userGifs: [...this.state.userGifs, img]});
+                console.log(img)
+                // this.setState({ userGifs: [...this.state.userGifs, img]});
             });
             console.log(this.state.userGifs)
         })
@@ -58,7 +60,7 @@ class GameContainer extends Component {
 
     renderTurn = () => {
         const s = this.state;
-        initGame();
+        this.initGame();
         return s.user === s.king ? <Phrase newPhrase={this.newPhrase}/> : <Gifs addGif={this.addGif} gifs={this.state.userGifs} />
     }
 

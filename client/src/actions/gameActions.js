@@ -6,7 +6,18 @@ import {
     ALL_GAMES
 } from './types';
 
-// get gifs here
+export const getGifs = (callback, word) => async dispatch => {
+    try {
+        const response = await axios.get(
+            `https://api.tenor.com/v1/search?tag=${word}&limit=7&media_filter=minimal&key=OZVKWPE1OFF3`
+        )
+        callback(response)
+        dispatch({ type: GET_GIFS, payload: response.data.results })
+    } catch (e) {
+        // dispatch({ e })
+        console.log(e)
+    }
+};
 
 export const addMessage = (formProps, callback) => async dispatch => {
     console.log('Add_Chat');

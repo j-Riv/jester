@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+<<<<<<< Updated upstream
+=======
+// import io from 'socket.io-client';
+>>>>>>> Stashed changes
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -13,9 +17,13 @@ import Signout from './auth/Signout';
 import Signin from './auth/Signin';
 // import Test from '../components/Test';
 import GameContainer from '../pages/GameContainer';
+<<<<<<< Updated upstream
 import "./App.css";
 import Room from './Room';
 import "./styles/App.css";
+=======
+// import "./App.css";
+>>>>>>> Stashed changes
 
 class App extends Component {
     componentDidMount = () => {
@@ -48,6 +56,7 @@ class App extends Component {
                         <Route path="/signin" component={Signin} />
                         {/* <Route path="/chat/:gameId" component={Chat} /> */}
                         <Route path="/room/:gameId" component={Room} />
+                        <Route path='/game' component={GameContainer} />
                     </Switch>
                 </div>
                 <Footer />
