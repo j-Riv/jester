@@ -12,6 +12,9 @@ import Signup from './auth/Signup';
 import Protected from './Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
+import GamesLobby from "../components/lobby/gamesLobby/lobby";
+import Chat from './Chat';
+import "./styles/App.css";
 import Test from '../components/Test';
 import GameContainer from '../pages/GameContainer';
 import Room from './Room';
@@ -51,6 +54,7 @@ class App extends Component {
                         <Route path='/game' component={GameContainer} />
                     </Switch>
                 </div>
+                <GamesLobby />
                 <Footer />
             </div>
         );
