@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 // import Button from 'react-bootstrap/Button';
 import Chat from './Chat';
+import words from '../words/words-clean';
 
 class Game extends Component {
     componentDidMount = () => {
@@ -17,6 +18,14 @@ class Game extends Component {
             const game = response.data.game;
             console.log('this is the game');
             console.log(game);
+        });
+        // get gifs
+        const word = words.words[~~(Math.random() * words.words.length)];
+        console.log(`word ${word}`)
+        this.props.getGifs(word, (response) => {
+            const gifs = response.data.game;
+            console.log('got gifs');
+            console.log(gifs);
         });
     }
 

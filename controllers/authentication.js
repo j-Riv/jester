@@ -1,4 +1,5 @@
 require('dotenv').config();
+const axios = require('axios');
 const jwt = require('jwt-simple');
 const User = require('../models/user');
 const Game = require('../models/game');
@@ -15,7 +16,15 @@ exports.signin = function(req, res, next) {
     res.send({ token: tokenForUser(req.user), currentUser: req.user });
 }
 
-exports.signup = function(req, res, next) {
+exports.search = (req, res) => {
+    const query = req.params.query;
+    console.log('searching for ' + query)
+    axios.get(`https://api.tenor.com/v1/search?tag=${query}&limit=7&media_filter=minimal&key=OZVKWPE1OFF3`)
+    .then(data => res.json(data))
+    .catch(err => {if (err) {console.log(err)}});
+}
+
+exports.signup = function (req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
     const username = req.body.username;
