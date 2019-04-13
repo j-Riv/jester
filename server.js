@@ -13,9 +13,11 @@ const routes = require('./routes/authRoutes');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Serve up static assets (usually on heroku)
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("client/build"));
-// }
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+} else {
+  app.use(express.static("client/public"));
+}
 
 // App Setup
 app.use(morgan('combined'));
@@ -43,22 +45,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/project_3', { u
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 // });
-
-// io.on('connection', function (socket) {
-//   console.log('a user connected');
-//   socket.on('client msg', function (msg) {
-//     console.log('server got new message id: ' + msg.gameId);
-//     emitMsg(socket, msg);
-//   });
-// });
-// // io.sockets.clients
-// const emitMsg = (socket, msg) => {
-//   // console.log('socket:');
-//   console.log('user: ' + msg.user);
-//   console.log('msg: ' + msg.message);
-//   // io.emit('msg-' + msg.gameId, msg);
-//   socket.broadcast.emit('msg-' + msg.gameId, msg);
-// }
 
 // Start the API server
 server.listen(PORT, function () {
