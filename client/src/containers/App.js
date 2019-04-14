@@ -18,7 +18,8 @@ import Room from './Room';
 import "./styles/App.css";
 
 class App extends Component {
-    componentDidMount = () => {
+
+    componentWillMount = () => {
         let token = localStorage.getItem('token');
         if (!token || token === '') {//if there is no token, dont bother
             return;
@@ -35,6 +36,24 @@ class App extends Component {
             console.log(games);
         });
     }
+
+    // componentDidMount = () => {
+    //     let token = localStorage.getItem('token');
+    //     if (!token || token === '') {//if there is no token, dont bother
+    //         return;
+    //     }
+    //     // fetch user from token (if server deems it's valid token)
+    //     this.props.getCurrentUser(token, (response) => {
+    //         console.log(response);
+    //     });
+
+    //     // fetch games
+    //     this.props.getAllGames((response) => {
+    //         const games = response.data.games;
+    //         console.log('these should be all the games currently in db:');
+    //         console.log(games);
+    //     });
+    // }
 
     render() {
         return (

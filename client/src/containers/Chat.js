@@ -9,11 +9,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actions/';
 import "./styles/Chat.css";
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001', {
-    transports: ['websocket']
-});
+// const socket = io('http://localhost:3001', {
+//     transports: ['websocket']
+// });
 
 class Chat extends Component {
     theMessages = () => {
@@ -35,21 +35,21 @@ class Chat extends Component {
         // });
         console.log('Chat game id: ' + this.props.gameId);
         
-        socket.on('connect', () => {
-            console.log("socket connected");
-        });
+        // this.props.socket.on('connect', () => {
+        //     console.log("socket connected");
+        // });
 
-        socket.on('msg-' + this.props.gameId, (r) => {
+        this.props.socket.on('msg-' + this.props.gameId, (r) => {
             this.props.addMessage(r, () => {
                 console.log('Added message');
             });
         });
 
-        socket.on('connect_error', (err) => {
+        this.props.socket.on('connect_error', (err) => {
             console.log(err)
         });
 
-        socket.on('disconnect', () => {
+        this.props.socket.on('disconnect', () => {
             console.log("Disconnected Socket!")
         });
     }
@@ -58,7 +58,7 @@ class Chat extends Component {
         formProps.user = this.props.currentUser.username;
         formProps.gameId = this.props.game._id;
         this.props.addMessage(formProps, () => {
-            socket.emit('client msg', formProps);
+            this.props.socket.emit('client msg', formProps);
             scrollToBottom();
         });
     };
@@ -78,29 +78,6 @@ class Chat extends Component {
         }
         return (
             <div id="chatComponent">
-                {/* <div id="chatArea">
-                    <ul className="messages">
-                        {theMessages}
-                    </ul>
-                </div>
-                <Form id="chatForm" className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
-                    <InputGroup>
-                        <InputGroup.Prepend>
-                            <img id="chatPhoto" src="/images/default-user.png" alt="user" />
-                        </InputGroup.Prepend>
-                        <Field
-                            className="form-control"
-                            placeholder="Type here..."
-                            name="message"
-                            type="text"
-                            component="input"
-                            autoComplete="none"
-                        />
-                        <InputGroup.Append>
-                            <Button variant="secondary" id="sendMessage" type="submit">Send!</Button>
-                        </InputGroup.Append>
-                    </InputGroup>
-                </Form> */}
                 <div id="chatArea">
                     <ul className="messages" id="messages">
                         {theMessages}
@@ -125,7 +102,6 @@ class Chat extends Component {
                     </InputGroup>
                 </Form>
             </div>
-
         );
     }
 }
@@ -137,7 +113,11 @@ function scrollToBottom() {
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser.user, game: state.game.game, messages: state.game.game.messages};
+    return { 
+        currentUser: state.currentUser.user, 
+        game: state.game.game, 
+        messages: state.game.game.messages
+    };
 }
 
 export default compose(

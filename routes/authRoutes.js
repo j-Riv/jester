@@ -16,5 +16,6 @@ module.exports = function (app) {
     app.post('/games/new', Authentication.createGame);
     app.get('/games/game/:id', Authentication.getGame);
     app.get('/games/all', Authentication.getAllGames);
-    app.post('/games/update/:id', Authentication.updateGame);
+    app.post('/games/update/game/:id', Authentication.updateGame);
+    app.post('/games/update/users/', Authentication.updateGameUsers);
 }

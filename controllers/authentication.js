@@ -131,3 +131,14 @@ exports.updateGame = function(req, res, next) {
         console.log(error);
     });
 }
+
+exports.updateGameUsers = function (req, res, next) {
+    const id = req.body.gameId;
+    const users = req.body.users;
+    console.log('updating users game with id: ' + id);
+    Game.findOneAndUpdate({ _id: id }, { users }).then(function (result) {
+        res.json({ updatedGame: result });
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
