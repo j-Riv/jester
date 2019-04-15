@@ -39,7 +39,13 @@ class Chat extends Component {
         //     console.log("socket connected");
         // });
 
-        this.props.socket.on('msg-' + this.props.gameId, (r) => {
+        // this.props.socket.on('msg-' + this.props.gameId, (r) => {
+        //     this.props.addMessage(r, () => {
+        //         console.log('Added message');
+        //     });
+        // });
+
+        this.props.socket.on('new chat', (r) => {
             this.props.addMessage(r, () => {
                 console.log('Added message');
             });

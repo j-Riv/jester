@@ -108,7 +108,7 @@ exports.getGame = function(req, res, next) {
 exports.getAllGames = function(req, res, next) {
     console.log('getting all games for lobby update:');
     Game.find({}).then(function (result) {
-        console.log(result)
+        // console.log(result)
         res.json({ games: result });
     }).catch(function (error) {
         console.log(error);
@@ -134,11 +134,43 @@ exports.updateGame = function(req, res, next) {
 
 exports.updateGameUsers = function (req, res, next) {
     const id = req.body.gameId;
-    const users = req.body.users;
-    console.log('updating users game with id: ' + id);
-    Game.findOneAndUpdate({ _id: id }, { users }).then(function (result) {
-        res.json({ updatedGame: result });
-    }).catch(function (error) {
-        console.log(error);
-    });
+    const user = req.body.user;
+    if (user !== null) {
+        console.log(`Updating game: ${id} with this user: ${user}`);
+        Game.findOneAndUpdate({ _id: id }, { $addToSet: { 'users': user } }, { new: true }).then(function (result) {
+            req.io.in(id).emit('Update Users', result.users);
+            console.log('Users have been updated --->');
+            console.log(result.users);
+            res.json({ updatedGame: result });
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }else{
+        console.log('User is null do not update');
+    }
+}
+
+exports.updateGameCards = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    const card = req.body.card;
+    console.log(`Updating game: ${id} with this card: ${card}`);
+    // Game.findOneAndUpdate({ _id: id }, { $push: { 'images': card } }, { new: true }).then(function (result) {
+    //     req.io.in(id).emit('Update Cards', result.images);
+    //     console.log('cards have been updated --->');
+    //     console.log(result.images);
+    //     res.json({ updatedGame: result });
+    // }).catch(function (error) {
+    //     console.log(error);
+    // });
+    req.io.in(id).emit('Update Cards', req.body);
+}
+
+exports.updateGameWinner = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    const card = req.body.card;
+    console.log(`Sending game: ${id} this winner: ${card}`);
+    req.io.in(id).emit('Update Winner', req.body);
+    res.json({ winner: req.body });
 }

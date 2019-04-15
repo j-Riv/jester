@@ -73,6 +73,7 @@ export const getGame = (id, callback) => async dispatch => {
             'http://localhost:3001/games/game/' + id
         );
         console.log('got game?');
+        localStorage.setItem('game', response.data.game);
         dispatch({ type: CURRENT_GAME, payload: response.data.game });
         callback(response);
     } catch (e) {
@@ -94,17 +95,17 @@ export const getAllGames = (callback) => async dispatch => {
     }
 }
 
-export const updateGameUsers = data => async dispatch => {
-    console.log('Add these users');
-    console.log(data);
+export const updateGameUsers = (user, gameId, callback) => async dispatch => {
+    console.log(`Add user: ${user} to room: ${gameId}!`);
     try {
         const response = await axios.post(
             'http://localhost:3001/games/update/users',
-            data
+            {user, gameId}
         );
         console.log('updateGameusers');
         console.log(response.data.updatedGame.users);
         dispatch({ type: UPDATE_USERS, payload: response.data.updatedGame.users });
+        callback(response.data.updatedGame.users);
     } catch (e) {
         console.log(e);
     }
@@ -120,8 +121,25 @@ export const imgCardChosen = card => async dispatch => {
             card
         );
         console.log('updateCards');
-        // console.log(response.data.updatedGame);
-        // dispatch({ type: UPDATE_USERS, payload: response.users });
+        console.log(response.data.updatedGame.images);
+        // dispatch({ type: UPDATE_IMAGES, payload: response.data.updatedGame.images });
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const winnerChosen = card => async dispatch => {
+    console.log('Card info:');
+    console.log(card);
+    socket.emit('winning card', card);
+    try {
+        const response = await axios.post(
+            'http://localhost:3001/games/update/winner',
+            card
+        );
+        console.log('updateWinner');
+        console.log(response.data.winner);
+        // dispatch({ type: UPDATE_IMAGES, payload: response.data.updatedGame.images });
     } catch (e) {
         console.log(e);
     }

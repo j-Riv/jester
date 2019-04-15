@@ -26,10 +26,10 @@ app.use(cors());
 
 // Place this middleware before any other route definitions
 // makes io available as req.io in all request handlers
-// app.use(function (req, res, next) {
-//   req.io = io;
-//   next();
-// });
+app.use(function (req, res, next) {
+  req.io = io;
+  next();
+});
 
 // Define API routes here
 routes(app);
@@ -40,17 +40,18 @@ routes(app);
 io.on('connection', function(socket) {
   // game
   console.log('a user connected');
-  // room connection
-  socket.on('user joined', function (m) {
-    console.log('user: ' + m.newUser + ' has joined ' + m.room);
-    socket.broadcast.emit('upr-' + m.room, m.newUser);
+  // on join room
+  socket.on('create', function(room) {
+    console.log('create this:');
+    console.log(room);
+    socket.join(room);
   });
   // chat
   socket.on('client msg', function (msg) {
     console.log('server got new message id: ' + msg.gameId);
     console.log('user: ' + msg.user);
     console.log('msg: ' + msg.message);
-    socket.broadcast.emit('msg-' + msg.gameId, msg);
+    socket.in(msg.gameId).emit('new chat', msg);
   });
   // user click
   socket.on('card selected', function (card) {

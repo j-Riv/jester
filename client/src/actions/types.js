@@ -8,3 +8,4 @@ export const ALL_GAMES = 'ALL_GAMES';
 export const GET_GIFS = 'GET_GIFS';
 export const USER_GIFS = 'USER_GIFS';
 export const UPDATE_USERS = 'UPDATE_USERS';
+export const UPDATE_CARDS = 'UPDATE_CARDS';

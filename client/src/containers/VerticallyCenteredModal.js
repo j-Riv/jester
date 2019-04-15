@@ -41,7 +41,8 @@ class VerticallyCenteredModal extends React.Component {
 
         return (
             <Modal
-                {...this.props}
+                show={this.props.show}
+                onHide={this.props.onHide}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
