@@ -5,16 +5,13 @@ import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-// import './KingView.css';
+import store from '../../store';
+import {
+    CARD_SELECTED
+} from '../../actions/types';
+// import './JesterView.css';
 
 class JesterView extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            cardSelected: false
-        }
-    }
 
     onCardClick(src) {
         const card = {
@@ -25,17 +22,23 @@ class JesterView extends React.Component {
         console.log('card clicked');
         console.log(card);
         this.props.imgCardChosen(card);
-        this.setState({ cardSelected: true });
+        store.dispatch({ type: CARD_SELECTED, payload: true });
     }
 
     render() {
         // card images
-        let theImages = '';
+        let view = '';
         if (Array.isArray(this.props.currentUser.images)) {
-            if (this.state.cardSelected) {
-                theImages = <p>You have already selected a card.</p>;
+            if (this.props.currentUser.card_selected && this.props.game.winner_chosen === true) {
+                view = <div>
+                    {this.props.game.winner === this.props.currentUser.username ? <p>The winner is: {this.props.game.winner}</p> : <p>You Won!</p>}
+                    <p>The Winning card is:</p>
+                    <img src={this.props.game.winning_card} alt={this.props.game.winner} />
+                </div>
+            } else if (this.props.currentUser.card_selected) {
+                view = <p>You have already selected a card.</p>;
             } else {
-                theImages = this.props.currentUser.images.map((img, key) =>
+                view = this.props.currentUser.images.map((img, key) =>
                     <ImgCard
                         key={key}
                         img={img.media[0].gif.url}
@@ -46,13 +49,14 @@ class JesterView extends React.Component {
         }
         return (
             <Col sm={8}>
+                {this.props.winnerChosen === true ? <p>Winner has been chosen</p> : <p>No winner has been chosen</p>}
                 <p>Jester: {this.props.currentUser.username}</p>
                 <ul>
                     {this.props.users}
                 </ul>
                 <p>Images:</p>
                 <Row>
-                    {theImages}
+                    {view}
                 </Row>
             </Col>
         );

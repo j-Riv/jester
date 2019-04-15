@@ -54,11 +54,11 @@ io.on('connection', function(socket) {
     socket.in(msg.gameId).emit('new chat', msg);
   });
   // user click
-  socket.on('card selected', function (card) {
-    console.log('server got card');
-    console.log('card user: ' + card.user);
-    console.log('card src: ' + card.src);
-  });
+  // socket.on('card selected', function (card) {
+  //   console.log('server got card');
+  //   console.log('card user: ' + card.user);
+  //   console.log('card src: ' + card.src);
+  // });
 });
 
 // DB Setup

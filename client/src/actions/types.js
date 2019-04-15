@@ -9,3 +9,11 @@ export const GET_GIFS = 'GET_GIFS';
 export const USER_GIFS = 'USER_GIFS';
 export const UPDATE_USERS = 'UPDATE_USERS';
 export const UPDATE_CARDS = 'UPDATE_CARDS';
+export const UPDATE_WINNER = 'UPDATE_WINNER';
+export const UPDATE_WINNING_CARD = 'UPDATE_WINNING_CARD';
+export const UPDATE_WINNER_CHOSEN = 'UPDATE_WINNER_CHOSEN';
+export const CARD_SELECTED = 'CARD_SELECTED';
+export const UPDATE_CURRENT_TURN = 'UPDATE_CURRENT_TURN';
+export const CLEAR_CARDS = 'CLEAR_CARDS';
+export const UPDATE_WINS = 'UPDATE_WINS';
+// organize this stuff later.

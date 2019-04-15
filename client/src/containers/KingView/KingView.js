@@ -5,17 +5,14 @@ import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import store from '../../store';
+import {
+    CARD_SELECTED
+} from '../../actions/types';
 // import './KingView.css';
 
 class KingView extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            cardSelected: false
-        }
-    }
-
+    
     onCardClick(src, user) {
         const card = {
             user: user,
@@ -25,7 +22,7 @@ class KingView extends React.Component {
         console.log('card clicked');
         console.log(card);
         this.props.winnerChosen(card);
-        this.setState({ cardSelected: true });
+        store.dispatch({ type: CARD_SELECTED, payload: true });
     }
 
     render() {

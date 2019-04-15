@@ -8,11 +8,20 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 // import Button from 'react-bootstrap/Button';
 import Chat from './Chat';
-import ImgCard from '../components/ImgCard/ImgCard';
 import words from '../words/words-clean';
 import io from 'socket.io-client';
 import store from '../store';
-import { UPDATE_USERS, UPDATE_CARDS } from '../actions/types';
+import { 
+    UPDATE_USERS, 
+    UPDATE_CARDS, 
+    UPDATE_WINNER,
+    UPDATE_WINNING_CARD,
+    UPDATE_WINNER_CHOSEN,
+    CARD_SELECTED,
+    UPDATE_CURRENT_TURN,
+    CLEAR_CARDS,
+    UPDATE_WINS
+} from '../actions/types';
 import KingView from './KingView/KingView';
 import JesterView from './JesterView/JesterView';
 
@@ -52,7 +61,7 @@ class Game extends Component {
         socket.on('connect', () => {
             console.log('new user ' + this.props.currentUser.username + ' joined: connected');
             // update users on new user connect
-            if (this.props.currentUser.username !== null) {
+            if (this.props.currentUser.username !== undefined) {
                 this.props.updateGameUsers(this.props.currentUser.username, params.gameId, (response) => {
                     console.log('users have been updated');
                     console.log(response);
@@ -79,6 +88,31 @@ class Game extends Component {
         socket.on('Update Winner', response => {
             console.log('Update winner socket');
             console.log(response);
+            store.dispatch({ type: UPDATE_WINNER, payload: response.user });
+            store.dispatch({ type: UPDATE_WINNING_CARD, payload: response.card });
+            store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+            // update wins
+            if(response.user === this.props.currentUser.username) {
+                store.dispatch({ type: UPDATE_WINS, payload: 1 });
+            }
+            // reset game
+            setTimeout(() => {
+                const next = getNext(this.props.game.users, this.props.game.current_turn);
+                console.log('Next player is ---> ' + next);
+                // get new gifs
+                const newWord = words.words[~~(Math.random() * words.words.length)];
+                this.props.setUserGifs(newWord, (response) => {
+                    console.log('got new gifs');
+                    console.log(response);
+                });
+                // reset game for next round
+                // store.dispatch({ type: UPDATE_WINNER, payload: '' });
+                // store.dispatch({ type: UPDATE_WINNING_CARD, payload: '' });
+                store.dispatch({ type: CLEAR_CARDS, payload: [] })
+                store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
+                store.dispatch({ type: UPDATE_CURRENT_TURN, payload: next });
+                store.dispatch({ type: CARD_SELECTED, payload: false });
+            }, 3000);
         });
     }
 
@@ -101,6 +135,7 @@ class Game extends Component {
                 <Row>
                     <Col sm={12} className="text-center">
                         <h3>Cuerrent Room: {this.props.game._id}</h3>
+                        <p>Current Wins: {this.props.currentUser.wins}</p>
                     </Col>
                 </Row>
                 <Row>
@@ -112,6 +147,26 @@ class Game extends Component {
             </Container>
         );
     }
+}
+
+function getNext(all, user) {
+    console.log('Next -------->');
+    console.log('all users;');
+    console.log(all);
+    console.log('user:');
+    console.log(user);
+    const index = all.indexOf(user);
+    let nextUser;
+    if(index >= 0 && index < all.length -1) {
+        nextUser = all[index + 1];
+        console.log('not last');
+    }else{
+        nextUser = all[0];
+        console.log('last');
+    }
+    console.log('next user: ' + nextUser);
+    console.log('End of Next -------->')
+    return nextUser;
 }
 
 function mapStateToProps(state) {

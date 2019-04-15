@@ -23,7 +23,7 @@ class Protected extends Component {
         console.log(formProps);
         this.props.updateUser(formProps, () => {
             console.log('submitted');
-        });const { handleSubmit } = this.props;
+        });
     };
 
     handleNewGame = () => {
