@@ -16,37 +16,39 @@ class GamesLobby extends Component {
 
     render() {
         let games = '';
-        if (Array.isArray(this.props.lobby)) {
-            games = this.props.lobby.map((game, key) => {
-                return (
-                    <Row key={game._id}>
-                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div>
-                                <h5>Creator: {game.username}</h5>
-                                <Image src={game.image} roundedCircle />
-                            </div>
+        if (this.props.lobby !== undefined) {
+            if (Array.isArray(this.props.lobby)) {
+                games = this.props.lobby.map((game, key) => {
+                    return (
+                        <Row key={game._id}>
+                            <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div>
+                                    <h5>Creator: {game.username}</h5>
+                                    <Image src={game.image} roundedCircle />
+                                </div>
 
-                        </Col>
+                            </Col>
 
-                        <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div>
-                                <Link to={`/room/${game._id}`}>
-                                <h3>Name: {game.game_name}</h3>
-                                <p>Players: 0/{game.max_players}</p>
-                                </Link>
-                            </div>
+                            <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div>
+                                    <Link to={`/room/${game._id}`}>
+                                        <h3>Name: {game.game_name}</h3>
+                                        <p>Players: 0/{game.max_players}</p>
+                                    </Link>
+                                </div>
 
-                        </Col>
+                            </Col>
 
-                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div>
-                                <p>Category: {game.category}</p>
-                                <p>Status: {game.status}</p>
-                            </div>
-                        </Col>
-                    </Row>
-                );
-            });
+                            <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div>
+                                    <p>Category: {game.category}</p>
+                                    <p>Status: {game.status}</p>
+                                </div>
+                            </Col>
+                        </Row>
+                    );
+                });
+            }
         }
         return(
             <div>

@@ -125,14 +125,16 @@ class Game extends Component {
         const { match: { params } } = this.props;
         // user list
         let users = '';
-        if (Array.isArray(this.props.game.users)) {
-            users = this.props.game.users.map((player, key) => {
-                return (
-                    <li key={key}>
-                        <i class={`fas fa-user ${this.props.currentUser.username === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i class="fas fa-long-arrow-alt-right"></i> {player.wins}
-                    </li>
-                );
-            });
+        if (this.props.game.users !== undefined) {
+            if (Array.isArray(this.props.game.users)) {
+                users = this.props.game.users.map((player, key) => {
+                    return (
+                        <li key={key}>
+                            <i class={`fas fa-user ${this.props.currentUser.username === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i class="fas fa-long-arrow-alt-right"></i> {player.wins}
+                        </li>
+                    );
+                });
+            }
         }
         // display views
         let view;
