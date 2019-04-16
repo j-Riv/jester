@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
-import Host from '../config/config';
 import host from '../config/config';
 import { 
     ADD_CHAT,
@@ -12,7 +11,7 @@ import {
 } from './types';
 import io from 'socket.io-client';
 
-const socket = io(Host, {
+const socket = io(host, {
     transports: ['websocket'],
     secure: true
 });
