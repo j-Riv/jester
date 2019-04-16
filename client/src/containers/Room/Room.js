@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Chat from '../Chat/Chat';
 import words from '../../words/words-clean';
 import io from 'socket.io-client';
+import Host from '../../config/config';
 import store from '../../store';
 import { 
     UPDATE_USERS, 
@@ -27,7 +28,7 @@ import './Room.css';
 import KingView from '../KingView/KingView';
 import JesterView from '../JesterView/JesterView';
 
-const socket = io('http://localhost:3001', {
+const socket = io(Host, {
     transports: ['websocket']
 });
 
