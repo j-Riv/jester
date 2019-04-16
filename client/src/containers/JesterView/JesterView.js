@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import store from '../../store';
@@ -30,13 +31,15 @@ class JesterView extends React.Component {
         let view = '';
         if (Array.isArray(this.props.currentUser.images)) {
             if (this.props.currentUser.card_selected && this.props.game.winner_chosen === true) {
-                view = <div>
-                    {this.props.game.winner === this.props.currentUser.username ? <p>You Won!</p> : <p>The winner is: {this.props.game.winner}</p>}
-                    <p>The Winning card is:</p>
-                    <img src={this.props.game.winning_card} alt={this.props.game.winner} />
-                </div>
+                view = <Col sm={12} className="text-center">
+                            {this.props.game.winner === this.props.currentUser.username ? <p>You Won!</p> : <p>The winner is: {this.props.game.winner}</p>}
+                            <p>The Winning card is:</p>
+                            <img src={this.props.game.winning_card} alt={this.props.game.winner} />
+                        </Col>
             } else if (this.props.currentUser.card_selected) {
-                view = <p>You have already selected a card.</p>;
+                view = <Col sm={12} className="text-center">
+                            <p>You have already selected a card.</p>
+                        </Col>;
             } else {
                 view = this.props.currentUser.images.map((img, key) =>
                     <ImgCard
@@ -48,16 +51,20 @@ class JesterView extends React.Component {
             }
         }
         return (
-            <Col sm={8} className="order-sm-2">
-                <p>Jester: {this.props.currentUser.username}</p>
-                <ul>
-                    {this.props.users}
-                </ul>
-                <p>Images:</p>
+            <Container fluid={true} id="viewComponent">
                 <Row>
-                    {view}
+                    <Col sm={12}>
+                        <p><i class="fas fa-user"></i> {this.props.currentUser.username}</p>
+                        <ul id="userList">
+                            {this.props.users}
+                        </ul>
+                        <p>Images:</p>
+                        <Row>
+                            {view}
+                        </Row>
+                    </Col>
                 </Row>
-            </Col>
+            </Container>
         );
     }
 }

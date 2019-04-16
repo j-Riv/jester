@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../requireAuth';
+import Sidebar from '../Sidebar/Sidebar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -22,6 +23,7 @@ import {
     CLEAR_CARDS,
     UPDATE_WINS
 } from '../../actions/types';
+import './Room.css';
 import KingView from '../KingView/KingView';
 import JesterView from '../JesterView/JesterView';
 
@@ -121,7 +123,13 @@ class Game extends Component {
         // user list
         let users = '';
         if (Array.isArray(this.props.game.users)) {
-            users = this.props.game.users.map((player, key) => <li key={key}>{player.user} -> {player.wins}</li>);
+            users = this.props.game.users.map((player, key) => {
+                return (
+                    <li key={key}>
+                        <i class={`fas fa-user ${this.props.currentUser.username === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i class="fas fa-long-arrow-alt-right"></i> {player.wins}
+                    </li>
+                );
+            });
         }
         // display views
         let view;
@@ -131,19 +139,17 @@ class Game extends Component {
             view = <JesterView users={users} />
         }
         return (
-            <Container fluid={true}>
-                <Row>
-                    <Col sm={12} className="text-center">
-                        <h3>Cuerrent Room: {this.props.game._id}</h3>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={4} className="order-sm-1">
-                        <Chat gameId={ params.gameId } socket={ socket }/>
-                    </Col>
-                    {view}
-                </Row>
-            </Container>
+            <div id="roomOuter">
+                <Sidebar gameId={params.gameId} socket={socket} />
+                <Container fluid={true} id="room">
+                    <Row>
+                        <Col sm={12} className="text-center">
+                            <h3 className="text-uppercase"><i class="fab fa-fort-awesome"></i> {this.props.game.game_name}</h3>
+                            {view}
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         );
     }
 }

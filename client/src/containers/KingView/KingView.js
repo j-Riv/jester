@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import store from '../../store';
@@ -38,18 +39,22 @@ class KingView extends React.Component {
             );
         }
         return (
-            <Col sm={8} className="order-sm-2">
-                <p>King: {this.props.currentUser.username}</p>
-                <ul>
-                    {this.props.users}
-                </ul>
-                <p>Your Image/Phrase</p>
-
-                <p>Chosen Images:</p>
+            <Container fluid={true} id="viewComponent">
                 <Row>
-                    {chosenImages}
+                    <Col sm={12}>
+                        <p><i class="fas fa-crown"></i> {this.props.currentUser.username}</p>
+                        <ul id="userList">
+                            {this.props.users}
+                        </ul>
+                        <p>Your Image/Phrase</p>
+
+                        <p>Chosen Images:</p>
+                        <Row>
+                            {chosenImages}
+                        </Row>
+                    </Col>
                 </Row>
-            </Col>
+            </Container>
         );
     }
 }

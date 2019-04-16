@@ -7,6 +7,7 @@ import reducers from '../reducers';
 //     applyMiddleware(reduxThunk)
 // );
 
+// redux dev tools chrome extension
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(
     applyMiddleware(reduxThunk)

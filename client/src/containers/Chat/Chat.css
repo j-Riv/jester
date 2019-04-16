@@ -4,15 +4,26 @@
 }
 
 #chatComponent {
-    border: 1px solid #ccc;
+    /* position: absolute; */
+    bottom: 0;
+    right: 0;
+    left: 0;
+    color: #000 !important;
+}
+
+#chatWrapper {
+    /* border: 1px solid #ccc; */
 }
 
 #chatArea {
     height: 100%;
     min-height: 80vh;
     max-height: 80vh;
+    padding-left: 15px;
+    padding-bottom: 20px;
     overflow-y: scroll;
-    /* margin-bottom: 5px */
+    margin-bottom: 10px;
+    background-color: #fff;
 }
 
 #chatForm {
@@ -33,6 +44,9 @@
     color: #bc360a;
 }
 
-#messages li {
-    list-style: none;
+@media only screen and (max-width: 768px) {
+    #chatArea {
+        min-height: 400px;
+        max-height: 400px;
+    }
 }

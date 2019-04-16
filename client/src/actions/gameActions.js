@@ -52,7 +52,7 @@ export const addMessage = (formProps, callback) => async dispatch => {
     callback();
 };
 
-export const createGame = (formProps, callback) => async dispatch => {
+export const createGame = (formProps, callback) => async () => {
     try {
         const response = await axios.post(
             'http://localhost:3001/games/new',
@@ -111,7 +111,7 @@ export const updateGameUsers = (user, gameId, callback) => async dispatch => {
     }
 }
 
-export const imgCardChosen = card => async dispatch => {
+export const imgCardChosen = card => async () => {
     console.log('Card info:');
     console.log(card);
     socket.emit('card selected', card);
@@ -128,7 +128,7 @@ export const imgCardChosen = card => async dispatch => {
     }
 }
 
-export const winnerChosen = card => async dispatch => {
+export const winnerChosen = card => async () => {
     console.log('Card info:');
     console.log(card);
     socket.emit('winning card', card);
@@ -139,7 +139,6 @@ export const winnerChosen = card => async dispatch => {
         );
         console.log('updateWinner');
         console.log(response.data.winner);
-        // dispatch({ type: UPDATE_IMAGES, payload: response.data.updatedGame.images });
     } catch (e) {
         console.log(e);
     }

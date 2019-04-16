@@ -44,17 +44,8 @@ export default function (state = INITIAL_STATE, action) {
                 }
             };
         case UPDATE_USERS:
-            // return {
-            //     ...state,
-            //     game: {
-            //         ...state.game,
-            //         users: action.payload
-            //     }
-            // };
-            console.log('action.payload ===>');
             let UserExists = state.game.users.some(e => e.user === action.payload.user);
             let users = state.game.users.slice();
-            console.log('found user: ' + UserExists);
             if(!UserExists) {
                 console.log('User doesnt exist lets add them');
                 users.push(action.payload);
@@ -87,7 +78,7 @@ export default function (state = INITIAL_STATE, action) {
             let AlreadyExists = state.game.images.some(el => el.user === action.payload.user);
             let chosenImages = state.game.images.slice();
             if(!AlreadyExists) {
-                console.log('doesnt exist');
+                console.log('image doesnt exist');
                 chosenImages.push(action.payload);
             }
             return {

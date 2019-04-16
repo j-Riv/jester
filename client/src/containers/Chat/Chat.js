@@ -53,29 +53,32 @@ class Chat extends Component {
         }
         return (
             <div id="chatComponent">
-                <div id="chatArea">
-                    <ul className="messages" id="messages">
-                        {theMessages}
-                    </ul>
+                <p className="text-center">Chat <i class="fas fa-comment-dots"></i></p>
+                <div id="chatWrapper">
+                    <div id="chatArea">
+                        <div className="messages" id="messages">
+                            {theMessages}
+                        </div>
+                    </div>
+                    <Form id="chatForm" className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <img id="chatPhoto" src="/images/default-user.png" alt="user" />
+                            </InputGroup.Prepend>
+                            <Field
+                                className="form-control"
+                                placeholder="Type here..."
+                                name="message"
+                                type="text"
+                                component="input"
+                                autoComplete="none"
+                            />
+                            <InputGroup.Append>
+                                <Button variant="secondary" id="sendMessage" type="submit">Send!</Button>
+                            </InputGroup.Append>
+                        </InputGroup>
+                    </Form>
                 </div>
-                <Form id="chatForm" className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
-                    <InputGroup>
-                        <InputGroup.Prepend>
-                            <img id="chatPhoto" src="/images/default-user.png" alt="user" />
-                        </InputGroup.Prepend>
-                        <Field
-                            className="form-control"
-                            placeholder="Type here..."
-                            name="message"
-                            type="text"
-                            component="input"
-                            autoComplete="none"
-                        />
-                        <InputGroup.Append>
-                            <Button variant="secondary" id="sendMessage" type="submit">Send!</Button>
-                        </InputGroup.Append>
-                    </InputGroup>
-                </Form>
             </div>
         );
     }
@@ -83,7 +86,7 @@ class Chat extends Component {
 
 function scrollToBottom() {
     const messages = document.getElementById('chatArea');
-    messages.scrollTop = messages.scrollHeight;
+    messages.scrollTop = messages.offsetHeight;
     console.log('sh: ' + messages.scrollTop);
 }
 

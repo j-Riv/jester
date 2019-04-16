@@ -60,12 +60,6 @@ io.on('connection', function(socket) {
     // console.log(`${response.user} has disconnected.`);
     // socket.in(response.id).emit('Remove Users', { user: response.user });
   });
-  // user click
-  // socket.on('card selected', function (card) {
-  //   console.log('server got card');
-  //   console.log('card user: ' + card.user);
-  //   console.log('card src: ' + card.src);
-  // });
 });
 
 // DB Setup
