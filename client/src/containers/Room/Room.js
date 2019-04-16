@@ -48,6 +48,7 @@ class Game extends Component {
     }
 
     componentDidMount = () => {
+        console.log('Host: ' + host);
         const { match: { params } } = this.props;
         // get gifs
         const word = words.words[~~(Math.random() * words.words.length)];
