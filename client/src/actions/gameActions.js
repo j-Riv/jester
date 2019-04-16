@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
+import Host from '../config/config';
 import host from '../config/config';
 import { 
     ADD_CHAT,
@@ -11,8 +12,9 @@ import {
 } from './types';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3001', {
-    transports: ['websocket']
+const socket = io(Host, {
+    transports: ['websocket'],
+    secure: true
 });
 
 export const getGifs = (word, callback) => async dispatch => {
