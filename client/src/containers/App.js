@@ -27,13 +27,6 @@ class App extends Component {
         this.props.getCurrentUser(token, (response) => {
             console.log(response);
         });
-
-        // fetch games
-        this.props.getAllGames((response) => {
-            const games = response.data.games;
-            console.log('these should be all the games currently in db:');
-            console.log(games);
-        });
     }
 
     render() {

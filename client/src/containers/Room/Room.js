@@ -35,7 +35,20 @@ const socket = io(Host, {
 
 class Game extends Component {
 
-    componentWillMount = () => {
+    // componentWillMount = () => {
+    //     // get game object
+    //     const { match: { params } } = this.props;
+    //     socket.emit('create', params.gameId);
+    //     console.log('creating game: ' + params.gameId);
+    //     this.props.getGame(params.gameId, (response) => {
+    //         const game = response.data.game;
+    //         console.log('this is the game');
+    //         console.log(game);
+    //     });
+    // }
+
+    componentDidMount = () => {
+        console.log('Host: ' + Host);
         // get game object
         const { match: { params } } = this.props;
         socket.emit('create', params.gameId);
@@ -45,11 +58,6 @@ class Game extends Component {
             console.log('this is the game');
             console.log(game);
         });
-    }
-
-    componentDidMount = () => {
-        console.log('Host: ' + Host);
-        const { match: { params } } = this.props;
         // get gifs
         const word = words.words[~~(Math.random() * words.words.length)];
         console.log(`word ${word}`);
@@ -125,12 +133,12 @@ class Game extends Component {
         const { match: { params } } = this.props;
         // user list
         let users = '';
-        if (this.props.game.users !== undefined || this.props.game.users !== null) {
+        if (this.props.game.users && this.props.game.users !== undefined && this.props.game.users !== null) {
             if (Array.isArray(this.props.game.users)) {
                 users = this.props.game.users.map((player, key) => {
                     return (
                         <li key={key}>
-                            <i class={`fas fa-user ${this.props.currentUser.username === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i class="fas fa-long-arrow-alt-right"></i> {player.wins}
+                            <i className={`fas fa-user ${this.props.currentUser.username === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
                         </li>
                     );
                 });
@@ -149,7 +157,7 @@ class Game extends Component {
                 <Container fluid={true} id="room">
                     <Row>
                         <Col sm={12} className="text-center">
-                            <h3 className="text-uppercase"><i class="fab fa-fort-awesome"></i> {this.props.game.game_name}</h3>
+                            <h3 className="text-uppercase"><i className="fab fa-fort-awesome"></i> {this.props.game.game_name}</h3>
                             {view}
                         </Col>
                     </Row>

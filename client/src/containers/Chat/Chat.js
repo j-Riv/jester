@@ -53,7 +53,7 @@ class Chat extends Component {
         }
         return (
             <div id="chatComponent">
-                <p className="text-center">Chat <i class="fas fa-comment-dots"></i></p>
+                <p className="text-center">Chat <i className="fas fa-comment-dots"></i></p>
                 <div id="chatWrapper">
                     <div id="chatArea">
                         <div className="messages" id="messages">

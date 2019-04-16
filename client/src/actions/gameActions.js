@@ -4,6 +4,7 @@ import host from '../config/config';
 import { 
     ADD_CHAT,
     CURRENT_GAME,
+    GET_ALL_GAMES,
     ALL_GAMES,
     GET_GIFS,
     USER_GIFS,
@@ -90,6 +91,7 @@ export const getAllGames = (callback) => async dispatch => {
         );
         console.log('all games -->');
         console.log(response.data.games);
+        dispatch({ type: GET_ALL_GAMES });
         dispatch({ type: ALL_GAMES, payload: response.data.games });
         callback(response);
     } catch (e) {
