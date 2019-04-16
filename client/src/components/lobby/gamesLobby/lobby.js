@@ -13,6 +13,15 @@ import requireAuth from '../../../containers/requireAuth';
 
 
 class GamesLobby extends Component {
+    
+    componentDidMount = () => {
+        // fetch games
+        this.props.getAllGames((response) => {
+            const games = response.data.games;
+            console.log('these should be all the games currently in db:');
+            console.log(games);
+        });
+    }
 
     render() {
         let games = '';
