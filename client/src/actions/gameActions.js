@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
+import host from '../config/config';
 import { 
     ADD_CHAT,
     CURRENT_GAME,
@@ -55,7 +56,7 @@ export const addMessage = (formProps, callback) => async dispatch => {
 export const createGame = (formProps, callback) => async () => {
     try {
         const response = await axios.post(
-            'http://localhost:3001/games/new',
+            host + '/games/new',
             formProps
         );
         console.log('created game?');
@@ -70,7 +71,7 @@ export const createGame = (formProps, callback) => async () => {
 export const getGame = (id, callback) => async dispatch => {
     try {
         const response = await axios.get(
-            'http://localhost:3001/games/game/' + id
+            host + '/games/game/' + id
         );
         console.log('got game?');
         localStorage.setItem('game', response.data.game);
@@ -84,7 +85,7 @@ export const getGame = (id, callback) => async dispatch => {
 export const getAllGames = (callback) => async dispatch => {
     try {
         const response = await axios.get(
-            'http://localhost:3001/games/all/'
+            host + '/games/all/'
         );
         console.log('all games -->');
         console.log(response.data.games);
@@ -99,7 +100,7 @@ export const updateGameUsers = (user, gameId, callback) => async dispatch => {
     console.log(`Add user: ${user} to room: ${gameId}!`);
     try {
         const response = await axios.post(
-            'http://localhost:3001/games/update/users',
+            host + '/games/update/users',
             {user, gameId}
         );
         console.log('updateGameusers');
@@ -117,7 +118,7 @@ export const imgCardChosen = card => async () => {
     socket.emit('card selected', card);
     try {
         const response = await axios.post(
-            'http://localhost:3001/games/update/cards',
+            host + '/games/update/cards',
             card
         );
         console.log('updateCards');
@@ -134,7 +135,7 @@ export const winnerChosen = card => async () => {
     socket.emit('winning card', card);
     try {
         const response = await axios.post(
-            'http://localhost:3001/games/update/winner',
+            host + '/games/update/winner',
             card
         );
         console.log('updateWinner');
