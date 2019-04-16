@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
-import requireAuth from './requireAuth';
+import * as actions from '../../actions';
+import requireAuth from '../requireAuth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 // import Button from 'react-bootstrap/Button';
-import Chat from './Chat';
-import words from '../words/words-clean';
+import Chat from '../Chat/Chat';
+import words from '../../words/words-clean';
 import io from 'socket.io-client';
-import store from '../store';
+import store from '../../store';
 import { 
     UPDATE_USERS, 
     UPDATE_CARDS, 
@@ -21,9 +21,9 @@ import {
     UPDATE_CURRENT_TURN,
     CLEAR_CARDS,
     UPDATE_WINS
-} from '../actions/types';
-import KingView from './KingView/KingView';
-import JesterView from './JesterView/JesterView';
+} from '../../actions/types';
+import KingView from '../KingView/KingView';
+import JesterView from '../JesterView/JesterView';
 
 const socket = io('http://localhost:3001', {
     transports: ['websocket']
@@ -71,6 +71,7 @@ class Game extends Component {
         // new user disconnected send update to server
         socket.on('disconnect', () => {
             console.log('user ' + this.props.currentUser.username + ' has disconnected');
+            socket.emit('disconnected', this.props.currentUser.username);
         });
         // update users
         socket.on('Update Users', response => {
@@ -92,9 +93,8 @@ class Game extends Component {
             store.dispatch({ type: UPDATE_WINNING_CARD, payload: response.card });
             store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
             // update wins
-            if(response.user === this.props.currentUser.username) {
-                store.dispatch({ type: UPDATE_WINS, payload: 1 });
-            }
+            console.log('Updating winner: ' + response.user);
+            store.dispatch({ type: UPDATE_WINS, payload: response.user });
             // reset game
             setTimeout(() => {
                 const next = getNext(this.props.game.users, this.props.game.current_turn);
@@ -121,7 +121,7 @@ class Game extends Component {
         // user list
         let users = '';
         if (Array.isArray(this.props.game.users)) {
-            users = this.props.game.users.map((user, key) => <li key={key}>{user}</li>);
+            users = this.props.game.users.map((player, key) => <li key={key}>{player.user} -> {player.wins}</li>);
         }
         // display views
         let view;
@@ -135,11 +135,10 @@ class Game extends Component {
                 <Row>
                     <Col sm={12} className="text-center">
                         <h3>Cuerrent Room: {this.props.game._id}</h3>
-                        <p>Current Wins: {this.props.currentUser.wins}</p>
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm={4}>
+                    <Col sm={4} className="order-sm-1">
                         <Chat gameId={ params.gameId } socket={ socket }/>
                     </Col>
                     {view}
@@ -155,13 +154,13 @@ function getNext(all, user) {
     console.log(all);
     console.log('user:');
     console.log(user);
-    const index = all.indexOf(user);
+    const index = all.findIndex(u => u.user === user);
     let nextUser;
-    if(index >= 0 && index < all.length -1) {
-        nextUser = all[index + 1];
+    if (index >= 0 && index < all.length - 1) {
+        nextUser = all[index + 1].user;
         console.log('not last');
-    }else{
-        nextUser = all[0];
+    } else {
+        nextUser = all[0].user;
         console.log('last');
     }
     console.log('next user: ' + nextUser);

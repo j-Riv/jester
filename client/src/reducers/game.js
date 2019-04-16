@@ -8,7 +8,8 @@ import {
     UPDATE_WINNING_CARD,
     UPDATE_WINNER_CHOSEN,
     UPDATE_CURRENT_TURN,
-    CLEAR_CARDS
+    CLEAR_CARDS,
+    UPDATE_WINS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -43,11 +44,43 @@ export default function (state = INITIAL_STATE, action) {
                 }
             };
         case UPDATE_USERS:
+            // return {
+            //     ...state,
+            //     game: {
+            //         ...state.game,
+            //         users: action.payload
+            //     }
+            // };
+            console.log('action.payload ===>');
+            let UserExists = state.game.users.some(e => e.user === action.payload.user);
+            let users = state.game.users.slice();
+            console.log('found user: ' + UserExists);
+            if(!UserExists) {
+                console.log('User doesnt exist lets add them');
+                users.push(action.payload);
+            }
             return {
                 ...state,
                 game: {
                     ...state.game,
-                    users: action.payload
+                    users: users
+                }
+            };
+        case UPDATE_WINS:
+            let updateWins = state.game.users.slice();
+            console.log('UPDATE_WINS');
+            updateWins.forEach(obj => {
+                console.log('user: ' + obj.user);
+                console.log('Winning user: ' + action.payload);
+                if (obj.user === action.payload) {
+                    obj.wins = obj.wins + 1;
+                }
+            });
+            return {
+                ...state,
+                user: {
+                    ...state.game,
+                    users: updateWins
                 }
             };
         case UPDATE_CARDS:
@@ -63,13 +96,6 @@ export default function (state = INITIAL_STATE, action) {
                     ...state.game,
                     images: chosenImages
                 }
-                // game: {
-                //     ...state.game,
-                //     images: [
-                //         ...state.game.images,
-                //         action.payload
-                //     ]
-                // }
             };
         case CLEAR_CARDS:
             return {

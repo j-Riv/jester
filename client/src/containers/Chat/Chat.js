@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import requireAuth from './requireAuth';
+import requireAuth from '../requireAuth';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Message from '../components/Message';
+import Message from '../../components/Message';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../actions/';
-import "./styles/Chat.css";
-// import io from 'socket.io-client';
-
-// const socket = io('http://localhost:3001', {
-//     transports: ['websocket']
-// });
+import * as actions from '../../actions';
+import "./Chat.css";
 
 class Chat extends Component {
     theMessages = () => {
@@ -27,36 +22,10 @@ class Chat extends Component {
     }
 
     componentDidMount = () => {
-        // // get game object
-        // const { match: { params } } = this.props;
-        // this.props.getGame(params.gameId, (response) => {
-        //     const game = response.data.game;
-        //     console.log(game);
-        // });
-        console.log('Chat game id: ' + this.props.gameId);
-        
-        // this.props.socket.on('connect', () => {
-        //     console.log("socket connected");
-        // });
-
-        // this.props.socket.on('msg-' + this.props.gameId, (r) => {
-        //     this.props.addMessage(r, () => {
-        //         console.log('Added message');
-        //     });
-        // });
-
-        this.props.socket.on('new chat', (r) => {
-            this.props.addMessage(r, () => {
+        this.props.socket.on('new chat', (msg) => {
+            this.props.addMessage(msg, () => {
                 console.log('Added message');
             });
-        });
-
-        this.props.socket.on('connect_error', (err) => {
-            console.log(err)
-        });
-
-        this.props.socket.on('disconnect', () => {
-            console.log("Disconnected Socket!")
         });
     }
 

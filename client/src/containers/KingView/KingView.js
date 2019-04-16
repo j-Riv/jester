@@ -38,7 +38,7 @@ class KingView extends React.Component {
             );
         }
         return (
-            <Col sm={8}>
+            <Col sm={8} className="order-sm-2">
                 <p>King: {this.props.currentUser.username}</p>
                 <ul>
                     {this.props.users}

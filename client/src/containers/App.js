@@ -12,10 +12,9 @@ import Signout from './auth/Signout';
 import Signin from './auth/Signin';
 import Profile from "../components/Profile/ProfileBar";
 import GamesLobby from "../components/lobby/gamesLobby/lobby";
-import "./styles/App.css";
 import GameContainer from '../pages/GameContainer';
-import Room from './Room';
-import "./styles/App.css";
+import Room from './Room/Room';
+import "./App.css";
 
 class App extends Component {
 
@@ -36,24 +35,6 @@ class App extends Component {
             console.log(games);
         });
     }
-
-    // componentDidMount = () => {
-    //     let token = localStorage.getItem('token');
-    //     if (!token || token === '') {//if there is no token, dont bother
-    //         return;
-    //     }
-    //     // fetch user from token (if server deems it's valid token)
-    //     this.props.getCurrentUser(token, (response) => {
-    //         console.log(response);
-    //     });
-
-    //     // fetch games
-    //     this.props.getAllGames((response) => {
-    //         const games = response.data.games;
-    //         console.log('these should be all the games currently in db:');
-    //         console.log(games);
-    //     });
-    // }
 
     render() {
         return (

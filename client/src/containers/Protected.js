@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import VerticallyCenteredModal from './VerticallyCenteredModal';
+import CreateGameModal from './CreateGameModal';
 
 class Protected extends Component {
     constructor(props) {
@@ -79,7 +79,7 @@ class Protected extends Component {
                         <Button variant="secondary" className="mt-3" onClick={this.handleClickCreate}>New Game</Button>
                     </Col>
                 </Row>
-                <VerticallyCenteredModal
+                <CreateGameModal
                     show={this.state.showCreateGame}
                     onHide={closeCreateGame}
                     heading={"Create Game"}
@@ -88,8 +88,6 @@ class Protected extends Component {
         );
     }
 }
-
-// export default requireAuth(Protected);
 
 function mapStateToProps(state) {
     return { currentUser: state.currentUser.user };

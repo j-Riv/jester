@@ -104,8 +104,8 @@ export const updateGameUsers = (user, gameId, callback) => async dispatch => {
         );
         console.log('updateGameusers');
         console.log(response.data.updatedGame.users);
-        dispatch({ type: UPDATE_USERS, payload: response.data.updatedGame.users });
-        callback(response.data.updatedGame.users);
+        dispatch({ type: UPDATE_USERS, payload: response.data.updatedGame });
+        callback(response.data.updatedGame);
     } catch (e) {
         console.log(e);
     }

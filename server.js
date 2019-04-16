@@ -53,6 +53,13 @@ io.on('connection', function(socket) {
     console.log('msg: ' + msg.message);
     socket.in(msg.gameId).emit('new chat', msg);
   });
+  // disconnect
+  socket.on('disconnect', function (response) {
+    console.log(response);
+    console.log(`${response} has disconnected.`);
+    // console.log(`${response.user} has disconnected.`);
+    // socket.in(response.id).emit('Remove Users', { user: response.user });
+  });
   // user click
   // socket.on('card selected', function (card) {
   //   console.log('server got card');

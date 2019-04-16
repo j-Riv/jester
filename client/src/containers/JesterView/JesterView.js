@@ -31,7 +31,7 @@ class JesterView extends React.Component {
         if (Array.isArray(this.props.currentUser.images)) {
             if (this.props.currentUser.card_selected && this.props.game.winner_chosen === true) {
                 view = <div>
-                    {this.props.game.winner === this.props.currentUser.username ? <p>The winner is: {this.props.game.winner}</p> : <p>You Won!</p>}
+                    {this.props.game.winner === this.props.currentUser.username ? <p>You Won!</p> : <p>The winner is: {this.props.game.winner}</p>}
                     <p>The Winning card is:</p>
                     <img src={this.props.game.winning_card} alt={this.props.game.winner} />
                 </div>
@@ -48,8 +48,7 @@ class JesterView extends React.Component {
             }
         }
         return (
-            <Col sm={8}>
-                {this.props.winnerChosen === true ? <p>Winner has been chosen</p> : <p>No winner has been chosen</p>}
+            <Col sm={8} className="order-sm-2">
                 <p>Jester: {this.props.currentUser.username}</p>
                 <ul>
                     {this.props.users}
