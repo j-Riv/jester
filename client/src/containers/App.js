@@ -18,7 +18,7 @@ import "./App.css";
 
 class App extends Component {
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         let token = localStorage.getItem('token');
         if (!token || token === '') {//if there is no token, dont bother
             return;
