@@ -133,7 +133,7 @@ class Game extends Component {
         const { match: { params } } = this.props;
         // user list
         let users = '';
-        if (this.props.game.users !== undefined || this.props.game.users !== null) {
+        if (this.props.game.users && this.props.game.users !== undefined && this.props.game.users !== null) {
             if (Array.isArray(this.props.game.users)) {
                 users = this.props.game.users.map((player, key) => {
                     return (
