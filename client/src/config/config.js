@@ -1,4 +1,4 @@
-let server = 'https://the-jester.herokuapp.com:3001';
+let server = 'https://the-jester.herokuapp.com';
 
 const env = process.env.NODE_ENV;
 
