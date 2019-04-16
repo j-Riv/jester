@@ -16,6 +16,7 @@ export const signup = (formProps, callback) => async dispatch => {
         localStorage.setItem('token', response.data.token);
         // current user
         dispatch({ type: CURRENT_USER, payload: response.data.currentUser });
+        localStorage.setItem('user', response.data.currentUser);
         callback();
     } catch (e) {
         dispatch({ type: AUTH_ERROR, payload: 'Email or Username in use' });
@@ -33,6 +34,7 @@ export const signin = (formProps, callback) => async dispatch => {
         localStorage.setItem('token', response.data.token);
         // current user
         dispatch({ type: CURRENT_USER, payload: response.data.currentUser});
+        localStorage.setItem('user', response.data.currentUser);
         callback();
     } catch (e) {
         dispatch({ type: AUTH_ERROR, payload: 'Invalid login credentials' });
@@ -54,6 +56,7 @@ export const getCurrentUser = userToken => async dispatch => {
 
 export const signout = () => async dispatch => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     dispatch({ type: CURRENT_USER, payload: '' });
     dispatch({ type: AUTH_USER, payload: '' });
 };

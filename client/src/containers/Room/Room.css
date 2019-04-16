@@ -1,0 +1,15 @@
+/* helpers */
+
+.text-red {
+    color: red;
+}
+
+#userList {
+    list-style: none;
+}
+
+@media only screen and (max-width: 768px) {
+    #viewComponent {
+        min-height: 80vh;
+    }
+}

@@ -8,8 +8,8 @@ const userSchema = new Schema({
   password: String,
   username: { type: String, unique: true },
   picture: { type: String, default: 'https://i.imgur.com/AQKsp6n.jpg' },
-  wins: { type: Number, default: 0 },
-  losses: { type: Number, default: 0 }
+  images: [],
+  card_selected: { type: Boolean, default: false }
 });
 
 // On Save Hook, encrypt password
