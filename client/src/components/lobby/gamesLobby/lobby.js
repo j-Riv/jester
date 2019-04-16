@@ -16,7 +16,7 @@ class GamesLobby extends Component {
 
     render() {
         let games = '';
-        if (this.props.lobby !== undefined) {
+        if (this.props.lobby !== undefined || this.props.lobby !== null) {
             if (Array.isArray(this.props.lobby)) {
                 games = this.props.lobby.map((game, key) => {
                     return (
