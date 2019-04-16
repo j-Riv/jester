@@ -35,7 +35,20 @@ const socket = io(Host, {
 
 class Game extends Component {
 
+    // componentWillMount = () => {
+    //     // get game object
+    //     const { match: { params } } = this.props;
+    //     socket.emit('create', params.gameId);
+    //     console.log('creating game: ' + params.gameId);
+    //     this.props.getGame(params.gameId, (response) => {
+    //         const game = response.data.game;
+    //         console.log('this is the game');
+    //         console.log(game);
+    //     });
+    // }
+
     componentDidMount = () => {
+        console.log('Host: ' + Host);
         // get game object
         const { match: { params } } = this.props;
         socket.emit('create', params.gameId);
@@ -45,11 +58,6 @@ class Game extends Component {
             console.log('this is the game');
             console.log(game);
         });
-    }
-
-    componentDidMount = () => {
-        console.log('Host: ' + Host);
-        const { match: { params } } = this.props;
         // get gifs
         const word = words.words[~~(Math.random() * words.words.length)];
         console.log(`word ${word}`);
