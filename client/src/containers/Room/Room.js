@@ -35,7 +35,7 @@ const socket = io(Host, {
 
 class Game extends Component {
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         // get game object
         const { match: { params } } = this.props;
         socket.emit('create', params.gameId);
