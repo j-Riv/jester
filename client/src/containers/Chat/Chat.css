@@ -11,10 +11,6 @@
     color: #000 !important;
 }
 
-#chatWrapper {
-    /* border: 1px solid #ccc; */
-}
-
 #chatArea {
     height: 100%;
     min-height: 80vh;
