@@ -67,9 +67,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/project_3', { u
 
 // Send every other request to the React app
 // Define any API routes before this runs
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "./client/build/index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 // Start the API server
 server.listen(PORT, function () {

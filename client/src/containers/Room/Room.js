@@ -29,7 +29,8 @@ import KingView from '../KingView/KingView';
 import JesterView from '../JesterView/JesterView';
 
 const socket = io(Host, {
-    transports: ['websocket']
+    transports: ['websocket'],
+    secure: true
 });
 
 class Game extends Component {
