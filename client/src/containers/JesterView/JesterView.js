@@ -54,7 +54,7 @@ class JesterView extends React.Component {
             <Container fluid={true} id="viewComponent">
                 <Row>
                     <Col sm={12}>
-                        <p><i class="fas fa-user"></i> {this.props.currentUser.username}</p>
+                        <p><i className="fas fa-user"></i> {this.props.currentUser.username}</p>
                         <ul id="userList">
                             {this.props.users}
                         </ul>

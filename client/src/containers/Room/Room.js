@@ -138,7 +138,7 @@ class Game extends Component {
                 users = this.props.game.users.map((player, key) => {
                     return (
                         <li key={key}>
-                            <i class={`fas fa-user ${this.props.currentUser.username === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i class="fas fa-long-arrow-alt-right"></i> {player.wins}
+                            <i className={`fas fa-user ${this.props.currentUser.username === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
                         </li>
                     );
                 });
@@ -157,7 +157,7 @@ class Game extends Component {
                 <Container fluid={true} id="room">
                     <Row>
                         <Col sm={12} className="text-center">
-                            <h3 className="text-uppercase"><i class="fab fa-fort-awesome"></i> {this.props.game.game_name}</h3>
+                            <h3 className="text-uppercase"><i className="fab fa-fort-awesome"></i> {this.props.game.game_name}</h3>
                             {view}
                         </Col>
                     </Row>

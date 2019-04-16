@@ -13,7 +13,22 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    game: localStorage.getItem('game')
+    // game: localStorage.getItem('game')
+    game: {
+        users: [],
+        current_turn: '',
+        images: [],
+        messages: [],
+        username: '',
+        user_pic: '',
+        game_name: '',
+        max_players: 5,
+        category: '',
+        status: '',
+        winner: '',
+        winning_card: '',
+        winner_chosen: false
+    }
 };
 
 export default function (state = INITIAL_STATE, action) {
