@@ -16,45 +16,80 @@ class GamesLobby extends Component {
 
     render() {
         let games = '';
-        if (this.props.lobby !== undefined || this.props.lobby !== null) {
-            if (Array.isArray(this.props.lobby)) {
-                games = this.props.lobby.map((game, key) => {
-                    return (
-                        <Row key={game._id}>
-                            <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <div>
-                                    <h5>Creator: {game.username}</h5>
-                                    <Image src={game.image} roundedCircle />
-                                </div>
+        // this.props.lobby !== undefined || this.props.lobby !== null
+        // if (this.props.lobby.loading) {
+        //     if (Array.isArray(this.props.lobby)) {
+        //         games = this.props.lobby.map((game, key) => {
+        //             return (
+        //                 <Row key={game._id}>
+        //                     <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+        //                         <div>
+        //                             <h5>Creator: {game.username}</h5>
+        //                             <Image src={game.image} roundedCircle />
+        //                         </div>
 
-                            </Col>
+        //                     </Col>
 
-                            <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <div>
-                                    <Link to={`/room/${game._id}`}>
-                                        <h3>Name: {game.game_name}</h3>
-                                        <p>Players: 0/{game.max_players}</p>
-                                    </Link>
-                                </div>
+        //                     <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+        //                         <div>
+        //                             <Link to={`/room/${game._id}`}>
+        //                                 <h3>Name: {game.game_name}</h3>
+        //                                 <p>Players: 0/{game.max_players}</p>
+        //                             </Link>
+        //                         </div>
 
-                            </Col>
+        //                     </Col>
 
-                            <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <div>
-                                    <p>Category: {game.category}</p>
-                                    <p>Status: {game.status}</p>
-                                </div>
-                            </Col>
-                        </Row>
-                    );
-                });
-            }
+        //                     <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+        //                         <div>
+        //                             <p>Category: {game.category}</p>
+        //                             <p>Status: {game.status}</p>
+        //                         </div>
+        //                     </Col>
+        //                 </Row>
+        //             );
+        //         });
+        //     }
+        // }
+
+        if (this.props.loading) {
+            return <div>Loading...</div>;
         }
         return(
             <div>
                 <Container>
                 <Search />
-                    {games}
+                    {/* {games} */}
+                    {this.props.lobby.map((game, key) => {
+                    return (
+                        <Row key={game._id}>
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <h5>Creator: {game.username}</h5>
+                                <Image src={game.image} roundedCircle />
+                            </div>
+
+                        </Col>
+
+                        <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <Link to={`/room/${game._id}`}>
+                                    <h3>Name: {game.game_name}</h3>
+                                    <p>Players: 0/{game.max_players}</p>
+                                </Link>
+                            </div>
+
+                        </Col>
+
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <p>Category: {game.category}</p>
+                                <p>Status: {game.status}</p>
+                            </div>
+                        </Col>
+                    </Row>
+                    );
+                })}
                 </Container>
             </div>
         )
@@ -67,7 +102,8 @@ function mapStateToProps(state) {
     return {
         game: state.game.game,
         currentUser: state.currentUser.user,
-        lobby: state.lobby.games
+        lobby: state.lobby.games.all,
+        loading: state.lobby.games.loading
     };
 }
 
