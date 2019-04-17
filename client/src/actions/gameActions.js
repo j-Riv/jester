@@ -19,26 +19,54 @@ const socket = io(host, {
 
 export const getGifs = (word, callback) => async dispatch => {
     try {
-        const response = await axios.get(
-            `https://api.tenor.com/v1/search?tag=${word}&limit=7&media_filter=minimal&key=OZVKWPE1OFF3`
+        let gifs = [];
+        const gif1 = await axios.get(
+            `https://api.tenor.com/v1/search?tag=${word}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
         )
-        dispatch({ type: GET_GIFS, payload: response.data.results })
-        // callback(response)
-        console.log('============================================')
-        console.log(response.data.results)
+        const gif2 = await setTimeout(() => {
+            axios.get(
+                `https://api.tenor.com/v1/search?tag=${word}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
+            )
+        }, 333)
+        const gif3 = await setTimeout(() => {
+            axios.get(
+                `https://api.tenor.com/v1/search?tag=${word}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
+            )
+        }, 666)
+        gifs.push(gif1[0], gif2[0], gif3[0]);
+        console.log('gifs=============================================')
+        console.log(gifs)
+        dispatch({ type: GET_GIFS, payload: gifs.data.results })
     } catch (e) {
-        // dispatch({ e })
         console.log(e)
     }
 };
 
 export const setUserGifs = (word, callback) => async dispatch => {
     try {
-        const response = await axios.get(
-            `https://api.tenor.com/v1/search?tag=${word}&limit=7&media_filter=minimal&key=OZVKWPE1OFF3`
+        // const response = await axios.get(
+        //     `https://api.tenor.com/v1/search?tag=${word}&limit=4&media_filter=minimal&key=OZVKWPE1OFF3`
+        // )
+        // dispatch({ type: USER_GIFS, payload: response.data.results })
+        // callback(response.data.results);
+        let gifs = [];
+        const gif1 = await axios.get(
+            `https://api.tenor.com/v1/search?tag=${word[0]}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
         )
-        dispatch({ type: USER_GIFS, payload: response.data.results })
-        callback(response.data.results);
+        const gif2 = await axios.get(
+            `https://api.tenor.com/v1/search?tag=${word[1]}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
+        )
+        const gif3 = await axios.get(
+            `https://api.tenor.com/v1/search?tag=${word[2]}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
+        )
+        gifs.push(
+            gif1.data.results[0].media[0].tinygif.url,
+            gif2.data.results[0].media[0].tinygif.url,
+            gif3.data.results[0].media[0].tinygif.url
+        );
+        console.log('gifs================')
+        console.log(gifs)
+        dispatch({ type: GET_GIFS, payload: gifs })
     } catch (e) {
         // dispatch({ e })
         console.log(e)

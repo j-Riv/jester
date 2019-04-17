@@ -1,7 +1,6 @@
 import { 
     CURRENT_GAME, 
     ADD_CHAT, 
-    GET_GIFS,
     UPDATE_USERS,
     UPDATE_CARDS,
     UPDATE_WINNER,
@@ -13,7 +12,6 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    // game: localStorage.getItem('game')
     game: {
         users: [],
         current_turn: '',
@@ -47,14 +45,6 @@ export default function (state = INITIAL_STATE, action) {
                         ...state.game.messages,
                         action.payload
                     ]
-                }
-            };
-        case GET_GIFS:
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    images: action.payload
                 }
             };
         case UPDATE_USERS:

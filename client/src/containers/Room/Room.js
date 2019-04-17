@@ -53,19 +53,24 @@ class Game extends Component {
             const game = response.data.game;
             console.log('this is the game');
             console.log(game);
+            this.props.setUserGifs(word, (response) => {
+                console.log('got gifs with setUserGifs');
+                console.log(response);
+            });
         });
         // get gifs
-        const word = words.words[~~(Math.random() * words.words.length)];
+        const word = [
+            words.words[~~(Math.random() * words.words.length)],
+            words.words[~~(Math.random() * words.words.length)],
+            words.words[~~(Math.random() * words.words.length)]
+        ];
         console.log(`word ${word}`);
         // this.props.getGifs(word, (response) => {
         //     const gifs = response.data.game;
         //     console.log('got gifs');
         //     console.log(gifs);
         // });
-        this.props.setUserGifs(word, (response) => {
-            console.log('got gifs');
-            console.log(response);
-        });
+
         // new user connected send update to server
         socket.on('connect', () => {
             console.log('new user ' + this.props.currentUser.username + ' joined: connected');

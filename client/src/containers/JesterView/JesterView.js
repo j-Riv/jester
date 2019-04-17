@@ -20,6 +20,8 @@ class JesterView extends React.Component {
             card: src,
             gameId: this.props.game._id
         }
+        console.log('card src')
+        console.log(src)
         console.log('card clicked');
         console.log(card);
         this.props.imgCardChosen(card);
@@ -44,8 +46,8 @@ class JesterView extends React.Component {
                 view = this.props.currentUser.images.map((img, key) =>
                     <ImgCard
                         key={key}
-                        img={img.media[0].gif.url}
-                        onSelect={() => this.onCardClick(img.media[0].gif.url)}
+                        img={img}
+                        onSelect={() => this.onCardClick(img)}
                     />
                 );
             }
