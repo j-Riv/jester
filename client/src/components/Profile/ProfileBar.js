@@ -13,7 +13,7 @@ class Profile extends React.Component {
         const user = this.props.currentUser;
         const total = user.wins + user.losses
         let ratio = user.wins / user.losses
-        if (isNaN(ratio)){
+        if (isNaN(ratio)) {
             ratio = "Play some games"
         }
 
