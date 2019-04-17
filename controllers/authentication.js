@@ -78,7 +78,7 @@ exports.createGame = function (req, res, next) {
     const game = new Game({
         // users: [{ user: req.body.username, wins: 0 }],
         users: [],
-        current_turn: req.body.current_turn,
+        current_turn: '',
         images: [],
         messages: [],
         username: req.body.username,
@@ -156,7 +156,7 @@ exports.removeUser = function (req, res, next) {
     const user = req.body.user;
     if (user !== null) {
         console.log(`Removing this user: ${user} Updating game: ${id}`);
-        Game.findOneAndUpdate({ _id: id }, { $pull: { 'users': { $elemMatch: { user: user } } } }, { new: true }).then(function (result) {
+        Game.findOneAndUpdate({ _id: id }, { $pull: { 'users':  { user: user } } }, { safe: true, multi: true, new: true }).then(function (result) {
             console.log('User ' + user + ' has been removed --->');
             console.log(result.users);
             req.io.in(id).emit('remove user', { user: user });
@@ -167,6 +167,18 @@ exports.removeUser = function (req, res, next) {
     } else {
         console.log('User is null do not remove');
     }
+}
+
+exports.updateCurrentTurn = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: user }, new: true }).then(function (result) {
+        console.log('updating current turn ' + user + ' on server ---->');
+        console.log(result);
+        // res.json({ updatedGame: result });
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 
 exports.updateGameCards = function (req, res, next) {

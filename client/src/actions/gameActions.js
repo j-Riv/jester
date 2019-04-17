@@ -9,7 +9,8 @@ import {
     GET_GIFS,
     USER_GIFS,
     UPDATE_USERS,
-    REMOVE_USER
+    REMOVE_USER,
+    UPDATE_CURRENT_TURN
 } from './types';
 import io from 'socket.io-client';
 
@@ -154,6 +155,20 @@ export const removeUser = (user, gameId, callback) => async dispatch => {
         console.log(response.data.updatedGame.users);
         dispatch({ type: UPDATE_USERS, payload: response.data.updatedGame });
         callback(response.data.updatedGame);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const setCurrentTurn = (user, gameId) => async dispatch => {
+    try {
+        const response = await axios.post(
+            host + '/games/game/current-turn',
+            { user, gameId }
+        );
+        console.log('current turn update from server');
+        console.log(response);
+        // dispatch({ type: UPDATE_CURRENT_TURN, payload: '' });
     } catch (e) {
         console.log(e);
     }

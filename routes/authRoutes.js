@@ -21,4 +21,5 @@ module.exports = function (app) {
     app.post('/games/remove/users/', Authentication.removeUser);
     app.post('/games/update/cards/', Authentication.updateGameCards);
     app.post('/games/update/winner/', Authentication.updateGameWinner);
+    app.post('/games/game/current-turn/', Authentication.updateCurrentTurn);
 }
