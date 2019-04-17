@@ -24,7 +24,7 @@ class KingView extends React.Component {
             user: user,
             card: src,
             gameId: this.props.game._id,
-            next: nextUser
+            nextUser: nextUser
         }
         console.log('card clicked');
         console.log(card);

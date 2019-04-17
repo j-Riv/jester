@@ -51,30 +51,33 @@ class Game extends Component {
         // add user to game room
         if (this.props.user !== undefined) {
             this.props.addUser(this.props.user, params.gameId, (response) => {
-                console.log('users have been updated');
+                // users have been updated
                 console.log(response);
             });
         }
         // get game object from server and save to game state
         this.props.getGame(params.gameId, (response) => {
             const game = response.data.game;
-            console.log('this is the game');
+            // logging the game object
             console.log(game);
             // get gifs from api and update game state
             this.props.setUserGifs(word, (response) => {
-                console.log('got gifs with setUserGifs');
+                // got gifs
+                // console.log('got gifs with setUserGifs');
                 console.log(response);
             });
             // set current turn on first user in game
             if (this.props.game.current_turn === '' || this.props.game.current_turn === null) {
-                console.log('setting initial current turn');
+                // setting initial current turn
+                // console.log('setting initial current turn');
                 this.props.setCurrentTurn(this.props.user, params.gameId);
             }
         });
         // new user connected send update to server
         socket.on('connect', () => {
             const sessionid = socket.id;
-            console.log('new user ' + this.props.user + ' joined: connected --> ' + sessionid);
+            // new user has joined log session/socket id
+            // console.log('new user ' + this.props.user + ' joined: connected --> ' + sessionid);
             // update users on new user connect
             if (this.props.user !== undefined) {
                 this.props.addUser(this.props.user, params.gameId, (response) => {
@@ -87,7 +90,8 @@ class Game extends Component {
         });
         // user disconnected send update to server
         socket.on('disconnect', (reason) => {
-            console.log('user ' + this.props.user + ' has disconnected');
+            // user has disconnected try to reconnect
+            // console.log('user ' + this.props.user + ' has disconnected');
             if (reason === 'io server disconnect') {
                 // the disconnection was initiated by the server, you need to reconnect manually
                 socket.connect();
@@ -97,7 +101,8 @@ class Game extends Component {
         });
         // socket reconnected
         socket.on('reconnect', (attemptNumber) => {
-            console.log('reconnecting ' + this.props.user + ' attempts: ' + attemptNumber);
+            // reconnectiong user display log attempts
+            // console.log('reconnecting ' + this.props.user + ' attempts: ' + attemptNumber);
             // update users on socket reconnect
             if (this.props.user !== undefined) {
                 this.props.addUser(this.props.user, params.gameId, (response) => {
@@ -106,31 +111,33 @@ class Game extends Component {
             }
         });
         // update users
-        socket.on('add user', response => {
-            console.log('Update users socket');
-            console.log(response);
-            store.dispatch({ type: UPDATE_USERS, payload: response });
+        socket.on('add user', r => {
+            // console.log('Update users socket');
+            // add new user to state
+            // console.log(r);
+            store.dispatch({ type: UPDATE_USERS, payload: r });
         });
         // update cards
-        socket.on('Update Cards', response => {
-            console.log('Update cards socket');
-            console.log(response);
-            store.dispatch({ type: UPDATE_CARDS, payload: response });
+        socket.on('update cards', r => {
+            // console.log('Update cards socket');
+            // update cards
+            // console.log(r);
+            store.dispatch({ type: UPDATE_CARDS, payload: r });
         });
         // update winner ---> might move this out
-        socket.on('Update Winner', response => {
-            console.log('Update winner socket');
-            console.log(response);
-            store.dispatch({ type: UPDATE_WINNER, payload: response.user });
-            store.dispatch({ type: UPDATE_WINNING_CARD, payload: response.card });
+        socket.on('update winner', r => {
+            // console.log('Update winner socket');
+            // console.log(r);
+            store.dispatch({ type: UPDATE_WINNER, payload: r.user });
+            store.dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
             store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
             // reset game
             setTimeout(() => {
-                console.log('Next player is ---> ' + response.next);
+                console.log('Next player is ---> ' + r.nextUser);
                 // reset game for next round
                 store.dispatch({ type: CLEAR_CARDS, payload: [] });
                 store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-                store.dispatch({ type: UPDATE_CURRENT_TURN, payload: response.next });
+                store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
                 store.dispatch({ type: CARD_SELECTED, payload: false });
                 // get new gifs
                 const newWord = [
@@ -144,25 +151,31 @@ class Game extends Component {
                 });
             }, 3000);
             // update wins
-            console.log('Updating winner: ' + response.user);
-            store.dispatch({ type: UPDATE_WINS, payload: response.user });
+            // console.log('Updating winner: ' + response.user);
+            // update winner
+            store.dispatch({ type: UPDATE_WINS, payload: r.user });
         });
         // remove user
         socket.on('remove user', r => {
-            console.log('PLEASE REMOVE USER: ' + r.user + '-------------------->');
-            // dispatch action
+            // console.log('PLEASE REMOVE USER: ' + r.user + '--> and next turn: ' + r.nextUser);
+            // remove user and update current turn
             store.dispatch({ type: REMOVE_USER, payload: r.user });
+            store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
         });
     }
 
     componentWillUnmount = () => {
         const { match: { params } } = this.props;
+        // get next user
         const nextUser = getNext(this.props.game.users, this.props.game.current_turn);
-        socket.emit('leave room', { user: this.props.user, gameId: params.gameId, next: nextUser });
-        this.props.removeUser(this.props.user, params.gameId, (response) => {
-            console.log('user has been removed');
+        // unmounting ---> remove user from room and pass next user
+        // next user: will be used if current turn (king) has left the room
+        socket.emit('leave room', { user: this.props.user, gameId: params.gameId, nextUser: nextUser });
+        this.props.removeUser(this.props.user, params.gameId, nextUser, (response) => {
             console.log(response);
         });
+        // reset card selected when user leaves
+        store.dispatch({ type: CARD_SELECTED, payload: false });
     }
 
     render() {

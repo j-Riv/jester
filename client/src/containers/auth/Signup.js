@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/Button';
 class Signup extends Component {
     onSubmit = formProps => {
         this.props.signup(formProps, () => {
-            this.props.history.push('/protected');
+            this.props.history.push('/lobby');
         });
     };
 

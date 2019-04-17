@@ -144,16 +144,16 @@ export const addUser = (user, gameId, callback) => async dispatch => {
     }
 }
 
-export const removeUser = (user, gameId, callback) => async dispatch => {
+export const removeUser = (user, gameId, nextUser, callback) => async dispatch => {
     console.log(`Removing user: ${user} from room: ${gameId}!`);
     try {
         const response = await axios.post(
             host + '/games/remove/users',
-            { user, gameId }
+            { user, gameId, nextUser }
         );
         console.log('updateGameusers');
         console.log(response.data.removed.user);
-        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.removed.nextUser });
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.removed.nextUser });
         callback(response.data.removed.user);
     } catch (e) {
         console.log(e);

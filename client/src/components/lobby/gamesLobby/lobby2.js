@@ -5,11 +5,13 @@ import Search from '../searchLobby/searchLobby';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../.././../actions';
 import requireAuth from '../../../containers/requireAuth';
+import CreateGameModal from '../../../containers/CreateGameModal';
 
 import hostname from '../../../config/config';
 const socket = io(hostname, {
@@ -18,6 +20,13 @@ const socket = io(hostname, {
 });
 
 class GamesLobby2 extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showCreatedGame: false
+        }
+    }
 
     componentDidMount = () => {
         // fetch games
@@ -37,15 +46,38 @@ class GamesLobby2 extends Component {
         });
     }
 
+    handleNewGame = () => {
+        this.props.createGame((response) => {
+            const game = response.data.game;
+            console.log(game._id);
+            this.props.history.push('/room/' + game._id);
+        });
+    }
+
+    handleClickCreate = () => {
+        console.log('show modal');
+        this.setState({ showCreateGame: true });
+    }
+
     render() {
+        const closeCreateGame = () => this.setState({ showCreateGame: false });
+
         if (this.props.loading) {
             return <div>Loading...</div>;
         }
         return (
             <div>
                 <Container>
-                    <Search />
-                    {/* {games} */}
+                    <CreateGameModal
+                        show={this.state.showCreateGame}
+                        onHide={closeCreateGame}
+                        heading={"Create Game"}
+                    />
+                    <Row>
+                        <Col sm={12}>
+                            <Button variant="secondary" className="mt-3" onClick={this.handleClickCreate}>New Game</Button>
+                        </Col>
+                    </Row>
                     {this.props.lobby.map((game, key) => {
                         return (
                             <Row key={game._id}>
