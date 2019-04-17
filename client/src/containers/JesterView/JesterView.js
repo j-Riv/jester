@@ -13,6 +13,9 @@ import {
 // import './JesterView.css';
 
 class JesterView extends React.Component {
+    componenentDidMount = () => {
+        store.dispatch({ type: CARD_SELECTED, payload: false });
+    }
 
     onCardClick(src) {
         const card = {

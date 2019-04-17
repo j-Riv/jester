@@ -106,7 +106,7 @@ class Game extends Component {
             }
         });
         // update users
-        socket.on('Update Users', response => {
+        socket.on('add user', response => {
             console.log('Update users socket');
             console.log(response);
             store.dispatch({ type: UPDATE_USERS, payload: response });
@@ -157,7 +157,8 @@ class Game extends Component {
 
     componentWillUnmount = () => {
         const { match: { params } } = this.props;
-        socket.emit('leave room', { user: this.props.user, gameId: params.gameId });
+        const nextUser = getNext(this.props.game.users, this.props.game.current_turn);
+        socket.emit('leave room', { user: this.props.user, gameId: params.gameId, next: nextUser });
         this.props.removeUser(this.props.user, params.gameId, (response) => {
             console.log('user has been removed');
             console.log(response);
@@ -182,7 +183,7 @@ class Game extends Component {
         // display views
         let view;
         if (this.props.game.current_turn === this.props.user) {
-            view = <KingView users={users} />
+            view = <KingView users={users} getNext={getNext}/>
         }else{
             view = <JesterView users={users} />
         }
@@ -200,6 +201,26 @@ class Game extends Component {
             </div>
         );
     }
+}
+
+function getNext(all, user) {
+    console.log('Next -------->');
+    console.log('all users;');
+    console.log(all);
+    console.log('user:');
+    console.log(user);
+    const index = all.findIndex(u => u.user === user);
+    let nextUser;
+    if (index >= 0 && index < all.length - 1) {
+        nextUser = all[index + 1].user;
+        console.log('not last');
+    } else {
+        nextUser = all[0].user;
+        console.log('last');
+    }
+    console.log('next user: ' + nextUser);
+    console.log('End of Next -------->')
+    return nextUser;
 }
 
 function mapStateToProps(state) {

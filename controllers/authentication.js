@@ -140,7 +140,7 @@ exports.addUser = function (req, res, next) {
     if (user !== null) {
         console.log(`Updating game: ${id} with this user: ${user}`);
         Game.findOneAndUpdate({ _id: id }, { $addToSet: { 'users': { user: user, wins: 0 } } }, { new: true }).then(function (result) {
-            req.io.in(id).emit('Update Users', { user: user, wins: 0 });
+            req.io.in(id).emit('add user', { user: user, wins: 0 });
             console.log('Users have been updated --->');
             console.log(result.users);
             res.json({ added: { user: user, wins: 0 } });
@@ -155,6 +155,7 @@ exports.addUser = function (req, res, next) {
 exports.removeUser = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
+    const nextUser = req.body.nextUser;
     if (user !== null) {
         console.log(`Removing this user: ${user} Updating game: ${id}`);
         Game.findOneAndUpdate({ _id: id }, { $pull: { 'users':  { user: user } } }, { safe: true, multi: true, new: true }).then(function (result) {
@@ -170,16 +171,16 @@ exports.removeUser = function (req, res, next) {
                     console.log(error);
                 });
             }
-            // update if current_turn has left
+            // update if current_turn (king) has left
             if (result.current_turn === user) {
-                Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: '' }, new: true }).then(function (result) {
-                    console.log('updating current turn to empty on server ---->');
+                Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: nextUser }, new: true }).then(function (result) {
+                    console.log('updating current turn to to next ' + nextUser + ' on server ---->');
                     console.log(result);
                 }).catch(function (error) {
                     console.log(error);
                 });
             }
-            res.json({ removed: { user: user } });
+            res.json({ removed: { user: user, nextUser: nextUser } });
         }).catch(function (error) {
             console.log(error);
         });

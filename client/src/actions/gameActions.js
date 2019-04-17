@@ -153,6 +153,7 @@ export const removeUser = (user, gameId, callback) => async dispatch => {
         );
         console.log('updateGameusers');
         console.log(response.data.removed.user);
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.removed.nextUser });
         callback(response.data.removed.user);
     } catch (e) {
         console.log(e);
