@@ -32,7 +32,6 @@ const INITIAL_STATE = {
 };
 
 export default function (state = INITIAL_STATE, action) {
-    console.log(action);
     switch (action.type) {
         case CURRENT_GAME:
             return {
@@ -79,7 +78,7 @@ export default function (state = INITIAL_STATE, action) {
                 console.log('user: ' + obj.user);
                 console.log('Winning user: ' + action.payload);
                 if (obj.user === action.payload) {
-                    obj.wins = obj.wins + 1;
+                    obj.wins++;
                 }
             });
             return {
