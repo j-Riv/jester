@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import * as actions from '../.././../actions';
 import requireAuth from '../../../containers/requireAuth';
 
+
 class GamesLobby extends Component {
 
     state = {
@@ -21,7 +22,7 @@ class GamesLobby extends Component {
         players: 0,
         key: 'allGames'
     }
-
+    
     componentDidMount = () => {
         // fetch games
         this.props.getAllGames((response) => {
@@ -35,7 +36,7 @@ class GamesLobby extends Component {
         if (this.props.loading) {
             return <div>Loading...</div>;
         }
-        return(
+        return (
             <div>
                 <Container>
                 <Search />
@@ -62,17 +63,17 @@ class GamesLobby extends Component {
                                 <Image src={game.image} roundedCircle />
                             </div>
 
-                        </Col>
+                                </Col>
 
-                        <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                            <div>
-                                <Link to={`/room/${game._id}`}>
-                                    <h3>Name: {game.game_name}</h3>
-                                    <p>Players: 0/{game.max_players}</p>
-                                </Link>
-                            </div>
+                                <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <div>
+                                        <Link to={`/room/${game._id}`}>
+                                            <h3>Name: {game.game_name}</h3>
+                                            <p>Players: 0/{game.max_players}</p>
+                                        </Link>
+                                    </div>
 
-                        </Col>
+                                </Col>
 
                         <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>

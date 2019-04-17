@@ -76,7 +76,8 @@ exports.createGame = function (req, res, next) {
     // create new game
     // need to update with form inputs
     const game = new Game({
-        users: [{ user: req.body.username, wins: 0 }],
+        // users: [{ user: req.body.username, wins: 0 }],
+        users: [],
         current_turn: req.body.current_turn,
         images: [],
         messages: [],
@@ -183,7 +184,7 @@ exports.updateGameCards = function (req, res, next) {
     //     console.log(error);
     // });
     req.io.in(id).emit('Update Cards', req.body);
-    res.json({ updatedGame: req.body });
+    res.json({ card: req.body });
 }
 
 exports.updateGameWinner = function (req, res, next) {
