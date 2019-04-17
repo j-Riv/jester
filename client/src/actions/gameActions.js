@@ -8,7 +8,9 @@ import {
     ALL_GAMES,
     GET_GIFS,
     USER_GIFS,
-    UPDATE_USERS
+    UPDATE_USERS,
+    REMOVE_USER,
+    UPDATE_CURRENT_TURN
 } from './types';
 import io from 'socket.io-client';
 
@@ -126,17 +128,47 @@ export const getAllGames = (callback) => async dispatch => {
     }
 }
 
-export const updateGameUsers = (user, gameId, callback) => async dispatch => {
+export const addUser = (user, gameId, callback) => async dispatch => {
     console.log(`Add user: ${user} to room: ${gameId}!`);
     try {
         const response = await axios.post(
-            host + '/games/update/users',
+            host + '/games/add/users',
             {user, gameId}
         );
+        console.log('addUser');
+        console.log(response.data.added.user);
+        dispatch({ type: UPDATE_USERS, payload: response.data.added });
+        callback(response.data.added);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const removeUser = (user, gameId, nextUser, callback) => async dispatch => {
+    console.log(`Removing user: ${user} from room: ${gameId}!`);
+    try {
+        const response = await axios.post(
+            host + '/games/remove/users',
+            { user, gameId, nextUser }
+        );
         console.log('updateGameusers');
-        console.log(response.data.updatedGame.users);
-        dispatch({ type: UPDATE_USERS, payload: response.data.updatedGame });
-        callback(response.data.updatedGame);
+        console.log(response.data.removed.user);
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.removed.nextUser });
+        callback(response.data.removed.user);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const setCurrentTurn = (user, gameId) => async dispatch => {
+    try {
+        const response = await axios.post(
+            host + '/games/game/turn',
+            { user, gameId }
+        );
+        console.log('current turn update from server');
+        console.log(response.data.turn);
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.turn });
     } catch (e) {
         console.log(e);
     }

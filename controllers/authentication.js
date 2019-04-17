@@ -28,12 +28,10 @@ exports.signup = function (req, res, next) {
     // See if a user with the given email exists
     User.findOne({ email: email }, function (err, existingUser) {
         if (err) { return next(err); }
-
         // If a user with email does exist, return an error
         if (existingUser) {
             return res.status(422).send({ error: 'Email is in use' });
         }
-
         // If a user with email does NOT exist, create and save user record
         const user = new User({
             email: email,
@@ -43,7 +41,6 @@ exports.signup = function (req, res, next) {
 
         user.save(function (err) {
             if (err) { return next(err); }
-
             // Repond to request indicating the user was created
             res.json({ token: tokenForUser(user), currentUser: user });
         });
@@ -74,9 +71,7 @@ exports.update = function (req, res, next) {
 
 exports.createGame = function (req, res, next) {
     // create new game
-    // need to update with form inputs
     const game = new Game({
-        // users: [{ user: req.body.username, wins: 0 }],
         users: [],
         current_turn: req.body.current_turn,
         images: [],
@@ -91,14 +86,14 @@ exports.createGame = function (req, res, next) {
         if (err) { return next(err); }
         // Repond to request indicating the game was created
         // Send new game object back
+        req.io.emit('game added', { game: newGame._id });
         res.json({ game: newGame });
     });
 }
 
 exports.getGame = function(req, res, next) {
     const id = req.params.id;
-    console.log('this is the id of the game we are looking for:');
-    console.log(id);
+    // get game by id
     Game.findById(id).then(function (result) {
         res.json({ game: result });
     }).catch(function (error) {
@@ -107,9 +102,9 @@ exports.getGame = function(req, res, next) {
 }
 
 exports.getAllGames = function(req, res, next) {
-    console.log('getting all games for lobby update:');
+    // get all games for lobby update
     Game.find({}).then(function (result) {
-        // console.log(result)
+        // all games currently in db
         res.json({ games: result });
     }).catch(function (error) {
         console.log(error);
@@ -120,12 +115,10 @@ exports.updateGame = function(req, res, next) {
     const id = req.params.id;
     const game = {
         title: req.body.title,
-        users: req.body.users,
+        users: req.body.users
         // other props
     }
-    // might be easeier to just send req.body as
-    // { title: 'the title', users: [user1, user2, user3 ] }
-    console.log('updating game with id: ' + id);
+    // update game with matching id
     Game.findOneAndUpdate({ _id: id }, { $set: { game } }).then(function (result) {
         res.json({ updatedGame: result });
     }).catch(function (error) {
@@ -133,57 +126,86 @@ exports.updateGame = function(req, res, next) {
     });
 }
 
-exports.updateGameUsers = function (req, res, next) {
+exports.addUser = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
     if (user !== null) {
-        console.log(`Updating game: ${id} with this user: ${user}`);
+        // updating game with new user
+        // console.log(`Updating game: ${id} with this user: ${user}`);
         Game.findOneAndUpdate({ _id: id }, { $addToSet: { 'users': { user: user, wins: 0 } } }, { new: true }).then(function (result) {
-            req.io.in(id).emit('Update Users', { user: user, wins: 0 });
-            console.log('Users have been updated --->');
+            req.io.in(id).emit('add user', { user: user, wins: 0 });
+            // user has been added
+            // console.log('Users have been updated --->');
             console.log(result.users);
-            res.json({ updatedGame: { user: user, wins: 0 } });
+            res.json({ added: { user: user, wins: 0 } });
         }).catch(function (error) {
             console.log(error);
         });
     }else{
-        console.log('User is null do not update');
+        console.log('User is null do not add');
     }
 }
 
-exports.removeGameUsers = function (req, res, next) {
+exports.removeUser = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
+    const nextUser = req.body.nextUser;
     if (user !== null) {
         console.log(`Removing this user: ${user} Updating game: ${id}`);
-        // Game.findOneAndUpdate({ _id: id }, { $pull: { 'users': { user: user } } }, { new: true }).then(function (result) {
-        //     req.io.in(id).emit('Update Users', { user: user, wins: 0 });
-        //     console.log('Users have been updated --->');
-        //     console.log(result.users);
-        //     res.json({ updatedGame: { user: user, wins: 0 } });
-        // }).catch(function (error) {
-        //     console.log(error);
-        // });
-        req.io.in(id).emit('Remove Users', { user: user });
+        Game.findOneAndUpdate({ _id: id }, { $pull: { 'users':  { user: user } } }, { safe: true, multi: true, new: true }).then(function (result) {
+            // remove user
+            console.log('User ' + user + ' has been removed --->');
+            console.log(result.users);
+            req.io.in(id).emit('remove user', { user: user, nextUser: nextUser });
+            // update current turn if game is empty
+            if(result.users.length < 1) {
+                Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: '' }, new: true }).then(function (result) {
+                    // updated current turn to empty string once game was empty
+                    console.log('updating current turn to empty on server ---->');
+                    console.log(result);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+            // update if current_turn (king) has left
+            if (result.current_turn === user) {
+                Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: nextUser }, new: true }).then(function (result) {
+                    // updated current to run with next user
+                    console.log('updating current turn to to next ' + nextUser + ' on server ---->');
+                    console.log(result);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+            res.json({ removed: { user: user, nextUser: nextUser } });
+        }).catch(function (error) {
+            console.log(error);
+        });
     } else {
-        console.log('User is null do not update');
+        console.log('User is null do not remove');
     }
+}
+
+exports.updateCurrentTurn = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: user }, new: true }).then(function (result) {
+        // update current turn
+        console.log('updating current turn ' + user + ' on server ---->');
+        console.log(result);
+        res.json({ turn: user });
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 
 exports.updateGameCards = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
     const card = req.body.card;
-    console.log(`Updating game: ${id} with this card: ${card}`);
-    // Game.findOneAndUpdate({ _id: id }, { $push: { 'images': card } }, { new: true }).then(function (result) {
-    //     req.io.in(id).emit('Update Cards', result.images);
-    //     console.log('cards have been updated --->');
-    //     console.log(result.images);
-    //     res.json({ updatedGame: result });
-    // }).catch(function (error) {
-    //     console.log(error);
-    // });
-    req.io.in(id).emit('Update Cards', req.body);
+    // update room with card
+    // console.log(`Updating game: ${id} with this card: ${card}`);
+    req.io.in(id).emit('update cards', req.body);
     res.json({ card: req.body });
 }
 
@@ -191,7 +213,8 @@ exports.updateGameWinner = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
     const card = req.body.card;
-    console.log(`Sending game: ${id} this winner: ${card}`);
-    req.io.in(id).emit('Update Winner', req.body);
+    // send the winner to game
+    // console.log(`Sending game: ${id} this winner: ${card}`);
+    req.io.in(id).emit('update winner', req.body);
     res.json({ winner: req.body });
 }
