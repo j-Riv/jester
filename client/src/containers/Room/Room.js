@@ -122,9 +122,6 @@ class Game extends Component {
             store.dispatch({ type: UPDATE_WINNER, payload: response.user });
             store.dispatch({ type: UPDATE_WINNING_CARD, payload: response.card });
             store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
-            // update wins
-            console.log('Updating winner: ' + response.user);
-            store.dispatch({ type: UPDATE_WINS, payload: response.user });
             // reset game
             setTimeout(() => {
                 // const next = getNext(this.props.game.users, this.props.game.current_turn);
@@ -134,7 +131,6 @@ class Game extends Component {
                 // store.dispatch({ type: UPDATE_WINNING_CARD, payload: '' });
                 store.dispatch({ type: CLEAR_CARDS, payload: [] })
                 store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-                // store.dispatch({ type: UPDATE_CURRENT_TURN, payload: next });
                 store.dispatch({ type: UPDATE_CURRENT_TURN, payload: response.next });
                 store.dispatch({ type: CARD_SELECTED, payload: false });
                 // get new gifs
@@ -144,6 +140,9 @@ class Game extends Component {
                     console.log(response);
                 });
             }, 3000);
+            // update wins
+            console.log('Updating winner: ' + response.user);
+            store.dispatch({ type: UPDATE_WINS, payload: response.user });
         });
     }
 
