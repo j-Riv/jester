@@ -73,7 +73,8 @@ class Game extends Component {
 
         // new user connected send update to server
         socket.on('connect', () => {
-            console.log('new user ' + this.props.currentUser.username + ' joined: connected');
+            const sessionid = socket.id;
+            console.log('new user ' + this.props.currentUser.username + ' joined: connected --> ' + sessionid);
             // update users on new user connect
             if (this.props.currentUser.username !== undefined) {
                 this.props.updateGameUsers(this.props.currentUser.username, params.gameId, (response) => {
@@ -81,6 +82,7 @@ class Game extends Component {
                     console.log(response);
                 });
             }
+            socket.emit('user connected', { user: this.props.currentUser.username });
         });
         // new user disconnected send update to server
         socket.on('disconnect', (reason) => {
@@ -144,6 +146,16 @@ class Game extends Component {
             console.log('Updating winner: ' + response.user);
             store.dispatch({ type: UPDATE_WINS, payload: response.user });
         });
+        // remove user
+        socket.on('remove user', response => {
+            console.log('PLEASE REMOVE USER: ' + response.user + '-------------------->');
+            // dispatch action
+        });
+    }
+
+    componentWillUnmount = () => {
+        const { match: { params } } = this.props;
+        socket.emit('leave room', { user: this.props.currentUser.username, gameId: params.gameId });
     }
 
     render() {
@@ -183,26 +195,6 @@ class Game extends Component {
         );
     }
 }
-
-// function getNext(all, user) {
-//     console.log('Next -------->');
-//     console.log('all users;');
-//     console.log(all);
-//     console.log('user:');
-//     console.log(user);
-//     const index = all.findIndex(u => u.user === user);
-//     let nextUser;
-//     if (index >= 0 && index < all.length - 1) {
-//         nextUser = all[index + 1].user;
-//         console.log('not last');
-//     } else {
-//         nextUser = all[0].user;
-//         console.log('last');
-//     }
-//     console.log('next user: ' + nextUser);
-//     console.log('End of Next -------->')
-//     return nextUser;
-// }
 
 function mapStateToProps(state) {
     return { 
