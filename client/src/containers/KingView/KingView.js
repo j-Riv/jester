@@ -15,10 +15,12 @@ import {
 class KingView extends React.Component {
     
     onCardClick(src, user) {
+        const nextUser = getNext(this.props.game.users, this.props.game.current_turn);
         const card = {
             user: user,
             card: src,
-            gameId: this.props.game._id
+            gameId: this.props.game._id,
+            next: nextUser
         }
         console.log('card clicked');
         console.log(card);
@@ -57,6 +59,26 @@ class KingView extends React.Component {
             </Container>
         );
     }
+}
+
+function getNext(all, user) {
+    console.log('Next -------->');
+    console.log('all users;');
+    console.log(all);
+    console.log('user:');
+    console.log(user);
+    const index = all.findIndex(u => u.user === user);
+    let nextUser;
+    if (index >= 0 && index < all.length - 1) {
+        nextUser = all[index + 1].user;
+        console.log('not last');
+    } else {
+        nextUser = all[0].user;
+        console.log('last');
+    }
+    console.log('next user: ' + nextUser);
+    console.log('End of Next -------->')
+    return nextUser;
 }
 
 function mapStateToProps(state) {
