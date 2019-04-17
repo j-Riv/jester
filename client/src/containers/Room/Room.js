@@ -49,10 +49,22 @@ class Game extends Component {
 
     componentDidMount = () => {
         console.log('Host: ' + Host);
-        // get game object
+        // crete game
         const { match: { params } } = this.props;
-        socket.emit('create', params.gameId);
+        const room = {
+            gameId: params.gameId,
+            user: this.props.currentUser.username
+        }
+        socket.emit('create', room);
         console.log('creating game: ' + params.gameId);
+        // update users
+        if (this.props.currentUser.username !== undefined) {
+            this.props.updateGameUsers(this.props.currentUser.username, params.gameId, (response) => {
+                console.log('users have been updated');
+                console.log(response);
+            });
+        }
+        // get game object
         this.props.getGame(params.gameId, (response) => {
             const game = response.data.game;
             console.log('this is the game');

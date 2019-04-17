@@ -37,30 +37,32 @@ routes(app);
 // socket for chat
 // const socketController = require('./controllers/socket');
 // io.on('connection', socketController.respond);
-io.on('connection', function(socket) {
-  // game
-  console.log('a user connected');
-  // on join room
-  socket.on('create', function(room) {
-    console.log('create this:');
-    console.log(room);
-    socket.join(room);
-  });
-  // chat
-  socket.on('client msg', function (msg) {
-    console.log('server got new message id: ' + msg.gameId);
-    console.log('user: ' + msg.user);
-    console.log('msg: ' + msg.message);
-    socket.in(msg.gameId).emit('new chat', msg);
-  });
-  // disconnect
-  socket.on('disconnect', function (response) {
-    console.log(response);
-    console.log(`${response} has disconnected.`);
-    // console.log(`${response.user} has disconnected.`);
-    // socket.in(response.id).emit('Remove Users', { user: response.user });
-  });
-});
+
+require('./controllers/socket-2')(io);
+// io.on('connection', function(socket) {
+//   // game
+//   console.log('a user connected');
+//   // on join room
+//   socket.on('create', function(room) {
+//     console.log('create this:');
+//     console.log(room);
+//     socket.join(room);
+//   });
+//   // chat
+//   socket.on('client msg', function (msg) {
+//     console.log('server got new message id: ' + msg.gameId);
+//     console.log('user: ' + msg.user);
+//     console.log('msg: ' + msg.message);
+//     socket.in(msg.gameId).emit('new chat', msg);
+//   });
+//   // disconnect
+//   socket.on('disconnect', function (response) {
+//     console.log(response);
+//     console.log(`${response} has disconnected.`);
+//     // console.log(`${response.user} has disconnected.`);
+//     // socket.in(response.id).emit('Remove Users', { user: response.user });
+//   });
+// });
 
 // DB Setup
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/project_3', { useNewUrlParser: true });

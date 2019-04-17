@@ -63,7 +63,6 @@ export const createGame = (formProps, callback) => async () => {
         );
         console.log('created game?');
         console.log(response.data);
-        localStorage.setItem('game', response.data);
         callback(response);
     } catch (e) {
         console.log(e);

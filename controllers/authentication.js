@@ -76,7 +76,8 @@ exports.createGame = function (req, res, next) {
     // create new game
     // need to update with form inputs
     const game = new Game({
-        users: [{ user: req.body.username, wins: 0 }],
+        // users: [{ user: req.body.username, wins: 0 }],
+        users: [],
         current_turn: req.body.current_turn,
         images: [],
         messages: [],
