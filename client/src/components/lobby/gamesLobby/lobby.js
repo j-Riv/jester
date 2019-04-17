@@ -1,63 +1,81 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Search from '../searchLobby/searchLobby';
 import peeps from '../peeps.json';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
-
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../.././../actions';
+import requireAuth from '../../../containers/requireAuth';
 
 
 class GamesLobby extends Component {
-    state = {
-        peeps,
-        players: 0,
-
-
+    
+    componentDidMount = () => {
+        // fetch games
+        this.props.getAllGames((response) => {
+            const games = response.data.games;
+            console.log('these should be all the games currently in db:');
+            console.log(games);
+        });
     }
 
-
-
-
-
     render() {
+        if (this.props.loading) {
+            return <div>Loading...</div>;
+        }
         return(
             <div>
                 <Container>
                 <Search />
-                {this.state.peeps.map(item => (
-                    <Row key={item.id}>
-                        <Col md={3} style={{display: 'flex', justifyContent: 'center'}}>
+                    {this.props.lobby.map((game, key) => {
+                    return (
+                        <Row key={game._id}>
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
-                                <h5>{item.name}</h5>
-                                <Image src={item.image} roundedCircle />
+                                <h5>Creator: {game.username}</h5>
+                                <Image src={game.image} roundedCircle />
                             </div>
-                            
+
                         </Col>
 
-                        <Col md={6} style={{display: 'flex', justifyContent: 'center'}}>
+                        <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
-                                <h3>{item.gameName}</h3>
-                                <p>{this.state.players}/{item.maxPlayers}</p>
+                                <Link to={`/room/${game._id}`}>
+                                    <h3>Name: {game.game_name}</h3>
+                                    <p>Players: 0/{game.max_players}</p>
+                                </Link>
                             </div>
-                            
+
                         </Col>
 
-                        <Col md={3} style={{display: 'flex', justifyContent: 'center'}}>
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
-                                <p>{item.category}</p>
-                                <p>{item.status}</p>
+                                <p>Category: {game.category}</p>
+                                <p>Status: {game.status}</p>
                             </div>
                         </Col>
-
                     </Row>
-                ))}
+                    );
+                })}
                 </Container>
             </div>
         )
     }
-
-
 };
 
-export default GamesLobby; 
+function mapStateToProps(state) {
+    return {
+        game: state.game.game,
+        currentUser: state.currentUser.user,
+        lobby: state.lobby.games.all,
+        loading: state.lobby.games.loading
+    };
+}
+
+export default compose(
+    connect(mapStateToProps, actions),
+)(requireAuth(GamesLobby));

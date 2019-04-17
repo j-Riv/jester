@@ -1,0 +1,9 @@
+.card-wrapper {
+    padding: 2px;
+    cursor: pointer;
+}
+
+.card,
+.card-body {
+    padding: 1px;
+}

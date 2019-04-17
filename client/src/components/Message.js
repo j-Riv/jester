@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 class Message extends Component {
     render() {
         return (
-            <li>
+            <p>
                 <span className={this.props.className}>{this.props.user}</span> - {this.props.msg}
-            </li>
+            </p>
         );
     }
 }

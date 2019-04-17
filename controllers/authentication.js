@@ -76,7 +76,7 @@ exports.createGame = function (req, res, next) {
     // create new game
     // need to update with form inputs
     const game = new Game({
-        users: [req.body.username],
+        users: [{ user: req.body.username, wins: 0 }],
         current_turn: req.body.current_turn,
         images: [],
         messages: [],
@@ -108,7 +108,7 @@ exports.getGame = function(req, res, next) {
 exports.getAllGames = function(req, res, next) {
     console.log('getting all games for lobby update:');
     Game.find({}).then(function (result) {
-        console.log(result)
+        // console.log(result)
         res.json({ games: result });
     }).catch(function (error) {
         console.log(error);
@@ -130,4 +130,67 @@ exports.updateGame = function(req, res, next) {
     }).catch(function (error) {
         console.log(error);
     });
+}
+
+exports.updateGameUsers = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    if (user !== null) {
+        console.log(`Updating game: ${id} with this user: ${user}`);
+        Game.findOneAndUpdate({ _id: id }, { $addToSet: { 'users': { user: user, wins: 0 } } }, { new: true }).then(function (result) {
+            req.io.in(id).emit('Update Users', { user: user, wins: 0 });
+            console.log('Users have been updated --->');
+            console.log(result.users);
+            res.json({ updatedGame: { user: user, wins: 0 } });
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }else{
+        console.log('User is null do not update');
+    }
+}
+
+exports.removeGameUsers = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    if (user !== null) {
+        console.log(`Removing this user: ${user} Updating game: ${id}`);
+        // Game.findOneAndUpdate({ _id: id }, { $pull: { 'users': { user: user } } }, { new: true }).then(function (result) {
+        //     req.io.in(id).emit('Update Users', { user: user, wins: 0 });
+        //     console.log('Users have been updated --->');
+        //     console.log(result.users);
+        //     res.json({ updatedGame: { user: user, wins: 0 } });
+        // }).catch(function (error) {
+        //     console.log(error);
+        // });
+        req.io.in(id).emit('Remove Users', { user: user });
+    } else {
+        console.log('User is null do not update');
+    }
+}
+
+exports.updateGameCards = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    const card = req.body.card;
+    console.log(`Updating game: ${id} with this card: ${card}`);
+    // Game.findOneAndUpdate({ _id: id }, { $push: { 'images': card } }, { new: true }).then(function (result) {
+    //     req.io.in(id).emit('Update Cards', result.images);
+    //     console.log('cards have been updated --->');
+    //     console.log(result.images);
+    //     res.json({ updatedGame: result });
+    // }).catch(function (error) {
+    //     console.log(error);
+    // });
+    req.io.in(id).emit('Update Cards', req.body);
+    res.json({ updatedGame: req.body });
+}
+
+exports.updateGameWinner = function (req, res, next) {
+    const id = req.body.gameId;
+    const user = req.body.user;
+    const card = req.body.card;
+    console.log(`Sending game: ${id} this winner: ${card}`);
+    req.io.in(id).emit('Update Winner', req.body);
+    res.json({ winner: req.body });
 }

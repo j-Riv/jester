@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
 import Prodata from './ProfileProps';
-import ProfileModal from './ProfileModal';
+// import ProfileModal from './ProfileModal';
 class Profile extends Component {
 
     render() {
@@ -20,7 +20,7 @@ class Profile extends Component {
         }
         return (
             <div className="container-fluid">
-                <ProfileModal />
+                {/* <ProfileModal /> */}
                 <div className="row">
                     <div className="col-sm-12 text-center">
                         <img className="img-fluid img-thumbnail rounded-circle" src={user.picture} alt="profile picture" style={imgStyle} />
@@ -32,21 +32,7 @@ class Profile extends Component {
                     </div>
                 </div>
                 {/* math realted stuff */}
-                <div>
-                    <div className="row d-flex justify-content-center">
-                        <div className="col-sm-3 text-center">
-                            <h2 style={textStyle}>Wins: {user.wins}</h2>
-                        </div>
-                        <div className="col-sm-3  text-center">
-                            <h2 style={textStyle}>Games Played: </h2>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <h2 className="text-center" style={textStyle}>Recent Games:</h2>
-                        </div>
-                    </div>
-                </div>
+                {/* <Prodata /> */}
 
                 {/* recent games */}
                 <div className="row">
