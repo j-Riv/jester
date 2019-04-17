@@ -152,9 +152,8 @@ export const removeUser = (user, gameId, callback) => async dispatch => {
             { user, gameId }
         );
         console.log('updateGameusers');
-        console.log(response.data.updatedGame.users);
-        dispatch({ type: UPDATE_USERS, payload: response.data.updatedGame });
-        callback(response.data.updatedGame);
+        console.log(response.data.removed.user);
+        callback(response.data.removed.user);
     } catch (e) {
         console.log(e);
     }
@@ -163,12 +162,12 @@ export const removeUser = (user, gameId, callback) => async dispatch => {
 export const setCurrentTurn = (user, gameId) => async dispatch => {
     try {
         const response = await axios.post(
-            host + '/games/game/current-turn',
+            host + '/games/game/turn',
             { user, gameId }
         );
         console.log('current turn update from server');
-        console.log(response);
-        // dispatch({ type: UPDATE_CURRENT_TURN, payload: '' });
+        console.log(response.data.turn);
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.turn });
     } catch (e) {
         console.log(e);
     }

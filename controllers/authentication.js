@@ -78,7 +78,7 @@ exports.createGame = function (req, res, next) {
     const game = new Game({
         // users: [{ user: req.body.username, wins: 0 }],
         users: [],
-        current_turn: '',
+        current_turn: req.body.current_turn,
         images: [],
         messages: [],
         username: req.body.username,
@@ -160,6 +160,15 @@ exports.removeUser = function (req, res, next) {
             console.log('User ' + user + ' has been removed --->');
             console.log(result.users);
             req.io.in(id).emit('remove user', { user: user });
+            // update current_turn if last
+            if(result.users.length < 1) {
+                Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: '' }, new: true }).then(function (result) {
+                    console.log('updating current turn to empty on server ---->');
+                    console.log(result);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
             res.json({ removed: { user: user } });
         }).catch(function (error) {
             console.log(error);
@@ -175,7 +184,7 @@ exports.updateCurrentTurn = function (req, res, next) {
     Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: user }, new: true }).then(function (result) {
         console.log('updating current turn ' + user + ' on server ---->');
         console.log(result);
-        // res.json({ updatedGame: result });
+        res.json({ turn: user });
     }).catch(function (error) {
         console.log(error);
     });

@@ -58,6 +58,10 @@ class Game extends Component {
                 console.log('got gifs with setUserGifs');
                 console.log(response);
             });
+            if (this.props.game.current_turn === '' || this.props.game.current_turn === null) {
+                console.log('SET CURRENT TURN');
+                this.props.setCurrentTurn(this.props.currentUser.username, params.gameId);
+            }
         });
         // get gifs
         const word = [
@@ -84,10 +88,6 @@ class Game extends Component {
                 });
             }
             socket.emit('user connected', { user: this.props.currentUser.username });
-            // current turn
-            if( this.props.game.current_turn === '' || this.props.game.current_turn === null) {
-                this.props.setCurrentTurn(this.props.currentUser.username, params.gameId,);
-            }
         });
         // new user disconnected send update to server
         socket.on('disconnect', (reason) => {
