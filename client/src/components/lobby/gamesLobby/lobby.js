@@ -8,10 +8,12 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import { All, SFW, NSFW } from '../GameTabs';
+import All from '../GameTabs/All';
+import SFW from '../GameTabs/SFW';
+import NSFW from '../GameTabs/NSFW';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../.././../actions';
+import * as actions from '../../../actions';
 import requireAuth from '../../../containers/requireAuth';
 
 
@@ -46,11 +48,11 @@ class GamesLobby extends Component {
                     </Tab>
 
                     <Tab eventKey="sfwGames" title="SFW Games">
-                    <SFW peeps={this.state.peeps}/>
+                    <SFW peeps={this.state.peeps} players={this.state.players} />
                     </Tab>
 
                     <Tab eventKey="nsfwGames" title="NSFW Games">
-                    <NSFW peeps={this.state.peeps}/>
+                    <NSFW peeps={this.state.peeps} players={this.state.players} />
                     </Tab>
                     
                 </Tabs>

@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 
 function All(props) {
     return (
-        this.props.map(item => {
+        <div>
+        {props.peeps.map(item => { return (
             <Row key={item.id}>
-
+            
                 <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                     <div>
                         <h5>{item.name}</h5>
@@ -19,7 +20,7 @@ function All(props) {
                 <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
                     <div>
                         <h3>{item.gameName}</h3>
-                        <p>{this.state.players}/{item.maxPlayers}</p>
+                        <p>{props.players}/{item.maxPlayers}</p>
                     </div>
 
                 </Col>
@@ -32,7 +33,9 @@ function All(props) {
                 </Col>
 
             </Row>
-        })
+        )
+        })}
+        </div>
     )
 }
 
