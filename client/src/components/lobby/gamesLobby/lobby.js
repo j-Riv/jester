@@ -5,28 +5,39 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
-
-
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import { All, SFW, NSFW } from '../GameTabs';
 
 class GamesLobby extends Component {
     state = {
         peeps,
         players: 0,
-
-
+        key: 'allGames'
     }
-
-
-
-
 
     render() {
         return(
             <div>
                 <Container>
                 <Search />
-                {this.state.peeps.map(item => (
+                <Tabs id="game-tabs" activeKey={this.state.key} onSelect={key => this.setState({ key })}>
+                    <Tab eventKey="allGames" title="All Games">
+                    <All peeps={this.state.peeps} players={this.state.players}/>
+                    </Tab>
+
+                    <Tab eventKey="sfwGames" title="SFW Games">
+                    <SFW peeps={this.state.peeps}/>
+                    </Tab>
+
+                    <Tab eventKey="nsfwGames" title="NSFW Games">
+                    <NSFW peeps={this.state.peeps}/>
+                    </Tab>
+                    
+                </Tabs>
+                {/* {this.state.peeps.map(item => (
                     <Row key={item.id}>
+
                         <Col md={3} style={{display: 'flex', justifyContent: 'center'}}>
                             <div>
                                 <h5>{item.name}</h5>
@@ -51,7 +62,7 @@ class GamesLobby extends Component {
                         </Col>
 
                     </Row>
-                ))}
+                ))} */}
                 </Container>
             </div>
         )
