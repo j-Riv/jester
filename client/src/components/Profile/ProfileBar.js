@@ -32,7 +32,21 @@ class Profile extends Component {
                     </div>
                 </div>
                 {/* math realted stuff */}
-                <Prodata />
+                <div>
+                    <div className="row d-flex justify-content-center">
+                        <div className="col-sm-3 text-center">
+                            <h2 style={textStyle}>Wins: {user.wins}</h2>
+                        </div>
+                        <div className="col-sm-3  text-center">
+                            <h2 style={textStyle}>Games Played: </h2>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <h2 className="text-center" style={textStyle}>Recent Games:</h2>
+                        </div>
+                    </div>
+                </div>
 
                 {/* recent games */}
                 <div className="row">
