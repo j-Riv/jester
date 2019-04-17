@@ -133,7 +133,7 @@ exports.updateGame = function(req, res, next) {
     });
 }
 
-exports.updateGameUsers = function (req, res, next) {
+exports.addUser = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
     if (user !== null) {
@@ -142,31 +142,30 @@ exports.updateGameUsers = function (req, res, next) {
             req.io.in(id).emit('Update Users', { user: user, wins: 0 });
             console.log('Users have been updated --->');
             console.log(result.users);
-            res.json({ updatedGame: { user: user, wins: 0 } });
+            res.json({ added: { user: user, wins: 0 } });
         }).catch(function (error) {
             console.log(error);
         });
     }else{
-        console.log('User is null do not update');
+        console.log('User is null do not add');
     }
 }
 
-exports.removeGameUsers = function (req, res, next) {
+exports.removeUser = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
     if (user !== null) {
         console.log(`Removing this user: ${user} Updating game: ${id}`);
-        // Game.findOneAndUpdate({ _id: id }, { $pull: { 'users': { user: user } } }, { new: true }).then(function (result) {
-        //     req.io.in(id).emit('Update Users', { user: user, wins: 0 });
-        //     console.log('Users have been updated --->');
-        //     console.log(result.users);
-        //     res.json({ updatedGame: { user: user, wins: 0 } });
-        // }).catch(function (error) {
-        //     console.log(error);
-        // });
-        req.io.in(id).emit('Remove Users', { user: user });
+        Game.findOneAndUpdate({ _id: id }, { $pull: { 'users': { $elemMatch: { user: user } } } }, { new: true }).then(function (result) {
+            console.log('User ' + user + ' has been removed --->');
+            console.log(result.users);
+            req.io.in(id).emit('remove user', { user: user });
+            res.json({ removed: { user: user } });
+        }).catch(function (error) {
+            console.log(error);
+        });
     } else {
-        console.log('User is null do not update');
+        console.log('User is null do not remove');
     }
 }
 

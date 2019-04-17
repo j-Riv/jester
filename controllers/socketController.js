@@ -27,7 +27,7 @@ module.exports = io => {
             let removed = removeByKey(people, { key: 'socketId', value: socket.id });
             sockets.splice(sockets.indexOf(socket), 1);
             // emit remove user
-            socket.in(r.gameId).emit('remove user', { user: r.user });
+            // socket.in(r.gameId).emit('remove user', { user: r.user });
         });
         // chat
         socket.on('client msg', function (msg) {

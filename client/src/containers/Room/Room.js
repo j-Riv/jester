@@ -14,7 +14,8 @@ import io from 'socket.io-client';
 import Host from '../../config/config';
 import store from '../../store';
 import { 
-    UPDATE_USERS, 
+    UPDATE_USERS,
+    REMOVE_USER, 
     UPDATE_CARDS, 
     UPDATE_WINNER,
     UPDATE_WINNING_CARD,
@@ -43,7 +44,7 @@ class Game extends Component {
         console.log('creating game: ' + params.gameId);
         // update users
         if (this.props.currentUser.username !== undefined) {
-            this.props.updateGameUsers(this.props.currentUser.username, params.gameId, (response) => {
+            this.props.addUser(this.props.currentUser.username, params.gameId, (response) => {
                 console.log('users have been updated');
                 console.log(response);
             });
@@ -77,7 +78,7 @@ class Game extends Component {
             console.log('new user ' + this.props.currentUser.username + ' joined: connected --> ' + sessionid);
             // update users on new user connect
             if (this.props.currentUser.username !== undefined) {
-                this.props.updateGameUsers(this.props.currentUser.username, params.gameId, (response) => {
+                this.props.addUser(this.props.currentUser.username, params.gameId, (response) => {
                     console.log('users have been updated');
                     console.log(response);
                 });
@@ -99,7 +100,7 @@ class Game extends Component {
             console.log('reconnecting ' + this.props.currentUser.username + ' attempts: ' + attemptNumber);
             // update users on new user connect
             if (this.props.currentUser.username !== undefined) {
-                this.props.updateGameUsers(this.props.currentUser.username, params.gameId, (response) => {
+                this.props.addUser(this.props.currentUser.username, params.gameId, (response) => {
                     console.log('users have been updated');
                     console.log(response);
                 });
@@ -147,15 +148,20 @@ class Game extends Component {
             store.dispatch({ type: UPDATE_WINS, payload: response.user });
         });
         // remove user
-        socket.on('remove user', response => {
-            console.log('PLEASE REMOVE USER: ' + response.user + '-------------------->');
+        socket.on('remove user', r => {
+            console.log('PLEASE REMOVE USER: ' + r.user + '-------------------->');
             // dispatch action
+            store.dispatch({ type: REMOVE_USER, payload: r.user });
         });
     }
 
     componentWillUnmount = () => {
         const { match: { params } } = this.props;
         socket.emit('leave room', { user: this.props.currentUser.username, gameId: params.gameId });
+        this.props.removeUser(this.props.currentUser.username, params.gameId, (response) => {
+            console.log('user has been removed');
+            console.log(response);
+        });
     }
 
     render() {
