@@ -80,6 +80,7 @@ export default function (state = INITIAL_STATE, action) {
                 console.log('Winning user: ' + action.payload);
                 if (obj.user === action.payload) {
                     obj.wins++;
+                    console.log('Wins: ---> ' + obj.wins);
                 }
             });
             return {
@@ -105,7 +106,7 @@ export default function (state = INITIAL_STATE, action) {
             };
         case CLEAR_CARDS:
             return {
-                ...UPDATE_CARDS,
+                ...state,
                 game: {
                     ...state.game,
                     images: action.payload
