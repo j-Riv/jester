@@ -13,7 +13,7 @@ import Signin from './auth/Signin';
 import Profile from "../components/Profile/ProfileBar";
 import GamesLobby from "../components/lobby/gamesLobby/lobby2";
 import GameContainer from '../pages/GameContainer';
-import Room from './Room/Room';
+import Room from './Room/Game';
 import "./App.css";
 
 class App extends Component {

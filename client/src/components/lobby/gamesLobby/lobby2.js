@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import io from 'socket.io-client';
 import Search from '../searchLobby/searchLobby';
-import peeps from '../peeps.json';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,6 +11,11 @@ import { connect } from 'react-redux';
 import * as actions from '../.././../actions';
 import requireAuth from '../../../containers/requireAuth';
 
+import hostname from '../../../config/config';
+const socket = io(hostname, {
+    transports: ['websocket'],
+    secure: true
+});
 
 class GamesLobby2 extends Component {
 
@@ -20,6 +25,15 @@ class GamesLobby2 extends Component {
             const games = response.data.games;
             console.log('these should be all the games currently in db:');
             console.log(games);
+        });
+        // on new game added re fetch
+        socket.on('game added', r => {
+            this.props.getAllGames((response) => {
+                const games = response.data.games;
+                console.log('game added ---> ' + r.game);
+                console.log('all games after new game added:');
+                console.log(games);
+            });
         });
     }
 

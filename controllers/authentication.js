@@ -91,6 +91,7 @@ exports.createGame = function (req, res, next) {
         if (err) { return next(err); }
         // Repond to request indicating the game was created
         // Send new game object back
+        req.io.emit('game added', { game: newGame._id });
         res.json({ game: newGame });
     });
 }
@@ -162,6 +163,15 @@ exports.removeUser = function (req, res, next) {
             req.io.in(id).emit('remove user', { user: user });
             // update current_turn if last
             if(result.users.length < 1) {
+                Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: '' }, new: true }).then(function (result) {
+                    console.log('updating current turn to empty on server ---->');
+                    console.log(result);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+            // update if current_turn has left
+            if (result.current_turn === user) {
                 Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: '' }, new: true }).then(function (result) {
                     console.log('updating current turn to empty on server ---->');
                     console.log(result);

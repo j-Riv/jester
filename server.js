@@ -34,10 +34,7 @@ app.use(function (req, res, next) {
 // Define API routes here
 routes(app);
 
-// socket for chat
-// const socketController = require('./controllers/socket');
-// io.on('connection', socketController.respond);
-
+// sockets
 require('./controllers/socketController')(io);
 
 // DB Setup
