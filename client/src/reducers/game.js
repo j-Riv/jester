@@ -1,7 +1,6 @@
 import { 
     CURRENT_GAME, 
     ADD_CHAT, 
-    GET_GIFS,
     UPDATE_USERS,
     UPDATE_CARDS,
     UPDATE_WINNER,
@@ -32,7 +31,7 @@ const INITIAL_STATE = {
 };
 
 export default function (state = INITIAL_STATE, action) {
-    console.log(action);
+    // console.log(action);
     switch (action.type) {
         case CURRENT_GAME:
             return {
@@ -48,14 +47,6 @@ export default function (state = INITIAL_STATE, action) {
                         ...state.game.messages,
                         action.payload
                     ]
-                }
-            };
-        case GET_GIFS:
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    images: action.payload
                 }
             };
         case UPDATE_USERS:
