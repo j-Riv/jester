@@ -51,11 +51,7 @@ class Game extends Component {
         console.log('Host: ' + Host);
         // crete game
         const { match: { params } } = this.props;
-        const room = {
-            gameId: params.gameId,
-            user: this.props.currentUser.username
-        }
-        socket.emit('create', room);
+        socket.emit('create', params.gameId);
         console.log('creating game: ' + params.gameId);
         // update users
         if (this.props.currentUser.username !== undefined) {

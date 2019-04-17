@@ -25,16 +25,14 @@ module.exports = io => {
         // on join room
         socket.on('create', function (room) {
             console.log('create this:');
-            console.log(room.gameId);
-            socket.join(room.gameId);
-            // update users
-            socket.in(room.gameId).emit('Update Users', { user: room.user, wins: 0 });
+            console.log(room);
+            socket.join(room);
         });
         // new user
-        socket.on('new user', function (room) {
-            console.log(`new user: ${room.user} adding to room: ${room.gameId}`);
-            socket.in(room.gameId).emit('Update Users', { user: room.user, wins: 0 });
-        });
+        // socket.on('new user', function (room) {
+        //     console.log(`new user: ${room.user} adding to room: ${room.gameId}`);
+        //     socket.in(room.gameId).emit('Update Users', { user: room.user, wins: 0 });
+        // });
         // chat
         socket.on('client msg', function (msg) {
             console.log('server got new message id: ' + msg.gameId);
