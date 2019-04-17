@@ -184,7 +184,7 @@ exports.updateGameCards = function (req, res, next) {
     //     console.log(error);
     // });
     req.io.in(id).emit('Update Cards', req.body);
-    res.json({ updatedGame: req.body });
+    res.json({ card: req.body });
 }
 
 exports.updateGameWinner = function (req, res, next) {

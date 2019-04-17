@@ -124,7 +124,7 @@ export const imgCardChosen = card => async () => {
             card
         );
         console.log('updateCards');
-        console.log(response.data.updatedGame.images);
+        console.log(response.data.card);
         // dispatch({ type: UPDATE_IMAGES, payload: response.data.updatedGame.images });
     } catch (e) {
         console.log(e);

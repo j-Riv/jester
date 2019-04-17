@@ -122,14 +122,15 @@ class Game extends Component {
             store.dispatch({ type: UPDATE_WINS, payload: response.user });
             // reset game
             setTimeout(() => {
-                const next = getNext(this.props.game.users, this.props.game.current_turn);
-                console.log('Next player is ---> ' + next);
+                // const next = getNext(this.props.game.users, this.props.game.current_turn);
+                console.log('Next player is ---> ' + response.next);
                 // reset game for next round
                 // store.dispatch({ type: UPDATE_WINNER, payload: '' });
                 // store.dispatch({ type: UPDATE_WINNING_CARD, payload: '' });
                 store.dispatch({ type: CLEAR_CARDS, payload: [] })
                 store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-                store.dispatch({ type: UPDATE_CURRENT_TURN, payload: next });
+                // store.dispatch({ type: UPDATE_CURRENT_TURN, payload: next });
+                store.dispatch({ type: UPDATE_CURRENT_TURN, payload: response.next });
                 store.dispatch({ type: CARD_SELECTED, payload: false });
                 // get new gifs
                 const newWord = words.words[~~(Math.random() * words.words.length)];
@@ -179,25 +180,25 @@ class Game extends Component {
     }
 }
 
-function getNext(all, user) {
-    console.log('Next -------->');
-    console.log('all users;');
-    console.log(all);
-    console.log('user:');
-    console.log(user);
-    const index = all.findIndex(u => u.user === user);
-    let nextUser;
-    if (index >= 0 && index < all.length - 1) {
-        nextUser = all[index + 1].user;
-        console.log('not last');
-    } else {
-        nextUser = all[0].user;
-        console.log('last');
-    }
-    console.log('next user: ' + nextUser);
-    console.log('End of Next -------->')
-    return nextUser;
-}
+// function getNext(all, user) {
+//     console.log('Next -------->');
+//     console.log('all users;');
+//     console.log(all);
+//     console.log('user:');
+//     console.log(user);
+//     const index = all.findIndex(u => u.user === user);
+//     let nextUser;
+//     if (index >= 0 && index < all.length - 1) {
+//         nextUser = all[index + 1].user;
+//         console.log('not last');
+//     } else {
+//         nextUser = all[0].user;
+//         console.log('last');
+//     }
+//     console.log('next user: ' + nextUser);
+//     console.log('End of Next -------->')
+//     return nextUser;
+// }
 
 function mapStateToProps(state) {
     return { 
