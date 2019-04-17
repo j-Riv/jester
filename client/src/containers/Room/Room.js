@@ -35,18 +35,6 @@ const socket = io(Host, {
 
 class Game extends Component {
 
-    // componentWillMount = () => {
-    //     // get game object
-    //     const { match: { params } } = this.props;
-    //     socket.emit('create', params.gameId);
-    //     console.log('creating game: ' + params.gameId);
-    //     this.props.getGame(params.gameId, (response) => {
-    //         const game = response.data.game;
-    //         console.log('this is the game');
-    //         console.log(game);
-    //     });
-    // }
-
     componentDidMount = () => {
         console.log('Host: ' + Host);
         // crete game
@@ -90,9 +78,25 @@ class Game extends Component {
             }
         });
         // new user disconnected send update to server
-        socket.on('disconnect', () => {
+        socket.on('disconnect', (reason) => {
             console.log('user ' + this.props.currentUser.username + ' has disconnected');
             socket.emit('disconnected', this.props.currentUser.username);
+            if (reason === 'io server disconnect') {
+                // the disconnection was initiated by the server, you need to reconnect manually
+                socket.connect();
+            }
+            // else the socket will automatically try to reconnect
+            socket.open();
+        });
+        socket.on('reconnect', (attemptNumber) => {
+            console.log('reconnecting ' + this.props.currentUser.username + ' attempts: ' + attemptNumber);
+            // update users on new user connect
+            if (this.props.currentUser.username !== undefined) {
+                this.props.updateGameUsers(this.props.currentUser.username, params.gameId, (response) => {
+                    console.log('users have been updated');
+                    console.log(response);
+                });
+            }
         });
         // update users
         socket.on('Update Users', response => {
@@ -120,12 +124,6 @@ class Game extends Component {
             setTimeout(() => {
                 const next = getNext(this.props.game.users, this.props.game.current_turn);
                 console.log('Next player is ---> ' + next);
-                // get new gifs
-                const newWord = words.words[~~(Math.random() * words.words.length)];
-                this.props.setUserGifs(newWord, (response) => {
-                    console.log('got new gifs');
-                    console.log(response);
-                });
                 // reset game for next round
                 // store.dispatch({ type: UPDATE_WINNER, payload: '' });
                 // store.dispatch({ type: UPDATE_WINNING_CARD, payload: '' });
@@ -133,6 +131,12 @@ class Game extends Component {
                 store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
                 store.dispatch({ type: UPDATE_CURRENT_TURN, payload: next });
                 store.dispatch({ type: CARD_SELECTED, payload: false });
+                // get new gifs
+                const newWord = words.words[~~(Math.random() * words.words.length)];
+                this.props.setUserGifs(newWord, (response) => {
+                    console.log('got new gifs');
+                    console.log(response);
+                });
             }, 3000);
         });
     }
