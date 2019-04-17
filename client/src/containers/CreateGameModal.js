@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-class VerticallyCenteredModal extends React.Component {
+class CreateGameModal extends React.Component {
     handleNewGame = formProps => {
         formProps.current_turn = this.props.currentUser.username;
         formProps.user_pic = this.props.currentUser.users;
@@ -41,7 +41,8 @@ class VerticallyCenteredModal extends React.Component {
 
         return (
             <Modal
-                {...this.props}
+                show={this.props.show}
+                onHide={this.props.onHide}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
@@ -106,4 +107,4 @@ function mapStateToProps(state) {
 export default compose(
     connect(mapStateToProps, actions),
     reduxForm({ form: 'createGame' })
-)(withRouter(VerticallyCenteredModal));
+)(withRouter(CreateGameModal));

@@ -8,8 +8,9 @@ class Header extends Component {
         if (this.props.authenticated) {
             return (
                 <div>
-                    <Link to="/signout">Sign Out</Link>
                     <Link to="/protected">Protected</Link>
+                    <Link to="/lobby">Lobby</Link>
+                    <Link to="/signout">Sign Out</Link>
                 </div>
             );
         } else {

@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import VerticallyCenteredModal from './VerticallyCenteredModal';
+import CreateGameModal from './CreateGameModal';
 
 class Protected extends Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class Protected extends Component {
         console.log(formProps);
         this.props.updateUser(formProps, () => {
             console.log('submitted');
-        });const { handleSubmit } = this.props;
+        });
     };
 
     handleNewGame = () => {
@@ -76,10 +76,10 @@ class Protected extends Component {
                 </Row>
                 <Row>
                     <Col sm={12}>
-                        <Button variant="secondary" className="mt-3" onClick={this.handleClickCreate}>New Chat</Button>
+                        <Button variant="secondary" className="mt-3" onClick={this.handleClickCreate}>New Game</Button>
                     </Col>
                 </Row>
-                <VerticallyCenteredModal
+                <CreateGameModal
                     show={this.state.showCreateGame}
                     onHide={closeCreateGame}
                     heading={"Create Game"}
@@ -88,8 +88,6 @@ class Protected extends Component {
         );
     }
 }
-
-// export default requireAuth(Protected);
 
 function mapStateToProps(state) {
     return { currentUser: state.currentUser.user };

@@ -1,0 +1,48 @@
+.container {
+    height: 100%;
+    display: block;
+}
+
+#chatComponent {
+    /* position: absolute; */
+    bottom: 0;
+    right: 0;
+    left: 0;
+    color: #000 !important;
+}
+
+#chatArea {
+    height: 100%;
+    min-height: 80vh;
+    max-height: 80vh;
+    padding-left: 15px;
+    padding-bottom: 20px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+#chatForm {
+    width: 90%;
+    margin: auto;
+    /* position: absolute; */
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+#chatForm img {
+    height: 38px;
+    width: auto;
+}
+
+.current-user {
+    color: #bc360a;
+}
+
+@media only screen and (max-width: 768px) {
+    #chatArea {
+        min-height: 400px;
+        max-height: 400px;
+    }
+}

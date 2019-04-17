@@ -12,7 +12,10 @@ const gameSchema = new Schema({
   game_name: { type: String },
   max_players: { type: Number, default: 5 },
   category: String,
-  status: { type: String, default: 'Open' }
+  status: { type: String, default: 'Open' },
+  winner: { type: String, default: 'none' },
+  winning_card: { type: String, default: ''},
+  winner_chosen: { type: Boolean, default: false }
 });
 
 // Create the model class
