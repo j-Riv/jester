@@ -91,7 +91,6 @@ export const createGame = (formProps, callback) => async () => {
         );
         console.log('created game?');
         console.log(response.data);
-        localStorage.setItem('game', response.data);
         callback(response);
     } catch (e) {
         console.log(e);
@@ -153,7 +152,7 @@ export const imgCardChosen = card => async () => {
             card
         );
         console.log('updateCards');
-        console.log(response.data.updatedGame.images);
+        console.log(response.data.card);
         // dispatch({ type: UPDATE_IMAGES, payload: response.data.updatedGame.images });
     } catch (e) {
         console.log(e);
