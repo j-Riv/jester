@@ -41,7 +41,7 @@
         "image": "https://via.placeholder.com/100.png",
         "gameName": "Yusef's Game",
         "maxPlayers": 10,
-        "category": "SFW",
+        "category": "NSFW",
         "status": "Public"
     }
 ]

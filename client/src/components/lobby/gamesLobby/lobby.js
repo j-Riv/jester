@@ -6,15 +6,25 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import All from '../GameTabs/All';
+import SFW from '../GameTabs/SFW';
+import NSFW from '../GameTabs/NSFW';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../.././../actions';
+import * as actions from '../../../actions';
 import requireAuth from '../../../containers/requireAuth';
-
 
 
 class GamesLobby extends Component {
 
+    state = {
+        peeps,
+        players: 0,
+        key: 'allGames'
+    }
+    
     componentDidMount = () => {
         // fetch games
         this.props.getAllGames((response) => {
@@ -31,15 +41,29 @@ class GamesLobby extends Component {
         return (
             <div>
                 <Container>
-                    <Search />
-                    {this.props.lobby.map((game, key) => {
-                        return (
-                            <Row key={game._id}>
-                                <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <div>
-                                        <h5>Creator: {game.username}</h5>
-                                        <Image src={game.image} roundedCircle />
-                                    </div>
+                <Search />
+                <Tabs id="game-tabs" activeKey={this.state.key} onSelect={key => this.setState({ key })}>
+                    <Tab eventKey="allGames" title="All Games">
+                    <All peeps={this.state.peeps} players={this.state.players}/>
+                    </Tab>
+
+                    <Tab eventKey="sfwGames" title="SFW Games">
+                    <SFW peeps={this.state.peeps} players={this.state.players} />
+                    </Tab>
+
+                    <Tab eventKey="nsfwGames" title="NSFW Games">
+                    <NSFW peeps={this.state.peeps} players={this.state.players} />
+                    </Tab>
+                    
+                </Tabs>
+                {/* {this.state.peeps.map(item => (
+                    <Row key={item.id}>
+
+                        <Col md={3} style={{display: 'flex', justifyContent: 'center'}}>
+                            <div>
+                                <h5>Creator: {game.username}</h5>
+                                <Image src={game.image} roundedCircle />
+                            </div>
 
                                 </Col>
 
@@ -53,15 +77,14 @@ class GamesLobby extends Component {
 
                                 </Col>
 
-                                <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <div>
-                                        <p>Category: {game.category}</p>
-                                        <p>Status: {game.status}</p>
-                                    </div>
-                                </Col>
-                            </Row>
-                        );
-                    })}
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <p>Category: {game.category}</p>
+                                <p>Status: {game.status}</p>
+                            </div>
+                        </Col>
+                    </Row>
+                ))} */}
                 </Container>
             </div>
         )
