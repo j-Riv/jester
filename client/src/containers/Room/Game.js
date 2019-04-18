@@ -124,36 +124,13 @@ class Game extends Component {
             // console.log(r);
             store.dispatch({ type: UPDATE_CARDS, payload: r });
         });
-        // update winner ---> might move this out
+        // update winner
         socket.on('update winner', r => {
-            // console.log('Update winner socket');
-            // console.log(r);
-            store.dispatch({ type: UPDATE_WINNER, payload: r.user });
-            store.dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
-            store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+            // update winner --> wins
+            // update winning card
+            // update winner chosen
             // reset game
-            setTimeout(() => {
-                console.log('Next player is ---> ' + r.nextUser);
-                // reset game for next round
-                store.dispatch({ type: CLEAR_CARDS, payload: [] });
-                store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-                store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
-                store.dispatch({ type: CARD_SELECTED, payload: false });
-                // get new gifs
-                const newWord = [
-                    words.words[~~(Math.random() * words.words.length)],
-                    words.words[~~(Math.random() * words.words.length)],
-                    words.words[~~(Math.random() * words.words.length)]
-                ];
-                this.props.setUserGifs(newWord, (response) => {
-                    console.log('got new gifs');
-                    console.log(response);
-                });
-            }, 3000);
-            // update wins
-            // console.log('Updating winner: ' + response.user);
-            // update winner
-            store.dispatch({ type: UPDATE_WINS, payload: r.user });
+            this.props.afterWin(r);
         });
         // remove user
         socket.on('remove user', r => {

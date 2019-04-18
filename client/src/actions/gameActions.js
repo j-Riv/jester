@@ -10,9 +10,17 @@ import {
     USER_GIFS,
     UPDATE_USERS,
     REMOVE_USER,
-    UPDATE_CURRENT_TURN
+    UPDATE_CURRENT_TURN,
+    // new
+    UPDATE_WINS,
+    UPDATE_WINNER,
+    UPDATE_WINNING_CARD,
+    UPDATE_WINNER_CHOSEN,
+    CLEAR_CARDS,
+    CARD_SELECTED
 } from './types';
 import io from 'socket.io-client';
+import words from '../words/words-clean';
 
 const socket = io(host, {
     transports: ['websocket'],
@@ -191,18 +199,48 @@ export const imgCardChosen = card => async () => {
     }
 }
 
-export const winnerChosen = card => async () => {
+export const winnerChosen = winnerData => async () => {
     console.log('Card info:');
-    console.log(card);
-    socket.emit('winning card', card);
+    console.log(winnerData);
     try {
         const response = await axios.post(
             host + '/games/update/winner',
-            card
+            winnerData
         );
         console.log('updateWinner');
         console.log(response.data.winner);
     } catch (e) {
         console.log(e);
     }
+}
+
+export const afterWin = r => async dispatch => {
+    // update wins
+    // console.log('Updating winner: ' + response.user);
+    // update winner
+    dispatch({ type: UPDATE_WINS, payload: r.user });
+    // console.log('Update winner socket');
+    // console.log(r);
+    dispatch({ type: UPDATE_WINNER, payload: r.user });
+    dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
+    dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+    // reset game
+    setTimeout(() => {
+        console.log('Next player is ---> ' + r.nextUser);
+        // reset game for next round
+        dispatch({ type: CLEAR_CARDS, payload: [] });
+        dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
+        dispatch({ type: CARD_SELECTED, payload: false });
+        // get new gifs
+        const newWord = [
+            words.words[~~(Math.random() * words.words.length)],
+            words.words[~~(Math.random() * words.words.length)],
+            words.words[~~(Math.random() * words.words.length)]
+        ];
+        setUserGifs(newWord, (response) => {
+            console.log('got new gifs');
+            console.log(response);
+        });
+    }, 3000);
 }

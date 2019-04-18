@@ -20,15 +20,15 @@ class KingView extends React.Component {
     
     onCardClick(src, user) {
         const nextUser = this.props.getNext(this.props.game.users, this.props.game.current_turn);
-        const card = {
+        const winnerData = {
             user: user,
             card: src,
             gameId: this.props.game._id,
             nextUser: nextUser
         }
         console.log('card clicked');
-        console.log(card);
-        this.props.winnerChosen(card);
+        console.log(winnerData);
+        this.props.winnerChosen(winnerData);
         store.dispatch({ type: CARD_SELECTED, payload: true });
     }
 
