@@ -93,7 +93,7 @@ class GamesLobby2 extends Component {
                                     <div>
                                         <Link to={`/room/${game._id}`}>
                                             <h3>Name: {game.game_name}</h3>
-                                            <p>Players: 0/{game.max_players}</p>
+                                            <p>Players: {game.users.length}/{game.max_players}</p>
                                         </Link>
                                     </div>
 

@@ -24,18 +24,24 @@ class CreateGameModal extends React.Component {
         const { handleSubmit } = this.props;
 
         const categories = [
+            'Select',
             'Safe For Work',
             'Not Safe For Work'
         ];
 
         const status = [
+            'Select',
             'public',
             'private'
         ];
 
         const DropDownSelect = (x) => {
+            let value = x;
+            if (x === 'Select') {
+                value = '';
+            }
             return (
-                <option key={x} value={x}>{x}</option>
+                <option key={x} value={value}>{x}</option>
             );
         }
 

@@ -52,7 +52,7 @@ class Sidebar extends React.Component {
             }
         }
         return (
-            <Menu pageWrapId={'room'} outerContainerId={'roomOuter'} width={'100%'} customBurgerIcon={<img src="/images/chat.svg" />} styles={styles}>
+            <Menu pageWrapId={'room'} outerContainerId={'roomOuter'} width={'100%'} customBurgerIcon={<img src="/images/chat.svg" />} styles={styles} isOpen={ false }>
                 <Chat gameId={this.props.gameID} socket={this.props.socket} />
             </Menu>
         );

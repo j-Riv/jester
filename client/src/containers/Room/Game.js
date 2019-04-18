@@ -7,8 +7,9 @@ import Sidebar from '../Sidebar/Sidebar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-// import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import Chat from '../Chat/Chat';
+import Profile from '../../components/Profile/Profile';
 import words from '../../words/words-clean';
 import io from 'socket.io-client';
 import hostname from '../../config/config';
@@ -18,16 +19,14 @@ import {
     REMOVE_USER, 
     UPDATE_CARDS, 
     UPDATE_WINNER,
-    UPDATE_WINNING_CARD,
-    UPDATE_WINNER_CHOSEN,
     CARD_SELECTED,
-    UPDATE_CURRENT_TURN,
-    CLEAR_CARDS,
-    UPDATE_WINS
+    UPDATE_CURRENT_TURN
 } from '../../actions/types';
 import './Room.css';
 import KingView from '../KingView/KingView';
 import JesterView from '../JesterView/JesterView';
+
+import { push as Menu } from 'react-burger-menu';
 
 const socket = io(hostname, {
     transports: ['websocket'],
@@ -35,6 +34,26 @@ const socket = io(hostname, {
 });
 
 class Game extends Component {
+    // local component state used for menus
+    constructor(props) {
+        super(props)
+        this.state = {
+            chatOpen: false,
+            profileOpen: false
+        }
+    }
+    // This keeps your state in sync with the opening/closing of the menu
+    handleStateChange(state, menu) {
+        this.setState({ [menu]: state.isOpen });
+    }
+    // This can be used to close the menu, e.g. when a user clicks a menu item
+    closeMenu(menu) {
+        this.setState({ [menu]: false });
+    }
+    // This can be used to toggle the menu, e.g. when using a custom icon
+    toggleMenu(menu) {
+        this.setState({ [menu]: !this.state.menuOpen });
+    }
 
     componentDidMount = () => {
         console.log('Host: ' + hostname);
@@ -177,9 +196,37 @@ class Game extends Component {
         }else{
             view = <JesterView users={users} />
         }
+
         return (
             <div id="roomOuter">
-                <Sidebar gameId={params.gameId} socket={socket} />
+                {/* <Sidebar gameId={params.gameId} socket={socket} /> */}
+                <Menu
+                    Right
+                    isOpen={this.state.chatOpen}
+                    onStateChange={(state) => this.handleStateChange(state, "chatOpen")}
+                    customBurgerIcon={false}
+                    customCrossIcon={false}
+                    pageWrapId={'room'} 
+                    outerContainerId={'roomOuter'}
+                    width={'50%'}
+                >
+                    <Chat gameId={params.gameId} socket={socket} />
+                </Menu>
+
+                <Menu
+                    right
+                    isOpen={this.state.profileOpen}
+                    onStateChange={(state) => this.handleStateChange(state, "profileOpen")}
+                    customBurgerIcon={false}
+                    customCrossIcon={false}
+                    pageWrapId={'room'}
+                    outerContainerId={'roomOuter'}
+                    width={'50%'}
+                >
+                    <Profile />
+                </Menu>
+
+
                 <Container fluid={true} id="room">
                     <Row>
                         <Col sm={12} className="text-center">
@@ -188,35 +235,31 @@ class Game extends Component {
                         </Col>
                     </Row>
                 </Container>
+                <div id="buttonContainer" className="text-center">
+                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('chatOpen')}><i class="fas fa-comment-alt"></i> Chat</Button>
+                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('profileOpen')}><i class="fas fa-user-circle"></i> Profile</Button>
+                </div>
             </div>
         );
     }
 }
 
 function getNext(all, user) {
-    console.log('Next -------->');
-    console.log('all users;');
-    console.log(all);
-    console.log('user:');
-    console.log(user);
     const index = all.findIndex(u => u.user === user);
     let nextUser;
     if (index >= 0 && index < all.length - 1) {
         nextUser = all[index + 1].user;
-        console.log('not last');
     } else {
         nextUser = all[0].user;
-        console.log('last');
     }
-    console.log('next user: ' + nextUser);
-    console.log('End of Next -------->')
     return nextUser;
 }
 
 function mapStateToProps(state) {
     return { 
         game: state.game.game,
-        user: state.currentUser.user.username
+        user: state.currentUser.user.username,
+        currentUser: state.currentUser.user
      };
 }
 

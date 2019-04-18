@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import './HeaderStyle.css';
+import './header.css';
 
 class Header extends Component {
+
     renderLinks() {
         if (this.props.authenticated) {
             return (
                 <div>
-                    <Link to="/protected">Protected</Link>
                     <Link to="/lobby">Lobby</Link>
                     <Link to="/signout">Sign Out</Link>
                 </div>
@@ -26,7 +26,7 @@ class Header extends Component {
     render() {
         return (
             <div className="header">
-                <Link to="/">JESTER</Link>
+                <Link to="/" className="logo"><img src="/images/jester-color-logo.png" alt="Jester" /></Link>
                 {this.renderLinks()}
             </div>
         );

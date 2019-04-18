@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
-import host from '../config/config';
+import hostname from '../config/config';
 import { 
     ADD_CHAT,
     CURRENT_GAME,
@@ -11,7 +11,6 @@ import {
     UPDATE_USERS,
     REMOVE_USER,
     UPDATE_CURRENT_TURN,
-    // new
     UPDATE_WINS,
     UPDATE_WINNER,
     UPDATE_WINNING_CARD,
@@ -22,7 +21,7 @@ import {
 import io from 'socket.io-client';
 import words from '../words/words-clean';
 
-const socket = io(host, {
+const socket = io(hostname, {
     transports: ['websocket'],
     secure: true
 });
@@ -96,7 +95,7 @@ export const addMessage = (formProps, callback) => async dispatch => {
 export const createGame = (formProps, callback) => async () => {
     try {
         const response = await axios.post(
-            host + '/games/new',
+            hostname + '/games/new',
             formProps
         );
         console.log('created game?');
@@ -110,7 +109,7 @@ export const createGame = (formProps, callback) => async () => {
 export const getGame = (id, callback) => async dispatch => {
     try {
         const response = await axios.get(
-            host + '/games/game/' + id
+            hostname + '/games/game/' + id
         );
         console.log('got game?');
         localStorage.setItem('game', response.data.game);
@@ -124,7 +123,7 @@ export const getGame = (id, callback) => async dispatch => {
 export const getAllGames = (callback) => async dispatch => {
     try {
         const response = await axios.get(
-            host + '/games/all/'
+            hostname + '/games/all/'
         );
         console.log('all games -->');
         console.log(response.data.games);
@@ -140,7 +139,7 @@ export const addUser = (user, gameId, callback) => async dispatch => {
     console.log(`Add user: ${user} to room: ${gameId}!`);
     try {
         const response = await axios.post(
-            host + '/games/add/users',
+            hostname + '/games/add/users',
             {user, gameId}
         );
         console.log('addUser');
@@ -156,7 +155,7 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
     console.log(`Removing user: ${user} from room: ${gameId}!`);
     try {
         const response = await axios.post(
-            host + '/games/remove/users',
+            hostname + '/games/remove/users',
             { user, gameId, nextUser }
         );
         console.log('updateGameusers');
@@ -171,7 +170,7 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
 export const setCurrentTurn = (user, gameId) => async dispatch => {
     try {
         const response = await axios.post(
-            host + '/games/game/turn',
+            hostname + '/games/game/turn',
             { user, gameId }
         );
         console.log('current turn update from server');
@@ -188,7 +187,7 @@ export const imgCardChosen = card => async () => {
     socket.emit('card selected', card);
     try {
         const response = await axios.post(
-            host + '/games/update/cards',
+            hostname + '/games/update/cards',
             card
         );
         console.log('updateCards');
@@ -204,7 +203,7 @@ export const winnerChosen = winnerData => async () => {
     console.log(winnerData);
     try {
         const response = await axios.post(
-            host + '/games/update/winner',
+            hostname + '/games/update/winner',
             winnerData
         );
         console.log('updateWinner');
