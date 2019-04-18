@@ -23,6 +23,11 @@ class Signup extends Component {
         return (
             <Container>
                 <Row>
+                    <Col sm={12}>
+                        Sign Up its free and always will be.
+                    </Col>
+                </Row>
+                <Row>
                     <Col sm={12} className="text-center">
                         <Form onSubmit={handleSubmit(this.onSubmit)}>
                             <Form.Group controlId="formBasicEmail">
@@ -61,7 +66,7 @@ class Signup extends Component {
                             <Button variant="secondary" type="submit" style={{ width: '100%' }}>
                                 Sign Up!
                             </Button>
-                            <Link to="/signup">You already have an account? Log in here.</Link>
+                            <Link to="/signin">You already have an account? Log in here.</Link>
                         </Form>
                     </Col>
                 </Row>

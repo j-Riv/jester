@@ -11,15 +11,6 @@ import * as actions from '../../actions';
 import "./Chat.css";
 
 class Chat extends Component {
-    theMessages = () => {
-        this.props.game.message.map((msg, index) =>
-            <Message
-                key={index}
-                user={msg.user}
-                msg={msg.message}
-            />
-        )
-    }
 
     componentDidMount = () => {
         this.props.socket.on('new chat', (msg) => {
