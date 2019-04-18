@@ -1,3 +1,5 @@
+const Game = require('../models/game');
+
 module.exports = io => {
     let sockets = [];
     let people = [];
@@ -19,7 +21,7 @@ module.exports = io => {
             console.log(socket.id);
             // check if user exists
             let removed = removeByKey(people, { key: 'user', value: r.user });
-            people.push({ socketId: socket.id, user: r.user });
+            people.push({ socketId: socket.id, gameId: r.gameId, user: r.user });
         });
         // leave room
         socket.on('leave room', function (r) {
@@ -40,8 +42,21 @@ module.exports = io => {
         socket.on('disconnect', function (response) {
             console.log(response);
             console.log(`${response} has disconnected.`);
-            io.emit('user disconnected', { socketId: _id });
-            console.log('Socket disconnected: ' + _id);
+            io.emit('user disconnected', { socketId: socket.id });
+            console.log('Socket disconnected: ' + socket.id);
+            // disconnect
+            let userObj = findByKey(people, socket.id);
+            if (typeof userObj === 'object') {
+                Game.findOneAndUpdate({ _id: userObj.gameId }, { $pull: { 'users': { user: userObj.user } } }, { safe: true, multi: true, new: true }).then(function (result) {
+                    // remove user
+                    console.log('User ' + userObj.user + ' has been removed --->');
+                    console.log(result.users);
+                    socket.in(userObj.gameId).emit('remove disconnected', { user: userObj.user });
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+
         });
     });
 
@@ -57,4 +72,16 @@ function removeByKey(array, params) {
         return false;
     });
     return array;
+}
+
+function findByKey(array, s) {
+    let user;
+    array.some(function (item, index){
+        if (array[index].socketId === s) {
+            user = item;
+            return true;
+        }
+        return false;
+    });
+    return user;
 }

@@ -3,7 +3,6 @@ const axios = require('axios');
 const jwt = require('jwt-simple');
 const User = require('../models/user');
 const Game = require('../models/game');
-// const config = require('../config');
 
 function tokenForUser(user) {
     const timestamp = new Date().getTime();

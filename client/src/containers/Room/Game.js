@@ -105,7 +105,7 @@ class Game extends Component {
                 });
             }
             // emit event so other clients know to update users in game state
-            socket.emit('user connected', { user: this.props.user });
+            socket.emit('user connected', { gameId: params.gameId, user: this.props.user });
         });
         // user disconnected send update to server
         socket.on('disconnect', (reason) => {
@@ -158,6 +158,11 @@ class Game extends Component {
             store.dispatch({ type: REMOVE_USER, payload: r.user });
             store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
         });
+        // remove disconnected
+        socket.on('remove disconnected', r => {
+            // remove user --> might need to fix current turn as well
+            store.dispatch({ type: REMOVE_USER, payload: r.user });
+        });
     }
 
     componentWillUnmount = () => {
@@ -205,10 +210,8 @@ class Game extends Component {
                     isOpen={this.state.chatOpen}
                     onStateChange={(state) => this.handleStateChange(state, "chatOpen")}
                     customBurgerIcon={false}
-                    customCrossIcon={false}
                     pageWrapId={'room'} 
                     outerContainerId={'roomOuter'}
-                    width={'50%'}
                 >
                     <Chat gameId={params.gameId} socket={socket} />
                 </Menu>
@@ -218,10 +221,8 @@ class Game extends Component {
                     isOpen={this.state.profileOpen}
                     onStateChange={(state) => this.handleStateChange(state, "profileOpen")}
                     customBurgerIcon={false}
-                    customCrossIcon={false}
                     pageWrapId={'room'}
                     outerContainerId={'roomOuter'}
-                    width={'50%'}
                 >
                     <Profile />
                 </Menu>
