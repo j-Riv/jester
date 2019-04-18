@@ -105,7 +105,7 @@ class Game extends Component {
                 });
             }
             // emit event so other clients know to update users in game state
-            socket.emit('user connected', { user: this.props.user });
+            socket.emit('user connected', { gameId: params.gameId, user: this.props.user });
         });
         // user disconnected send update to server
         socket.on('disconnect', (reason) => {
@@ -157,6 +157,11 @@ class Game extends Component {
             // remove user and update current turn
             store.dispatch({ type: REMOVE_USER, payload: r.user });
             store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
+        });
+        // remove disconnected
+        socket.on('remove disconnected', r => {
+            // remove user --> might need to fix current turn as well
+            store.dispatch({ type: REMOVE_USER, payload: r.user });
         });
     }
 
