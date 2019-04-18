@@ -16,7 +16,7 @@
 
 #buttonContainer {
     position: absolute;
-    bottom: 30px;
+    bottom: 75px;
     right: 0;
     left: 0;
     width: 100%;
@@ -45,4 +45,17 @@
 .bm-item-list {
     color: #000;
     padding: 0.8em;
+}
+
+.bm-menu-wrap {
+    width: 50% !important;
+}
+
+
+/* menu on mobile */
+
+@media only screen and (max-width: 768px) {
+    .bm-menu-wrap {
+        width: 100% !important;
+    }
 }

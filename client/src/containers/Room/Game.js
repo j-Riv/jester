@@ -205,10 +205,8 @@ class Game extends Component {
                     isOpen={this.state.chatOpen}
                     onStateChange={(state) => this.handleStateChange(state, "chatOpen")}
                     customBurgerIcon={false}
-                    customCrossIcon={false}
                     pageWrapId={'room'} 
                     outerContainerId={'roomOuter'}
-                    width={'50%'}
                 >
                     <Chat gameId={params.gameId} socket={socket} />
                 </Menu>
@@ -218,10 +216,8 @@ class Game extends Component {
                     isOpen={this.state.profileOpen}
                     onStateChange={(state) => this.handleStateChange(state, "profileOpen")}
                     customBurgerIcon={false}
-                    customCrossIcon={false}
                     pageWrapId={'room'}
                     outerContainerId={'roomOuter'}
-                    width={'50%'}
                 >
                     <Profile />
                 </Menu>
