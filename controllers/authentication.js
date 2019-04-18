@@ -3,7 +3,6 @@ const axios = require('axios');
 const jwt = require('jwt-simple');
 const User = require('../models/user');
 const Game = require('../models/game');
-// const config = require('../config');
 
 function tokenForUser(user) {
     const timestamp = new Date().getTime();
@@ -212,9 +211,8 @@ exports.updateGameCards = function (req, res, next) {
 exports.updateGameWinner = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
-    const card = req.body.card;
     // send the winner to game
-    // console.log(`Sending game: ${id} this winner: ${card}`);
+    console.log(`Sending game: ${id} this winner: ${user}`);
     req.io.in(id).emit('update winner', req.body);
     res.json({ winner: req.body });
 }

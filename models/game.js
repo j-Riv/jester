@@ -11,8 +11,8 @@ const gameSchema = new Schema({
   user_pic: { type: String },
   game_name: { type: String },
   max_players: { type: Number, default: 5 },
-  category: String,
-  status: { type: String, default: 'Open' },
+  category: { type: String, default: 'Safe For Work' },
+  status: { type: String, default: 'Public' },
   winner: { type: String, default: 'none' },
   winning_card: { type: String, default: ''},
   winner_chosen: { type: Boolean, default: false }

@@ -7,8 +7,9 @@ import Sidebar from '../Sidebar/Sidebar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-// import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import Chat from '../Chat/Chat';
+import Profile from '../../components/Profile/Profile';
 import words from '../../words/words-clean';
 import io from 'socket.io-client';
 import hostname from '../../config/config';
@@ -18,16 +19,14 @@ import {
     REMOVE_USER, 
     UPDATE_CARDS, 
     UPDATE_WINNER,
-    UPDATE_WINNING_CARD,
-    UPDATE_WINNER_CHOSEN,
     CARD_SELECTED,
-    UPDATE_CURRENT_TURN,
-    CLEAR_CARDS,
-    UPDATE_WINS
+    UPDATE_CURRENT_TURN
 } from '../../actions/types';
 import './Room.css';
 import KingView from '../KingView/KingView';
 import JesterView from '../JesterView/JesterView';
+
+import { push as Menu } from 'react-burger-menu';
 
 const socket = io(hostname, {
     transports: ['websocket'],
@@ -35,6 +34,26 @@ const socket = io(hostname, {
 });
 
 class Game extends Component {
+    // local component state used for menus
+    constructor(props) {
+        super(props)
+        this.state = {
+            chatOpen: false,
+            profileOpen: false
+        }
+    }
+    // This keeps your state in sync with the opening/closing of the menu
+    handleStateChange(state, menu) {
+        this.setState({ [menu]: state.isOpen });
+    }
+    // This can be used to close the menu, e.g. when a user clicks a menu item
+    closeMenu(menu) {
+        this.setState({ [menu]: false });
+    }
+    // This can be used to toggle the menu, e.g. when using a custom icon
+    toggleMenu(menu) {
+        this.setState({ [menu]: !this.state.menuOpen });
+    }
 
     componentDidMount = () => {
         console.log('Host: ' + hostname);
@@ -86,7 +105,7 @@ class Game extends Component {
                 });
             }
             // emit event so other clients know to update users in game state
-            socket.emit('user connected', { user: this.props.user });
+            socket.emit('user connected', { gameId: params.gameId, user: this.props.user });
         });
         // user disconnected send update to server
         socket.on('disconnect', (reason) => {
@@ -124,36 +143,13 @@ class Game extends Component {
             // console.log(r);
             store.dispatch({ type: UPDATE_CARDS, payload: r });
         });
-        // update winner ---> might move this out
+        // update winner
         socket.on('update winner', r => {
-            // console.log('Update winner socket');
-            // console.log(r);
-            store.dispatch({ type: UPDATE_WINNER, payload: r.user });
-            store.dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
-            store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+            // update winner --> wins
+            // update winning card
+            // update winner chosen
             // reset game
-            setTimeout(() => {
-                console.log('Next player is ---> ' + r.nextUser);
-                // reset game for next round
-                store.dispatch({ type: CLEAR_CARDS, payload: [] });
-                store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-                store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
-                store.dispatch({ type: CARD_SELECTED, payload: false });
-                // get new gifs
-                const newWord = [
-                    words.words[~~(Math.random() * words.words.length)],
-                    words.words[~~(Math.random() * words.words.length)],
-                    words.words[~~(Math.random() * words.words.length)]
-                ];
-                this.props.setUserGifs(newWord, (response) => {
-                    console.log('got new gifs');
-                    console.log(response);
-                });
-            }, 3000);
-            // update wins
-            // console.log('Updating winner: ' + response.user);
-            // update winner
-            store.dispatch({ type: UPDATE_WINS, payload: r.user });
+            this.props.afterWin(r);
         });
         // remove user
         socket.on('remove user', r => {
@@ -161,6 +157,11 @@ class Game extends Component {
             // remove user and update current turn
             store.dispatch({ type: REMOVE_USER, payload: r.user });
             store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
+        });
+        // remove disconnected
+        socket.on('remove disconnected', r => {
+            // remove user --> might need to fix current turn as well
+            store.dispatch({ type: REMOVE_USER, payload: r.user });
         });
     }
 
@@ -200,9 +201,33 @@ class Game extends Component {
         }else{
             view = <JesterView users={users} />
         }
+
         return (
             <div id="roomOuter">
-                <Sidebar gameId={params.gameId} socket={socket} />
+                {/* <Sidebar gameId={params.gameId} socket={socket} /> */}
+                <Menu
+                    Right
+                    isOpen={this.state.chatOpen}
+                    onStateChange={(state) => this.handleStateChange(state, "chatOpen")}
+                    customBurgerIcon={false}
+                    pageWrapId={'room'} 
+                    outerContainerId={'roomOuter'}
+                >
+                    <Chat gameId={params.gameId} socket={socket} />
+                </Menu>
+
+                <Menu
+                    right
+                    isOpen={this.state.profileOpen}
+                    onStateChange={(state) => this.handleStateChange(state, "profileOpen")}
+                    customBurgerIcon={false}
+                    pageWrapId={'room'}
+                    outerContainerId={'roomOuter'}
+                >
+                    <Profile />
+                </Menu>
+
+
                 <Container fluid={true} id="room">
                     <Row>
                         <Col sm={12} className="text-center">
@@ -211,35 +236,31 @@ class Game extends Component {
                         </Col>
                     </Row>
                 </Container>
+                <div id="buttonContainer" className="text-center">
+                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('chatOpen')}><i class="fas fa-comment-alt"></i> Chat</Button>
+                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('profileOpen')}><i class="fas fa-user-circle"></i> Profile</Button>
+                </div>
             </div>
         );
     }
 }
 
 function getNext(all, user) {
-    console.log('Next -------->');
-    console.log('all users;');
-    console.log(all);
-    console.log('user:');
-    console.log(user);
     const index = all.findIndex(u => u.user === user);
     let nextUser;
     if (index >= 0 && index < all.length - 1) {
         nextUser = all[index + 1].user;
-        console.log('not last');
     } else {
         nextUser = all[0].user;
-        console.log('last');
     }
-    console.log('next user: ' + nextUser);
-    console.log('End of Next -------->')
     return nextUser;
 }
 
 function mapStateToProps(state) {
     return { 
         game: state.game.game,
-        user: state.currentUser.user.username
+        user: state.currentUser.user.username,
+        currentUser: state.currentUser.user
      };
 }
 
