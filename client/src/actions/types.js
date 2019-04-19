@@ -1,6 +1,5 @@
 export const AUTH_USER = 'auth_user';
 export const AUTH_ERROR = 'auth_error';
-export const SET_COLOR = 'SET_COLOR';
 export const ADD_CHAT = 'ADD_CHAT';
 export const CURRENT_USER = 'CURRENT_USER';
 export const CURRENT_GAME = 'CURRENT_GAME';
@@ -9,6 +8,7 @@ export const ALL_GAMES = 'ALL_GAMES';
 export const GET_GAMES_FAILURE = 'GET_GAMES_FAILURE';
 export const GET_GIFS = 'GET_GIFS';
 export const UPDATE_USERS = 'UPDATE_USERS';
+export const REMOVE_USER = 'REMOVE_USER';
 export const UPDATE_CARDS = 'UPDATE_CARDS';
 export const UPDATE_WINNER = 'UPDATE_WINNER';
 export const UPDATE_WINNING_CARD = 'UPDATE_WINNING_CARD';

@@ -1,54 +1,31 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
-import host from '../config/config';
+import hostname from '../config/config';
 import { 
     ADD_CHAT,
     CURRENT_GAME,
     GET_ALL_GAMES,
     ALL_GAMES,
     GET_GIFS,
-    USER_GIFS,
-    UPDATE_USERS
+    UPDATE_USERS,
+    UPDATE_CURRENT_TURN,
+    UPDATE_WINS,
+    UPDATE_WINNER,
+    UPDATE_WINNING_CARD,
+    UPDATE_WINNER_CHOSEN,
+    CLEAR_CARDS,
+    CARD_SELECTED
 } from './types';
 import io from 'socket.io-client';
+import words from '../words/words-clean';
 
-const socket = io(host, {
+const socket = io(hostname, {
     transports: ['websocket'],
     secure: true
 });
 
-export const getGifs = (word, callback) => async dispatch => {
-    try {
-        let gifs = [];
-        const gif1 = await axios.get(
-            `https://api.tenor.com/v1/search?tag=${word}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
-        )
-        const gif2 = await setTimeout(() => {
-            axios.get(
-                `https://api.tenor.com/v1/search?tag=${word}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
-            )
-        }, 333)
-        const gif3 = await setTimeout(() => {
-            axios.get(
-                `https://api.tenor.com/v1/search?tag=${word}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
-            )
-        }, 666)
-        gifs.push(gif1[0], gif2[0], gif3[0]);
-        console.log('gifs=============================================')
-        console.log(gifs)
-        dispatch({ type: GET_GIFS, payload: gifs.data.results })
-    } catch (e) {
-        console.log(e)
-    }
-};
-
 export const setUserGifs = (word, callback) => async dispatch => {
     try {
-        // const response = await axios.get(
-        //     `https://api.tenor.com/v1/search?tag=${word}&limit=4&media_filter=minimal&key=OZVKWPE1OFF3`
-        // )
-        // dispatch({ type: USER_GIFS, payload: response.data.results })
-        // callback(response.data.results);
         let gifs = [];
         const gif1 = await axios.get(
             `https://api.tenor.com/v1/search?tag=${word[0]}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
@@ -86,7 +63,7 @@ export const addMessage = (formProps, callback) => async dispatch => {
 export const createGame = (formProps, callback) => async () => {
     try {
         const response = await axios.post(
-            host + '/games/new',
+            hostname + '/games/new',
             formProps
         );
         console.log('created game?');
@@ -100,7 +77,7 @@ export const createGame = (formProps, callback) => async () => {
 export const getGame = (id, callback) => async dispatch => {
     try {
         const response = await axios.get(
-            host + '/games/game/' + id
+            hostname + '/games/game/' + id
         );
         console.log('got game?');
         localStorage.setItem('game', response.data.game);
@@ -114,7 +91,7 @@ export const getGame = (id, callback) => async dispatch => {
 export const getAllGames = (callback) => async dispatch => {
     try {
         const response = await axios.get(
-            host + '/games/all/'
+            hostname + '/games/all/'
         );
         console.log('all games -->');
         console.log(response.data.games);
@@ -126,17 +103,47 @@ export const getAllGames = (callback) => async dispatch => {
     }
 }
 
-export const updateGameUsers = (user, gameId, callback) => async dispatch => {
+export const addUser = (user, gameId, callback) => async dispatch => {
     console.log(`Add user: ${user} to room: ${gameId}!`);
     try {
         const response = await axios.post(
-            host + '/games/update/users',
+            hostname + '/games/add/users',
             {user, gameId}
         );
+        console.log('addUser');
+        console.log(response.data.added.user);
+        dispatch({ type: UPDATE_USERS, payload: response.data.added });
+        callback(response.data.added);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const removeUser = (user, gameId, nextUser, callback) => async dispatch => {
+    console.log(`Removing user: ${user} from room: ${gameId}!`);
+    try {
+        const response = await axios.post(
+            hostname + '/games/remove/users',
+            { user, gameId, nextUser }
+        );
         console.log('updateGameusers');
-        console.log(response.data.updatedGame.users);
-        dispatch({ type: UPDATE_USERS, payload: response.data.updatedGame });
-        callback(response.data.updatedGame);
+        console.log(response.data.removed.user);
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.removed.nextUser });
+        callback(response.data.removed.user);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export const setCurrentTurn = (user, gameId) => async dispatch => {
+    try {
+        const response = await axios.post(
+            hostname + '/games/game/turn',
+            { user, gameId }
+        );
+        console.log('current turn update from server');
+        console.log(response.data.turn);
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.turn });
     } catch (e) {
         console.log(e);
     }
@@ -148,7 +155,7 @@ export const imgCardChosen = card => async () => {
     socket.emit('card selected', card);
     try {
         const response = await axios.post(
-            host + '/games/update/cards',
+            hostname + '/games/update/cards',
             card
         );
         console.log('updateCards');
@@ -159,18 +166,48 @@ export const imgCardChosen = card => async () => {
     }
 }
 
-export const winnerChosen = card => async () => {
+export const winnerChosen = winnerData => async () => {
     console.log('Card info:');
-    console.log(card);
-    socket.emit('winning card', card);
+    console.log(winnerData);
     try {
         const response = await axios.post(
-            host + '/games/update/winner',
-            card
+            hostname + '/games/update/winner',
+            winnerData
         );
         console.log('updateWinner');
         console.log(response.data.winner);
     } catch (e) {
         console.log(e);
     }
+}
+
+export const afterWin = r => async dispatch => {
+    // update wins
+    // console.log('Updating winner: ' + response.user);
+    // update winner
+    dispatch({ type: UPDATE_WINS, payload: r.user });
+    // console.log('Update winner socket');
+    // console.log(r);
+    dispatch({ type: UPDATE_WINNER, payload: r.user });
+    dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
+    dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+    // reset game
+    setTimeout(() => {
+        console.log('Next player is ---> ' + r.nextUser);
+        // reset game for next round
+        dispatch({ type: CLEAR_CARDS, payload: [] });
+        dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
+        dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
+        dispatch({ type: CARD_SELECTED, payload: false });
+        // get new gifs
+        const newWord = [
+            words.words[~~(Math.random() * words.words.length)],
+            words.words[~~(Math.random() * words.words.length)],
+            words.words[~~(Math.random() * words.words.length)]
+        ];
+        setUserGifs(newWord, (response) => {
+            console.log('got new gifs');
+            console.log(response);
+        });
+    }, 3000);
 }

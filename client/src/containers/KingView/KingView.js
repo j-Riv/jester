@@ -13,18 +13,22 @@ import {
 // import './KingView.css';
 
 class KingView extends React.Component {
+
+    componenentDidMount = () => {
+        store.dispatch({ type: CARD_SELECTED, payload: false });
+    }
     
     onCardClick(src, user) {
-        const nextUser = getNext(this.props.game.users, this.props.game.current_turn);
-        const card = {
+        const nextUser = this.props.getNext(this.props.game.users, this.props.game.current_turn);
+        const winnerData = {
             user: user,
             card: src,
             gameId: this.props.game._id,
-            next: nextUser
+            nextUser: nextUser
         }
         console.log('card clicked');
-        console.log(card);
-        this.props.winnerChosen(card);
+        console.log(winnerData);
+        this.props.winnerChosen(winnerData);
         store.dispatch({ type: CARD_SELECTED, payload: true });
     }
 
@@ -59,26 +63,6 @@ class KingView extends React.Component {
             </Container>
         );
     }
-}
-
-function getNext(all, user) {
-    console.log('Next -------->');
-    console.log('all users;');
-    console.log(all);
-    console.log('user:');
-    console.log(user);
-    const index = all.findIndex(u => u.user === user);
-    let nextUser;
-    if (index >= 0 && index < all.length - 1) {
-        nextUser = all[index + 1].user;
-        console.log('not last');
-    } else {
-        nextUser = all[0].user;
-        console.log('last');
-    }
-    console.log('next user: ' + nextUser);
-    console.log('End of Next -------->')
-    return nextUser;
 }
 
 function mapStateToProps(state) {

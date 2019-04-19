@@ -1,27 +1,14 @@
-module.exports = io => {
-    // // game
-    // console.log('a user connected');
-    // // room connection
-    // socket.on('user joined', function(m) {
-    //     console.log('user: ' + m.newUser+ ' has joined ' + m.room );
-    //     socket.broadcast.emit('user-update-room-' + m.room, m.newUser);
-    // });
-    // // chat
-    // socket.on('client msg', function(msg) {
-    //     console.log('server got new message id: ' + msg.gameId);
-    //     console.log('user: ' + msg.user);
-    //     console.log('msg: ' + msg.message);
-    //     socket.broadcast.emit('msg-' + msg.gameId, msg);
-    // });
+const Game = require('../models/game');
 
-    // socket.on('card selected', function(card) {
-    //     console.log('server got card');
-    //     console.log('card user: ' + card.user);
-    //     console.log('card src: ' + card.src);
-    // });
-    io.on('connection', socket => {
+module.exports = io => {
+    let sockets = [];
+    let people = [];
+    io.sockets.on('connection', socket => {
+        sockets.push(socket);
+        // join the server
+        const _id = socket.id;
         // game
-        console.log('a user connected');
+        console.log('a user connected: ' + _id);
         // on join room
         socket.on('create', function (room) {
             console.log('create this:');
@@ -29,10 +16,21 @@ module.exports = io => {
             socket.join(room);
         });
         // new user
-        // socket.on('new user', function (room) {
-        //     console.log(`new user: ${room.user} adding to room: ${room.gameId}`);
-        //     socket.in(room.gameId).emit('Update Users', { user: room.user, wins: 0 });
-        // });
+        socket.on('user connected', function (r) {
+            console.log(`new user: ${r.user} socket id: ${socket.id}`);
+            console.log(socket.id);
+            // check if user exists
+            let removed = removeByKey(people, { key: 'user', value: r.user });
+            people.push({ socketId: socket.id, gameId: r.gameId, user: r.user });
+        });
+        // leave room
+        socket.on('leave room', function (r) {
+            console.log(`user: ${r.user} socket id: ${socket.id} has left`);
+            let removed = removeByKey(people, { key: 'socketId', value: socket.id });
+            sockets.splice(sockets.indexOf(socket), 1);
+            // emit remove user
+            // socket.in(r.gameId).emit('remove user', { user: r.user });
+        });
         // chat
         socket.on('client msg', function (msg) {
             console.log('server got new message id: ' + msg.gameId);
@@ -44,9 +42,46 @@ module.exports = io => {
         socket.on('disconnect', function (response) {
             console.log(response);
             console.log(`${response} has disconnected.`);
-            // console.log(`${response.user} has disconnected.`);
-            // socket.in(response.id).emit('Remove Users', { user: response.user });
+            io.emit('user disconnected', { socketId: socket.id });
+            console.log('Socket disconnected: ' + socket.id);
+            // disconnect
+            let userObj = findByKey(people, socket.id);
+            if (typeof userObj === 'object') {
+                Game.findOneAndUpdate({ _id: userObj.gameId }, { $pull: { 'users': { user: userObj.user } } }, { safe: true, multi: true, new: true }).then(function (result) {
+                    // remove user
+                    console.log('User ' + userObj.user + ' has been removed --->');
+                    console.log(result.users);
+                    socket.in(userObj.gameId).emit('remove disconnected', { user: userObj.user });
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+
         });
     });
 
+}
+
+function removeByKey(array, params) {
+    array.some(function (item, index) {
+        if (array[index][params.key] === params.value) {
+            // found it!
+            array.splice(index, 1);
+            return true; // stops the loop
+        }
+        return false;
+    });
+    return array;
+}
+
+function findByKey(array, s) {
+    let user;
+    array.some(function (item, index){
+        if (array[index].socketId === s) {
+            user = item;
+            return true;
+        }
+        return false;
+    });
+    return user;
 }

@@ -2,6 +2,7 @@ import {
     CURRENT_GAME, 
     ADD_CHAT, 
     UPDATE_USERS,
+    REMOVE_USER,
     UPDATE_CARDS,
     UPDATE_WINNER,
     UPDATE_WINNING_CARD,
@@ -61,6 +62,16 @@ export default function (state = INITIAL_STATE, action) {
                     users: users
                 }
             };
+        case REMOVE_USER:
+            let userList = state.game.users.slice();
+            let removed = removeByKey(userList, { key: 'user', value: action.payload });
+            return {
+                ...state,
+                game: {
+                    ...state.game,
+                    users: removed
+                }
+            };
         case UPDATE_WINS:
             let updateWins = state.game.users.slice();
             console.log('UPDATE_WINS');
@@ -69,6 +80,7 @@ export default function (state = INITIAL_STATE, action) {
                 console.log('Winning user: ' + action.payload);
                 if (obj.user === action.payload) {
                     obj.wins++;
+                    console.log('Wins: ---> ' + obj.wins);
                 }
             });
             return {
@@ -94,7 +106,7 @@ export default function (state = INITIAL_STATE, action) {
             };
         case CLEAR_CARDS:
             return {
-                ...UPDATE_CARDS,
+                ...state,
                 game: {
                     ...state.game,
                     images: action.payload
@@ -135,4 +147,16 @@ export default function (state = INITIAL_STATE, action) {
         default:
             return state;
     }
+}
+
+function removeByKey(array, params) {
+    array.some(function (item, index) {
+        if (array[index][params.key] === params.value) {
+            // found it!
+            array.splice(index, 1);
+            return true; // stops the loop
+        }
+        return false;
+    });
+    return array;
 }
