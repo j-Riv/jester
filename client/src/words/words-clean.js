@@ -32,6 +32,7 @@ export default {
     'spongebob',
     'y2k',
     'crazy',
-    'basic'
+    'basic',
+    'dab'
     ]
 }
