@@ -10,7 +10,7 @@ import store from '../../store';
 import {
     CARD_SELECTED
 } from '../../actions/types';
-// import './JesterView.css';
+import './jesterview.css';
 
 class JesterView extends React.Component {
     componenentDidMount = () => {
@@ -39,7 +39,7 @@ class JesterView extends React.Component {
                 view = <Col sm={12} className="text-center">
                             {this.props.game.winner === this.props.currentUser.username ? <p>You Won!</p> : <p>The winner is: {this.props.game.winner}</p>}
                             <p>The Winning card is:</p>
-                            <img src={this.props.game.winning_card} alt={this.props.game.winner} />
+                            <img id="winningCard" src={this.props.game.winning_card} alt={this.props.game.winner} />
                         </Col>
             } else if (this.props.currentUser.card_selected) {
                 view = <Col sm={12} className="text-center">
