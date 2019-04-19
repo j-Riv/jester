@@ -162,6 +162,25 @@ class Game extends Component {
         socket.on('remove disconnected', r => {
             // remove user --> might need to fix current turn as well
             store.dispatch({ type: REMOVE_USER, payload: r.user });
+            // fix this --->
+            // get game object from server and save to game state
+            this.props.getGame(params.gameId, (response) => {
+                const game = response.data.game;
+                // logging the game object
+                console.log(game);
+                // get gifs from api and update game state
+                this.props.setUserGifs(word, (response) => {
+                    // got gifs
+                    // console.log('got gifs with setUserGifs');
+                    console.log(response);
+                });
+                // set current turn on first user in game
+                if (this.props.game.current_turn === '' || this.props.game.current_turn === null) {
+                    // setting initial current turn
+                    // console.log('setting initial current turn');
+                    this.props.setCurrentTurn(this.props.user, params.gameId);
+                }
+            });
         });
     }
 
@@ -188,7 +207,7 @@ class Game extends Component {
                 users = this.props.game.users.map((player, key) => {
                     return (
                         <li key={key}>
-                            <i className={`fas fa-user ${this.props.user === player.user ? 'text-red' : 'text-black'}`}></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
+                                <i className={`fas ${this.props.game.current_turn === player.user ? 'fa-crown' : 'fa-user' } ${this.props.user === player.user ? 'text-red' : 'text-black'}`} ></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
                         </li>
                     );
                 });
@@ -197,9 +216,9 @@ class Game extends Component {
         // display views
         let view;
         if (this.props.game.current_turn === this.props.user) {
-            view = <KingView users={users} getNext={getNext}/>
+            view = <KingView viewStyle='king-view' users={users} getNext={getNext}/>
         }else{
-            view = <JesterView users={users} />
+            view = <JesterView viewStyle='jester-view'  users={users} />
         }
 
         return (

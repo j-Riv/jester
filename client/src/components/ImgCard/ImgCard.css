@@ -3,7 +3,26 @@
     cursor: pointer;
 }
 
-.card,
+
+/* .card,
 .card-body {
     padding: 1px;
+} */
+
+.card {
+    border: none;
+}
+
+.card-body img {
+    height: 300px;
+    width: auto;
+}
+
+.card-wrapper {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 300px;
+    width: auto;
+    border: 2px solid #fff;
 }
