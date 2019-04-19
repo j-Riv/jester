@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
+import PlayerCard from '../../components/Game/PlayerCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -59,10 +60,21 @@ class JesterView extends React.Component {
             <Container fluid={true} id="viewComponent">
                 <Row>
                     <Col sm={12}>
-                        <p><i className="fas fa-user"></i> {this.props.currentUser.username}</p>
-                        <ul id="userList">
+                        {/* <Container>
+                            <p><i className="fas fa-user"></i> {this.props.currentUser.username}</p>
+                        </Container> */}
+                        <Row>
+                            {this.props.users.map((e, i) => {
+                                return <PlayerCard
+                                total={this.props.users.length}
+                                user={e}
+                                key={i}
+                                />
+                            })}
+                        </Row>
+                        {/* <ul id="userList">
                             {this.props.users}
-                        </ul>
+                        </ul> */}
                         <p className="text-center">{this.props.game.phrase}</p>
                         <p>Images:</p>
                         <Row>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Col from 'react-bootstrap/Col';
-import CardColumns from 'react-bootstrap/CardColumns';
+// import CardColumns from 'react-bootstrap/CardColumns';
 import Card from 'react-bootstrap/Card';
 import './ImgCard.css';
 
