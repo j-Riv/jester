@@ -5,6 +5,8 @@ import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
 import { slide as Menu } from 'react-burger-menu'
 import "./Profile.css";
+import ProAccord from './ProfileAccord';
+
 // import ProfileModal from './ProfileModal';
 class Profile extends React.Component {
 
@@ -19,10 +21,11 @@ class Profile extends React.Component {
 
 
         return (
-
+                
             <Menu>
                 <div className="container-fluid pro">
-                    {/* <ProfileModal /> */}
+                 <ProAccord />
+
                     <div className="row">
                         <div className="col-sm-12 text-center">
                             <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt="profile picture" />
