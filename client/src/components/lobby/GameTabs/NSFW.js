@@ -2,30 +2,31 @@ import React, { Component } from 'react';
 import Row from "react-bootstrap/Row";
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
+import { Link } from 'react-router-dom';
 
 class NSFW extends Component {
     renderNSFWGames(){
         let props = this.props;
-        const nsfwGames = props.peeps.filter(g => g.category === 'NSFW')
+        const nsfwGames = props.peeps.filter(g => g.category === 'Not Safe For Work')
         const nsfw = nsfwGames.map(item=> {
-            console.log(item.gameName)
-            console.log(item.category)
                 return (
                     <div>
                         <Row key={item.id}>
                         
                             <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div>
-                                    <h5>{item.name}</h5>
-                                    <Image src={item.image} roundedCircle />
+                                    <h5>Creator: {item.username}</h5>
+                                    {/* <Image src={item.image} roundedCircle /> */}
                                 </div>
             
                             </Col>
             
                             <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
                                 <div>
-                                    <h3>{item.gameName}</h3>
-                                    <p>{this.props.players}/{item.maxPlayers}</p>
+                                    <Link to={`/room/${item._id}`}>
+                                    <h3>{item.game_name}</h3>
+                                    <p>{item.users.length}/{item.max_players}</p>
+                                    </Link>
                                 </div>
             
                             </Col>

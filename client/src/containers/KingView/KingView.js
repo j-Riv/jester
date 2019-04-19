@@ -53,7 +53,7 @@ class KingView extends React.Component {
                             {this.props.users}
                         </ul>
                         <p>Your Image/Phrase</p>
-
+                        <p className="text-center">{this.props.game.phrase}</p>
                         <p>Chosen Images:</p>
                         <Row>
                             {chosenImages}
