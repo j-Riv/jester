@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../requireAuth';
-import Sidebar from '../Sidebar/Sidebar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -17,7 +16,6 @@ import {
     UPDATE_USERS,
     REMOVE_USER, 
     UPDATE_CARDS, 
-    UPDATE_WINNER,
     CARD_SELECTED,
     UPDATE_CURRENT_TURN
 } from '../../actions/types';
@@ -90,7 +88,6 @@ class Game extends Component {
         });
         // new user connected send update to server
         socket.on('connect', () => {
-            const sessionid = socket.id;
             // new user has joined log session/socket id
             // console.log('new user ' + this.props.user + ' joined: connected --> ' + sessionid);
             // update users on new user connect
@@ -226,6 +223,8 @@ class Game extends Component {
                     customBurgerIcon={false}
                     pageWrapId={'room'} 
                     outerContainerId={'roomOuter'}
+                    customCrossIcon={<img src="/images/close.svg" />}
+                    id='chatSide'
                 >
                     <Chat gameId={params.gameId} socket={socket} />
                 </Menu>
@@ -237,6 +236,8 @@ class Game extends Component {
                     customBurgerIcon={false}
                     pageWrapId={'room'}
                     outerContainerId={'roomOuter'}
+                    customCrossIcon={<img src="/images/close.svg" />}
+                    id='profileSide'
                 >
                     <Profile />
                 </Menu>

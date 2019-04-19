@@ -10,7 +10,7 @@ import Signup from './auth/Signup';
 import Protected from './Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-import Profile from "../components/Profile/ProfileBar";
+import EditProfile from "../components/Profile/EditProfile";
 import GamesLobby from "../components/lobby/gamesLobby/lobby";
 import GameContainer from '../pages/GameContainer';
 import Room from './Room/Game';
@@ -40,7 +40,7 @@ class App extends Component {
                         <Route path="/protected" component={Protected} />
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
-                        <Route path="/profile" component={Profile} />
+                        <Route path="/profile" component={EditProfile} />
                         <Route path="/lobby" component={GamesLobby} />
                         <Route path="/room/:gameId" component={Room} />
                         <Route path='/game' component={GameContainer} />

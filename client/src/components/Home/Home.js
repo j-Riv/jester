@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import store from '../../store/index';
 import './home.css';
 
 class Home extends Component {

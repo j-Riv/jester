@@ -63,7 +63,7 @@ class Signup extends Component {
                                 />
                             </Form.Group>
                             <div>{this.props.errorMessage}</div>
-                            <Button variant="secondary" type="submit" style={{ width: '100%' }}>
+                            <Button variant="light" type="submit" style={{ width: '100%' }}>
                                 Sign Up!
                             </Button>
                             <Link to="/signin">You already have an account? Log in here.</Link>
