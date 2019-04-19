@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
-import Search from '../searchLobby/searchLobby';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import Image from 'react-bootstrap/Image';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../.././../actions';

@@ -11,7 +11,7 @@ import Protected from './Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
 import Profile from "../components/Profile/ProfileBar";
-import GamesLobby from "../components/lobby/gamesLobby/lobby2";
+import GamesLobby from "../components/lobby/gamesLobby/lobby";
 import GameContainer from '../pages/GameContainer';
 import Room from './Room/Game';
 import "./App.css";

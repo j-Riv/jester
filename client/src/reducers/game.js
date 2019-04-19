@@ -9,11 +9,13 @@ import {
     UPDATE_WINNER_CHOSEN,
     UPDATE_CURRENT_TURN,
     CLEAR_CARDS,
-    UPDATE_WINS
+    UPDATE_WINS,
+    SET_PHRASE
 } from '../actions/types';
 
 const INITIAL_STATE = {
     game: {
+        phrase: '',
         users: [],
         current_turn: '',
         images: [],
@@ -36,6 +38,14 @@ export default function (state = INITIAL_STATE, action) {
             return {
                 ...state,
                 game: action.payload
+            };
+        case SET_PHRASE:
+            return {
+                ...state,
+                game: {
+                    ...state.game,
+                    phrase: action.payload
+                }
             };
         case ADD_CHAT:
             return {

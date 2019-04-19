@@ -14,7 +14,8 @@ import {
     UPDATE_WINNING_CARD,
     UPDATE_WINNER_CHOSEN,
     CLEAR_CARDS,
-    CARD_SELECTED
+    CARD_SELECTED,
+    SET_PHRASE
 } from './types';
 import io from 'socket.io-client';
 import words from '../words/words-clean';
@@ -136,14 +137,18 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
 }
 
 export const setCurrentTurn = (user, gameId) => async dispatch => {
+    // get phrase
+    const phrase = words.words[~~(Math.random() * words.words.length)];
+    console.log('PHRASE ----> ' + phrase);
     try {
         const response = await axios.post(
             hostname + '/games/game/turn',
-            { user, gameId }
+            { user, gameId, phrase }
         );
         console.log('current turn update from server');
         console.log(response.data.turn);
         dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.turn });
+        dispatch({ type: SET_PHRASE, payload: response.data.phrase });
     } catch (e) {
         console.log(e);
     }
@@ -167,8 +172,10 @@ export const imgCardChosen = card => async () => {
 }
 
 export const winnerChosen = winnerData => async () => {
-    console.log('Card info:');
-    console.log(winnerData);
+    // get phrase
+    const phrase = words.words[~~(Math.random() * words.words.length)];
+    winnerData.phrase = phrase;
+
     try {
         const response = await axios.post(
             hostname + '/games/update/winner',
@@ -198,6 +205,7 @@ export const afterWin = r => async dispatch => {
         dispatch({ type: CLEAR_CARDS, payload: [] });
         dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
         dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
+        dispatch({ type: SET_PHRASE, payload: r.phrase });
         dispatch({ type: CARD_SELECTED, payload: false });
         // get new gifs
         const newWord = [
