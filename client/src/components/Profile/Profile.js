@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
 import "./Profile.css";
+import ProfileAccord from "./ProfileAccord"
 
 class Profile extends React.Component {
+
+    hello = () =>{
+        console.log('heelo');
+    };
 
     render() {
 
@@ -17,14 +22,16 @@ class Profile extends React.Component {
         }
 
 
+      
         return (
 
             <div>
+
                 <div className="container-fluid pro">
                     {/* <ProfileModal /> */}
-                    <div className="row">
-                        <div className="col-sm-12 text-center">
-                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt="profile picture" />
+                    <div className="row d-flex justify-content-center">
+                        <div className="col-12 text-center">
+                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} onClick={this.hello} alt="profile picture" />
                         </div>
                     </div>
                     <div className="row">
@@ -67,7 +74,7 @@ class Profile extends React.Component {
 
                 </div>
 
-            </div>
+            </div >
 
         );
     }
