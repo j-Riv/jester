@@ -21,7 +21,7 @@ class Chat extends Component {
     }
 
     onSubmit = formProps => {
-        formProps.user = this.props.currentUser.username;
+        formProps.user = this.props.username;
         formProps.gameId = this.props.game._id;
         this.props.addMessage(formProps, () => {
             this.props.socket.emit('client msg', formProps);
@@ -38,13 +38,13 @@ class Chat extends Component {
                         key={index}
                     user={msg.user}
                     msg={msg.message}
-                    className={this.props.currentUser.username === msg.user ? 'current-user' : ''}
+                    className={this.props.username === msg.user ? 'current-user' : ''}
                     />
                 )
         }
         return (
             <div id="chatComponent">
-                <p className="text-center">Chat <i className="fas fa-comment-dots"></i></p>
+                <p className="text-center">Chat <i className="fas fa-comment-alt"></i></p>
                 <div id="chatWrapper">
                     <div id="chatArea">
                         <div className="messages" id="messages">
@@ -54,7 +54,7 @@ class Chat extends Component {
                     <Form id="chatForm" className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
                         <InputGroup>
                             <InputGroup.Prepend>
-                                <img id="chatPhoto" src="/images/default-user.png" alt="user" />
+                                <img id="chatPhoto" src={this.props.picture !== '' ? this.props.picture : '/images/default-user.png' } alt="user" />
                             </InputGroup.Prepend>
                             <Field
                                 className="form-control"
@@ -78,12 +78,13 @@ class Chat extends Component {
 function scrollToBottom() {
     const messages = document.getElementById('chatArea');
     messages.scrollTop = messages.offsetHeight;
-    console.log('sh: ' + messages.scrollTop);
+
 }
 
 function mapStateToProps(state) {
     return { 
-        currentUser: state.currentUser.user, 
+        username: state.currentUser.user.username,
+        picture: state.currentUser.user.picture,
         game: state.game.game, 
         messages: state.game.game.messages
     };

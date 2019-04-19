@@ -9,41 +9,39 @@ class SFW extends Component {
     renderSFWGames(){
         let props = this.props;
         const sfwGames = props.peeps.filter(g => g.category === 'Safe For Work')
-        const sfw = sfwGames.map(item=> {
+        const sfw = sfwGames.map(item => {
                 return (
-                    <div>
-                        <Row key={item.id}>
-                        
-                            <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <div>
-                                    <h5>Creator: {item.username}</h5>
-                                    {/* <Image src={item.image} roundedCircle /> */}
-                                </div>
-            
-                            </Col>
-            
-                            <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <div>
-                                <Link to={`/room/${item._id}`}>
-                                    <h3>{item.game_name}</h3>
-                                    <p>{item.users.length}/{item.max_players}</p>
-                                </Link>
-                                </div>
-            
-                            </Col>
-            
-                            <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <div>
-                                    <p>{item.category}</p>
-                                    <p>{item.status}</p>
-                                </div>
-                            </Col>
-            
-                        </Row>
-                    </div>
-                )
-        })
-        console.log(sfw, 'hello')
+                    <Row key={item._id}>
+                    
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <h5>Creator: {item.username}</h5>
+                                {/* <Image src={item.image} roundedCircle /> */}
+                            </div>
+        
+                        </Col>
+        
+                        <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                            <Link to={`/room/${item._id}`}>
+                                <h3>{item.game_name}</h3>
+                                <p>{item.users.length}/{item.max_players}</p>
+                            </Link>
+                            </div>
+        
+                        </Col>
+        
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <p>{item.category}</p>
+                                <p>{item.status}</p>
+                            </div>
+                        </Col>
+        
+                    </Row>
+                );
+        });
+        
         return sfw.length > 0 ? sfw : <p>no game to show</p>
     };
         

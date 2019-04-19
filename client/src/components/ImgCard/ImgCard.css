@@ -3,19 +3,8 @@
     cursor: pointer;
 }
 
-
-/* .card,
-.card-body {
-    padding: 1px;
-} */
-
 .card {
     border: none;
-}
-
-.card-body img {
-    height: 300px;
-    width: auto;
 }
 
 .card-wrapper {

@@ -129,15 +129,28 @@ exports.updateGame = function(req, res, next) {
 exports.addUser = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
+    const user_id = req.body.userId;
     if (user !== null) {
+        // get user data then --->
         // updating game with new user
-        // console.log(`Updating game: ${id} with this user: ${user}`);
-        Game.findOneAndUpdate({ _id: id }, { $addToSet: { 'users': { user: user, wins: 0 } } }, { new: true }).then(function (result) {
-            req.io.in(id).emit('add user', { user: user, wins: 0 });
-            // user has been added
-            // console.log('Users have been updated --->');
-            console.log(result.users);
-            res.json({ added: { user: user, wins: 0 } });
+        User.findOne({ _id: user_id }).then(function (userData) {
+            // build user obj
+            const userObj = {
+                _id: userData._id,
+                username: userData.username,
+                picture: userData.picture
+            };
+            Game.findOneAndUpdate({ _id: id }, { $addToSet: { 'users': { user: user, wins: 0, data: userObj } } }, { new: true }).then(function (result) {
+                req.io.in(id).emit('add user', { user: user, wins: 0, data: userObj });
+                // user has been added
+                console.log(result.users);
+                // emit event to clients in lobby
+                req.io.emit('update games');
+                // send user data
+                res.json({ added: { user: user, wins: 0, data: userObj } });
+            }).catch(function (error) {
+                console.log(error);
+            });
         }).catch(function (error) {
             console.log(error);
         });
@@ -156,6 +169,7 @@ exports.removeUser = function (req, res, next) {
             // remove user
             console.log('User ' + user + ' has been removed --->');
             console.log(result.users);
+            // emit event to clients in game
             req.io.in(id).emit('remove user', { user: user, nextUser: nextUser });
             // update current turn if game is empty
             if(result.users.length < 1) {
@@ -177,6 +191,8 @@ exports.removeUser = function (req, res, next) {
                     console.log(error);
                 });
             }
+            // emit event to clients in lobby
+            req.io.emit('update games');
             res.json({ removed: { user: user, nextUser: nextUser } });
         }).catch(function (error) {
             console.log(error);
@@ -205,7 +221,6 @@ exports.updateGameCards = function (req, res, next) {
     const user = req.body.user;
     const card = req.body.card;
     // update room with card
-    // console.log(`Updating game: ${id} with this card: ${card}`);
     req.io.in(id).emit('update cards', req.body);
     res.json({ card: req.body });
 }

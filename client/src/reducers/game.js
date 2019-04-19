@@ -95,7 +95,7 @@ export default function (state = INITIAL_STATE, action) {
             });
             return {
                 ...state,
-                user: {
+                game: {
                     ...state.game,
                     users: updateWins
                 }

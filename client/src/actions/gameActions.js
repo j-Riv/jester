@@ -25,7 +25,7 @@ const socket = io(hostname, {
     secure: true
 });
 
-export const setUserGifs = (callback) => async dispatch => {
+export const setUserGifs = () => async dispatch => {
     try {
         let word = [];
         for (let i = 0; i < 3; i++) {
@@ -50,29 +50,23 @@ export const setUserGifs = (callback) => async dispatch => {
         console.log(gifs)
         dispatch({ type: GET_GIFS, payload: gifs })
     } catch (e) {
-        // dispatch({ e })
         console.log(e)
     }
 };
 
 export const addMessage = (formProps, callback) => async dispatch => {
-    console.log('Add_Chat');
-    console.log(formProps);
-    // no saving to mongo
-    // this might change
     dispatch({ type: ADD_CHAT, payload: formProps });
     dispatch(reset('chat'));
     callback();
 };
 
 export const createGame = (formProps, callback) => async () => {
+    // create game
     try {
         const response = await axios.post(
             hostname + '/games/new',
             formProps
         );
-        console.log('created game?');
-        console.log(response.data);
         callback(response);
     } catch (e) {
         console.log(e);
@@ -80,11 +74,11 @@ export const createGame = (formProps, callback) => async () => {
 }
 
 export const getGame = (id, callback) => async dispatch => {
+    // get current game
     try {
         const response = await axios.get(
             hostname + '/games/game/' + id
         );
-        console.log('got game?');
         localStorage.setItem('game', response.data.game);
         dispatch({ type: CURRENT_GAME, payload: response.data.game });
         callback(response);
@@ -93,31 +87,30 @@ export const getGame = (id, callback) => async dispatch => {
     }
 }
 
-export const getAllGames = (callback) => async dispatch => {
+export const getAllGames = () => async dispatch => {
     try {
         const response = await axios.get(
             hostname + '/games/all/'
         );
-        console.log('all games -->');
-        console.log(response.data.games);
+        // get all games
         dispatch({ type: GET_ALL_GAMES });
         dispatch({ type: ALL_GAMES, payload: response.data.games });
-        callback(response);
     } catch (e) {
         console.log(e);
     }
 }
 
-export const addUser = (user, gameId, callback) => async dispatch => {
-    console.log(`Add user: ${user} to room: ${gameId}!`);
+export const addUser = (user, userId, gameId, callback) => async dispatch => {
+    // add user to room
     try {
         const response = await axios.post(
             hostname + '/games/add/users',
-            {user, gameId}
+            { user, userId, gameId }
         );
-        console.log('addUser');
-        console.log(response.data.added.user);
+        // add user
         dispatch({ type: UPDATE_USERS, payload: response.data.added });
+        console.log('user added ----->');
+        console.log(response.data.added);
         callback(response.data.added);
     } catch (e) {
         console.log(e);
@@ -125,14 +118,13 @@ export const addUser = (user, gameId, callback) => async dispatch => {
 }
 
 export const removeUser = (user, gameId, nextUser, callback) => async dispatch => {
-    console.log(`Removing user: ${user} from room: ${gameId}!`);
+    // remove user from room
     try {
         const response = await axios.post(
             hostname + '/games/remove/users',
             { user, gameId, nextUser }
         );
-        console.log('updateGameusers');
-        console.log(response.data.removed.user);
+        // remove user
         dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.removed.nextUser });
         callback(response.data.removed.user);
     } catch (e) {
@@ -143,14 +135,13 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
 export const setCurrentTurn = (user, gameId) => async dispatch => {
     // get phrase
     const phrase = words.words[~~(Math.random() * words.words.length)];
-    console.log('PHRASE ----> ' + phrase);
+
     try {
         const response = await axios.post(
             hostname + '/games/game/turn',
             { user, gameId, phrase }
         );
-        console.log('current turn update from server');
-        console.log(response.data.turn);
+        // set current turn to response from server
         dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.turn });
         dispatch({ type: SET_PHRASE, payload: response.data.phrase });
     } catch (e) {
@@ -169,7 +160,6 @@ export const imgCardChosen = card => async () => {
         );
         console.log('updateCards');
         console.log(response.data.card);
-        // dispatch({ type: UPDATE_IMAGES, payload: response.data.updatedGame.images });
     } catch (e) {
         console.log(e);
     }
@@ -193,12 +183,8 @@ export const winnerChosen = winnerData => async () => {
 }
 
 export const afterWin = r => async dispatch => {
-    // update wins
-    // console.log('Updating winner: ' + response.user);
     // update winner
     dispatch({ type: UPDATE_WINS, payload: r.user });
-    // console.log('Update winner socket');
-    // console.log(r);
     dispatch({ type: UPDATE_WINNER, payload: r.user });
     dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
     dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
@@ -212,14 +198,6 @@ export const afterWin = r => async dispatch => {
         dispatch({ type: SET_PHRASE, payload: r.phrase });
         dispatch({ type: CARD_SELECTED, payload: false });
         // get new gifs
-        const newWord = [
-            words.words[~~(Math.random() * words.words.length)],
-            words.words[~~(Math.random() * words.words.length)],
-            words.words[~~(Math.random() * words.words.length)]
-        ];
-        setUserGifs(newWord, (response) => {
-            console.log('got new gifs');
-            console.log(response);
-        });
+        setUserGifs();
     }, 3000);
 }

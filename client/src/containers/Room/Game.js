@@ -63,7 +63,7 @@ class Game extends Component {
         console.log('creating game: ' + params.gameId);
         // add user to game room
         if (this.props.user !== undefined) {
-            this.props.addUser(this.props.user, params.gameId, (response) => {
+            this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
                 // users have been updated
                 console.log(response);
             });
@@ -95,7 +95,7 @@ class Game extends Component {
             // console.log('new user ' + this.props.user + ' joined: connected --> ' + sessionid);
             // update users on new user connect
             if (this.props.user !== undefined) {
-                this.props.addUser(this.props.user, params.gameId, (response) => {
+                this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
                     console.log('users have been updated');
                     console.log(response);
                 });
@@ -120,7 +120,7 @@ class Game extends Component {
             // console.log('reconnecting ' + this.props.user + ' attempts: ' + attemptNumber);
             // update users on socket reconnect
             if (this.props.user !== undefined) {
-                this.props.addUser(this.props.user, params.gameId, (response) => {
+                this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
                     console.log(response);
                 });
             }
@@ -278,6 +278,7 @@ function mapStateToProps(state) {
     return { 
         game: state.game.game,
         user: state.currentUser.user.username,
+        userId: state.currentUser.user._id,
         currentUser: state.currentUser.user
      };
 }
