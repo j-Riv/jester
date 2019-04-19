@@ -63,6 +63,7 @@ class JesterView extends React.Component {
                         <ul id="userList">
                             {this.props.users}
                         </ul>
+                        <p className="text-center">{this.props.game.phrase}</p>
                         <p>Images:</p>
                         <Row>
                             {view}

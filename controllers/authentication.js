@@ -71,6 +71,7 @@ exports.update = function (req, res, next) {
 exports.createGame = function (req, res, next) {
     // create new game
     const game = new Game({
+        phrase: null,
         users: [],
         current_turn: req.body.current_turn,
         images: [],
@@ -188,11 +189,12 @@ exports.removeUser = function (req, res, next) {
 exports.updateCurrentTurn = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
-    Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: user }, new: true }).then(function (result) {
+    const phrase = req.body.phrase;
+    Game.findOneAndUpdate({ _id: id }, { $set: { current_turn: user, phrase: phrase }, new: true }).then(function (result) {
         // update current turn
         console.log('updating current turn ' + user + ' on server ---->');
         console.log(result);
-        res.json({ turn: user });
+        res.json({ turn: user, phrase: phrase });
     }).catch(function (error) {
         console.log(error);
     });
@@ -211,8 +213,9 @@ exports.updateGameCards = function (req, res, next) {
 exports.updateGameWinner = function (req, res, next) {
     const id = req.body.gameId;
     const user = req.body.user;
+    const phrase = req.body.phrase;
     // send the winner to game
-    console.log(`Sending game: ${id} this winner: ${user}`);
+    console.log(`Sending game: ${id} this winner: ${user} this is the new prhase: ${phrase}`);
     req.io.in(id).emit('update winner', req.body);
     res.json({ winner: req.body });
 }

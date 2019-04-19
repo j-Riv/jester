@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 // Define our model
 const gameSchema = new Schema({
+  phrase: { type: String },
   users: [{}],
   current_turn: { type: String },
   images: [],

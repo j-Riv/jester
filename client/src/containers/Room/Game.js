@@ -86,10 +86,12 @@ class Game extends Component {
                 console.log(response);
             });
             // set current turn on first user in game
-            if (this.props.game.current_turn === '' || this.props.game.current_turn === null) {
+            if (this.props.game.current_turn === '' || this.props.game.phrase === null) {
                 // setting initial current turn
-                // console.log('setting initial current turn');
+                console.log('setting initial current turn');
                 this.props.setCurrentTurn(this.props.user, params.gameId);
+            }else{
+                console.log('not setting initial');
             }
         });
         // new user connected send update to server
@@ -207,7 +209,7 @@ class Game extends Component {
                 users = this.props.game.users.map((player, key) => {
                     return (
                         <li key={key}>
-                                <i className={`fas ${this.props.game.current_turn === player.user ? 'fa-crown' : 'fa-user' } ${this.props.user === player.user ? 'text-red' : 'text-black'}`} ></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
+                            <i className={`fas ${this.props.game.current_turn === player.user ? 'fa-crown' : 'fa-user' } ${this.props.user === player.user ? 'text-red' : 'text-black'}`} ></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
                         </li>
                     );
                 });
@@ -223,7 +225,6 @@ class Game extends Component {
 
         return (
             <div id="roomOuter">
-                {/* <Sidebar gameId={params.gameId} socket={socket} /> */}
                 <Menu
                     Right
                     isOpen={this.state.chatOpen}
@@ -256,8 +257,8 @@ class Game extends Component {
                     </Row>
                 </Container>
                 <div id="buttonContainer" className="text-center">
-                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('chatOpen')}><i class="fas fa-comment-alt"></i> Chat</Button>
-                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('profileOpen')}><i class="fas fa-user-circle"></i> Profile</Button>
+                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('chatOpen')}><i className="fas fa-comment-alt"></i> Chat</Button>
+                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('profileOpen')}><i className="fas fa-user-circle"></i> Profile</Button>
                 </div>
             </div>
         );
@@ -270,7 +271,11 @@ function getNext(all, user) {
     if (index >= 0 && index < all.length - 1) {
         nextUser = all[index + 1].user;
     } else {
-        nextUser = all[0].user;
+        if (all.length > 1) {
+            nextUser = all[0].user;   
+        }else{
+            nextUser = '';
+        }
     }
     return nextUser;
 }
