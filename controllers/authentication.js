@@ -54,7 +54,7 @@ exports.getCurrentUser = function (req, res, next) {
     });
 }
 
-exports.update = function (req, res, next) {
+exports.updateUser = function (req, res, next) {
     const id = req.body.id;
     const username = req.body.username;
     const picture = req.body.picture;
