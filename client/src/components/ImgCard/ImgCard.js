@@ -1,16 +1,14 @@
 import React from 'react';
 import Col from 'react-bootstrap/Col';
+import CardColumns from 'react-bootstrap/CardColumns';
 import Card from 'react-bootstrap/Card';
 import './ImgCard.css';
 
 class ImgCard extends React.Component {
     render() {
         return (
-            <Col xs={6} sm={6} md={4} lg={4} className="card-wrapper d-flex align-items-center">
-                <Card onClick={() => this.props.onSelect()}>
-                    <Card.Body>
-                        <img className="w-100" src={`${this.props.img}`} alt={`Card`} />
-                    </Card.Body>
+            <Col xs={12} sm={12} md={4} lg={4} className="card-wrapper" style={{ backgroundImage: `url(${this.props.img})` }} onClick={() => this.props.onSelect()}>
+                <Card>
                 </Card>
             </Col>
         );
