@@ -8,10 +8,6 @@ import ProfileAccord from "./ProfileAccord"
 
 class Profile extends React.Component {
 
-    hello = () =>{
-        console.log('heelo');
-    };
-
     render() {
 
         const user = this.props.currentUser;
@@ -22,7 +18,7 @@ class Profile extends React.Component {
         }
 
 
-      
+
         return (
 
             <div>
@@ -30,7 +26,7 @@ class Profile extends React.Component {
                 <div className="container-fluid pro">
                     {/* <ProfileModal /> */}
                     <div className="row d-flex justify-content-center">
-                        <div className="col-12 text-center">
+                        <div className="col-sm-3 text-center">
                             <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} onClick={this.hello} alt="profile picture" />
                         </div>
                     </div>
