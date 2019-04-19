@@ -51,7 +51,14 @@ exports.getCurrentUser = (req, res) => {
     User.findOne({ 
         _id: decoded.sub 
     }).then(result => {
-        res.json({ currentUser: result });
+        // build user obj
+        const userObj = {
+            _id: result._id,
+            email: result.email,
+            username: result.username,
+            picture: result.picture
+        };
+        res.json({ currentUser: userObj });
     });
 }
 
