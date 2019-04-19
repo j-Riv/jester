@@ -10,10 +10,10 @@ class Footer extends React.Component {
             <div className="site-footer">
                 <Container>
                     <Row>
-                        <Col xs={6} sm={6} className="text-left">
+                        <Col className=" md={8} xs={6} d-flex justify-content-center sm={6} ">
                             © 2019 Wacky Waving Inflatable Flailing Arm Tube Men
                         </Col>
-                        <Col xs={6} sm={6} className="text-right">
+                        <Col className= " md={8} xs={6} d-flex justify-content-end sm={6} ">
                             <a href="https://github.com/" target="_blank" rel="noopener noreferrer"><i className="fas fa-code"></i></a>
                         </Col>
                     </Row>
