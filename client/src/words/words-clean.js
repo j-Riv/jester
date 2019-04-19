@@ -33,6 +33,22 @@ export default {
     'y2k',
     'crazy',
     'basic',
-    'dab'
+    'dab',
+    'dragons',
+    'seed',
+    'dude',
+    'captain',
+    'goof',
+    'derp',
+    'jester'
+    ],
+    dirty: [
+        'ass',
+        'fuck you',
+        'penis',
+        'jack off',
+        'middle finger',
+        'lick',
+        'penatration'
     ]
 }

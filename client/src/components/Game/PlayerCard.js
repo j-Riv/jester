@@ -37,6 +37,17 @@ class PlayerCard extends Component {
                     </Card>
                 </Col>
             )
+        } else {
+            return (
+                <Col md={6}>
+                    <Card>
+                        <Card.Body>
+                            <img src={this.props.image} alt={this.props.image} />
+                            <p>{this.props.user}</p>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            )
         }
     }
 }

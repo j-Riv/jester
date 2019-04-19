@@ -10,7 +10,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Chat from '../Chat/Chat';
 import Profile from '../../components/Profile/Profile';
-import words from '../../words/words-clean';
 import io from 'socket.io-client';
 import hostname from '../../config/config';
 import store from '../../store';
@@ -58,11 +57,6 @@ class Game extends Component {
     componentDidMount = () => {
         console.log('Host: ' + hostname);
         // declare words for api call later
-        const word = [
-            words.words[~~(Math.random() * words.words.length)],
-            words.words[~~(Math.random() * words.words.length)],
-            words.words[~~(Math.random() * words.words.length)]
-        ];
         // crete game room
         const { match: { params } } = this.props;
         socket.emit('create', params.gameId);
@@ -80,7 +74,7 @@ class Game extends Component {
             // logging the game object
             console.log(game);
             // get gifs from api and update game state
-            this.props.setUserGifs(word, (response) => {
+            this.props.setUserGifs(response => {
                 // got gifs
                 // console.log('got gifs with setUserGifs');
                 console.log(response);
@@ -171,7 +165,7 @@ class Game extends Component {
                 // logging the game object
                 console.log(game);
                 // get gifs from api and update game state
-                this.props.setUserGifs(word, (response) => {
+                this.props.setUserGifs(response => {
                     // got gifs
                     // console.log('got gifs with setUserGifs');
                     console.log(response);

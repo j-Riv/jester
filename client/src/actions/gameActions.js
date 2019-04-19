@@ -25,23 +25,27 @@ const socket = io(hostname, {
     secure: true
 });
 
-export const setUserGifs = (word, callback) => async dispatch => {
+export const setUserGifs = (callback) => async dispatch => {
     try {
+        let word = [];
+        for (let i = 0; i < 3; i++) {
+            word.push(words.words[~~(Math.random() * words.words.length)])
+        }
+
+        console.log('words===============================')
+        console.log(word)
         let gifs = [];
-        const gif1 = await axios.get(
-            `https://api.tenor.com/v1/search?tag=${word[0]}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
-        )
-        const gif2 = await axios.get(
-            `https://api.tenor.com/v1/search?tag=${word[1]}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
-        )
-        const gif3 = await axios.get(
-            `https://api.tenor.com/v1/search?tag=${word[2]}&limit=1&media_filter=minimal&key=OZVKWPE1OFF3`
-        )
-        gifs.push(
-            gif1.data.results[0].media[0].tinygif.url,
-            gif2.data.results[0].media[0].tinygif.url,
-            gif3.data.results[0].media[0].tinygif.url
-        );
+        for (let i = 0; i < 3; i++) {
+            // const gif = await axios.get(
+            //     `https://api.tenor.com/v1/search?tag=${word[i]}&limit=1&media_filter=minimal&ar_range=standard&key=OZVKWPE1OFF3`
+            // )
+            // gifs.push(gif.data.results[0].media[0].tinygif.url);
+            const gif = await axios.get(
+                `http://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
+            )
+            console.log(gif.data.data.images.fixed_width.url)
+            gifs.push(gif.data.data.images.fixed_width.url);
+        }
         console.log('gifs================')
         console.log(gifs)
         dispatch({ type: GET_GIFS, payload: gifs })
