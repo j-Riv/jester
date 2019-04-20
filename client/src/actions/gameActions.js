@@ -198,6 +198,7 @@ export const afterWin = r => async dispatch => {
         dispatch({ type: CARD_SELECTED, payload: false });
         // get new gifs
         setUserGifs();
+        // is this still running multiple?
+        dispatch({ type: UPDATE_WINS, payload: r.user });
     }, 3000);
-    dispatch({ type: UPDATE_WINS, payload: r.user });
 }
