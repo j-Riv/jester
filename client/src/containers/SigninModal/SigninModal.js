@@ -7,6 +7,7 @@ import * as actions from '../../actions';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import './signinmodal.css';
 
 class SigninModal extends React.Component {
     onSubmit = formProps => {
@@ -26,6 +27,7 @@ class SigninModal extends React.Component {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className="signin-modal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
@@ -33,7 +35,7 @@ class SigninModal extends React.Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit(this.onSubmit)}>
+                    <Form className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Field
@@ -56,12 +58,12 @@ class SigninModal extends React.Component {
                             />
                         </Form.Group>
                         <div>{this.props.errorMessage}</div>
-                        <Button variant="light" type="submit" style={{ width: '100%' }}>
+                        <Button variant="highlight" type="submit" style={{ width: '100%' }}>
                             Sign in
                         </Button>
                     </Form>
                 </Modal.Body>
-                <a className="text-center" href="#" onClick={this.props.onHide}>Don't have an account? Sign up here.</a>
+                <a className="text-center pb-2" href="#" onClick={this.props.onHide}>Don't have an account? Sign up here.</a>
             </Modal>
         );
     }

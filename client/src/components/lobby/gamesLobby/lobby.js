@@ -28,10 +28,6 @@ class GamesLobby extends Component {
             key: 'allGames'
         }
     }
-
-    // state = {
-    //     key: 'allGames'
-    // }
     
     componentDidMount = () => {
         // fetch games
@@ -70,7 +66,6 @@ class GamesLobby extends Component {
                 <CreateGameModal
                         show={this.state.showCreateGame}
                         onHide={closeCreateGame}
-                        heading={"Create Game"}
                 />
                 <Button variant="light" className="mb-auto" style={{float: 'right'}} onClick={this.handleClickCreate}><i className="fas fa-plus"></i></Button>
                 <Tabs id="game-tabs" activeKey={this.state.key} style={{clear: 'both'}} onSelect={key => this.setState({ key })}>

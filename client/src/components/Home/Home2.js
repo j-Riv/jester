@@ -11,7 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import skipHome from '../../containers/skipHome'
-import SigninModal from './SigninModal';
+import SigninModal from '../../containers/SigninModal/SigninModal';
 import './home.css';
 
 class Home extends Component {
@@ -45,7 +45,7 @@ class Home extends Component {
                 <SigninModal
                     show={this.props.showSigninForm}
                     onHide={closeSignin}
-                    heading={"Sign In"}
+                    heading={<img src="/images/jester-logo-white.png" alt="Jester" />}
                 />
                 <Jumbotron>
                     <Row id="formWrapper">
@@ -90,7 +90,7 @@ class Home extends Component {
                                     />
                                 </Form.Group>
                                 <div>{this.props.errorMessage}</div>
-                                <Button className="btn-highlight" type="submit" style={{ width: '100%' }}>
+                                <Button variant="highlight" className="btn-highlight" type="submit" style={{ width: '100%' }}>
                                     Sign Up!
                                 </Button>
                                 <a href="#" onClick={this.handleShowSignin}>You already have an account? Log in here.</a>
