@@ -33,10 +33,13 @@ class PlayerCard extends Component {
 
     render() {
         let colSize = 6;
+        let icon = '';
         const total = this.props.total;
         total >= 5 ? colSize = 3 : total === 4 ? colSize = 4 : total === 3 ? colSize = 6 : total <= 2 ? colSize = 12 : colSize = 12;
         if (this.props.king) { colSize = 12 }
-
+        if (this.props.user.data.username === this.props.currentUser.username) {
+            icon = 'fas fa-user';
+        }
         return (
             <Col md={colSize}>
                 {this.props.king ? <div className='d-flex justify-content-center'><i className='fas fa-crown' style={this.style.crown}></i></div> : null}
@@ -45,7 +48,7 @@ class PlayerCard extends Component {
                     </div>
                 </div>
                 <div>
-                    <p>{this.props.user.data.username}</p>
+                    <p><i className={icon}></i>{this.props.user.data.username}</p>
                 </div>
                 {!this.props.king ? <div><p>{this.props.user.wins}</p></div> : null}
             </Col>
