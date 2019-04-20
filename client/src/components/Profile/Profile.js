@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
 import EditProfileModal from './EditProfileModal';
-import "./profile.css";
+import "./Profile.css";
 
 class Profile extends Component {
 

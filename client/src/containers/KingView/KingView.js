@@ -53,6 +53,7 @@ class KingView extends React.Component {
                             {this.props.game.users.map(e => {
                                 if (e.data.username === this.props.game.current_turn) {
                                     return <PlayerCard
+                                    key={1}
                                     user={e}
                                     king={true}
                                     />
@@ -62,7 +63,7 @@ class KingView extends React.Component {
                         <h3 className="text-center">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading Phrase'}</h3>
                         <Row>
                             {this.props.game.users.map((e, i) => {
-                                if (e.data.username != this.props.game.current_turn) {
+                                if (e.data.username !== this.props.game.current_turn) {
                                     return <PlayerCard
                                     total={this.props.users.length}
                                     user={e}
