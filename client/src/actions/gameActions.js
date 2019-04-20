@@ -31,7 +31,6 @@ export const setUserGifs = () => async dispatch => {
         for (let i = 0; i < 3; i++) {
             word.push(words.words[~~(Math.random() * words.words.length)])
         }
-
         console.log('words===============================')
         console.log(word)
         let gifs = [];
