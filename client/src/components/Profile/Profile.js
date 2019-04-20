@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
+import EditProfileModal from './EditProfileModal';
 import "./Profile.css";
 // import ProfileAccord from "./ProfileAccord"
 
 class Profile extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            showUpdateProfile: false
+        }
+    }
+
+    handleClickEditProfile = () => {
+        console.log('show modal');
+        this.setState({ showUpdateProfile: true });
+    }
+
     render() {
+        const closeUpdateProfile = () => this.setState({ showUpdateProfile: false });
 
         const user = this.props.currentUser;
         const total = user.wins + user.losses
@@ -21,13 +34,16 @@ class Profile extends Component {
         return (
 
             <div>
-
+                <EditProfileModal
+                    show={this.state.showUpdateProfile}
+                    onHide={closeUpdateProfile}
+                />
                 <div className="container-fluid pro">
 
                     {/* <ProfileModal /> */}
                     <div className="row d-flex justify-content-center">
                         <div className="col-sm-3 text-center">
-                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} onClick={this.hello} alt={user.username} />
+                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} onClick={this.handleClickEditProfile} alt={user.username} />
                         </div>
                     </div>
                     <div className="row">

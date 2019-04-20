@@ -41,7 +41,7 @@ export const setUserGifs = () => async dispatch => {
             // )
             // gifs.push(gif.data.results[0].media[0].tinygif.url);
             const gif = await axios.get(
-                `http://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
+                `https://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
             )
             console.log(gif.data.data.images.fixed_width.url)
             gifs.push(gif.data.data.images.fixed_width.url);
@@ -184,7 +184,7 @@ export const winnerChosen = winnerData => async () => {
 
 export const afterWin = r => async dispatch => {
     // update winner
-    dispatch({ type: UPDATE_WINS, payload: r.user });
+    // dispatch({ type: UPDATE_WINS, payload: r.user });
     dispatch({ type: UPDATE_WINNER, payload: r.user });
     dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
     dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });

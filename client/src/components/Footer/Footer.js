@@ -14,7 +14,7 @@ class Footer extends React.Component {
                             © 2019 Wacky Waving Inflatable Flailing Arm Tube Men
                         </Col>
                         <Col className= " md={8} xs={6} d-flex justify-content-end sm={6} ">
-                            <a href="https://github.com/" target="_blank" rel="noopener noreferrer"><i className="fas fa-code"></i></a>
+                            <a href="https://github.com/j-Riv/project_3" target="_blank" rel="noopener noreferrer"><i className="fas fa-code"></i></a>
                         </Col>
                     </Row>
                 </Container>

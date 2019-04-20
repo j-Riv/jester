@@ -38,11 +38,9 @@ class Header extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="header">
-                    <Link to="/" className="logo"><img src={this.renderLogo()} alt="Jester" /></Link>
-                    {this.renderLinks()}
-                </div>
+            <div className="header">
+                <Link to="/" className="logo"><img src={this.renderLogo()} alt="Jester" /></Link>
+                {this.renderLinks()}
             </div>
         );
     }
