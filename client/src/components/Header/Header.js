@@ -15,24 +15,34 @@ class Header extends Component {
         if (this.props.authenticated) {
             return (
                 <div>
-                    <Link to="/lobby">Lobby</Link>
-                    <Link to="/signout">Sign Out</Link>
+                    <Link to="/lobby">LOBBY</Link>
+                    <Link to="/signout">SIGN OUT</Link>
                 </div>
             );
         } else {
             return (
                 <div>
-                    <a href="#" onClick={this.handleShowSignin}>Log In</a>
+                    <a href="#" onClick={this.handleShowSignin}>LOG IN</a>
                 </div>
             );
         }
     }
 
+    renderLogo() {
+        if (window.location.pathname === '/') {
+            return '/images/jester-logo-white.png';
+        }else{
+            return '/images/jester-logo-black.png';
+        }
+    }
+
     render() {
         return (
-            <div className="header">
-                <Link to="/" className="logo"><img src="/images/jester-logo-black.png" alt="Jester" /></Link>
-                {this.renderLinks()}
+            <div className="container">
+                <div className="header">
+                    <Link to="/" className="logo"><img src={this.renderLogo()} alt="Jester" /></Link>
+                    {this.renderLinks()}
+                </div>
             </div>
         );
     }

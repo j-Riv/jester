@@ -1,11 +1,23 @@
 .home {
-    /* background-color: #fff; */
-    background-image: url(/images/pattern.png);
-    background-repeat: repeat;
+    background-color: #0d133a;
+}
+
+.home .header a {
+    color: #fff;
+    transition: all .1s;
+}
+
+.home .header a:hover {
+    color: #8c2e66;
+}
+
+.home .site-footer {
+    background-color: #8c2e66;
+    color: #fff;
 }
 
 .jumbotron {
-    background-color: #fff;
+    background-color: transparent;
     height: 80vh;
     display: flex;
     align-items: center;
@@ -14,12 +26,13 @@
 }
 
 #formWrapper {
-    border: 1px solid #f5f5f5;
-    border-radius: .5em;
-    background-color: #f5f5f5;
-    padding: 5px;
+    /* border: 1px solid #f5f5f5; */
+    border-radius: 25px;
+    /* padding: 5px; */
     margin: auto;
     width: 100%;
+    max-width: 400px;
+    background-color: #331b56;
 }
 
 #formLogo {
@@ -27,7 +40,7 @@
 }
 
 #formLogo img {
-    height: 50px;
+    height: 100px;
     width: auto;
     display: block;
     margin: auto;
@@ -35,20 +48,32 @@
 }
 
 #formImage {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: url(/images/pattern.png);
+    background-repeat: repeat;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
 }
 
 a {
-    color: #000;
-    transition: all .2s;
+    color: #fff;
+    text-decoration: none !important;
+    transition: all .1s;
 }
 
 a:hover {
-    color: #bc360a;
+    color: #8c2e66;
 }
 
 #signinLink {
     text-align: center;
+}
+
+.btn-highlight {
+    background-color: #8c2e66;
+    transition: all .1s;
+    border: none;
+}
+
+.btn-highlight:hover {
+    background-color: #66184a;
 }

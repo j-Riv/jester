@@ -49,14 +49,14 @@ class Home extends Component {
                 />
                 <Jumbotron>
                     <Row id="formWrapper">
-                        <Col id="formImage" className="d-none d-md-block" md={6} style={{ backgroundImage: `url(/images/jester-banner.jpg)` }}>
-                            {/* <img src="/images/jester-banner.jpg" alt="Jester" className="w-100" /> */}
+                        <Col id="formImage" className="d-none d-md-block" md={1}>
                         </Col>
-                        <Col sm={12} md={6}>
+                        <Col sm={12} md={11}>
                             <div id="formLogo">
-                                <img src="/images/jester-color-logo.png" alt="Jester" />
+                                <img src="/images/jester-circle-logo.png" alt="Jester" />
                             </div>
-                            <Form className="text-center" onSubmit={handleSubmit(this.onSubmit)}>
+                            <p className="text-center text-white">Sign Up To Play!</p>
+                            <Form className="text-center mb-2" onSubmit={handleSubmit(this.onSubmit)}>
                                 <Form.Group controlId="email">
                                     <Field
                                         className="form-control"
@@ -75,7 +75,7 @@ class Home extends Component {
                                         type="text"
                                         component="input"
                                         autoComplete="none"
-                                        placeholder='username'
+                                        placeholder='Username'
                                     />
                                 </Form.Group>
 
@@ -90,7 +90,7 @@ class Home extends Component {
                                     />
                                 </Form.Group>
                                 <div>{this.props.errorMessage}</div>
-                                <Button variant="light" type="submit" style={{ width: '100%' }}>
+                                <Button className="btn-highlight" type="submit" style={{ width: '100%' }}>
                                     Sign Up!
                                 </Button>
                                 <a href="#" onClick={this.handleShowSignin}>You already have an account? Log in here.</a>
