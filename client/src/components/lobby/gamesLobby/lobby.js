@@ -15,6 +15,7 @@ import CreateGameModal from '../../../containers/CreateGameModal';
 import hostname from '../../../config/config';
 import Profile from '../../Profile/Profile';
 import { push as Menu } from 'react-burger-menu';
+import './lobby.css';
 
 
 const socket = io(hostname, {
@@ -27,9 +28,9 @@ class GamesLobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            profileOpen: false,
             showCreatedGame: false,
-            key: 'allGames',
-            profileOpen: false
+            key: 'allGames'
         }
     }
 
