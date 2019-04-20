@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
@@ -37,7 +37,7 @@ class SigninModal extends React.Component {
                 <Modal.Body>
                     <Form className="mb-1" onSubmit={handleSubmit(this.onSubmit)}>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
+                            <Form.Label>Email</Form.Label>
                             <Field
                                 className="form-control"
                                 name="email"

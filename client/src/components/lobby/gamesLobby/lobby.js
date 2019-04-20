@@ -13,6 +13,10 @@ import * as actions from '../../../actions';
 import requireAuth from '../../../containers/requireAuth';
 import CreateGameModal from '../../../containers/CreateGameModal';
 import hostname from '../../../config/config';
+import Profile from '../../Profile/Profile';
+import { push as Menu } from 'react-burger-menu';
+import './lobby.css';
+
 
 const socket = io(hostname, {
     transports: ['websocket'],
@@ -24,9 +28,23 @@ class GamesLobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            profileOpen: false,
             showCreatedGame: false,
             key: 'allGames'
         }
+    }
+
+    // This keeps your state in sync with the opening/closing of the menu
+    handleStateChange(state, menu) {
+        this.setState({ [menu]: state.isOpen });
+    }
+    // This can be used to close the menu, e.g. when a user clicks a menu item
+    closeMenu(menu) {
+        this.setState({ [menu]: false });
+    }
+    // This can be used to toggle the menu, e.g. when using a custom icon
+    toggleMenu(menu) {
+        this.setState({ [menu]: !this.state.menuOpen });
     }
     
     componentDidMount = () => {
@@ -61,27 +79,41 @@ class GamesLobby extends Component {
             return <div>Loading...</div>;
         }
         return (
-            <div>
-                <Container>
-                <CreateGameModal
+            <div id="lobbyOuter">
+                
+                    <CreateGameModal
                         show={this.state.showCreateGame}
                         onHide={closeCreateGame}
-                />
-                <Button variant="light" className="mb-auto" style={{float: 'right'}} onClick={this.handleClickCreate}><i className="fas fa-plus"></i></Button>
-                <Tabs id="game-tabs" activeKey={this.state.key} style={{clear: 'both'}} onSelect={key => this.setState({ key })}>
-                    <Tab eventKey="allGames" title="All Games">
-                    <All peeps={this.props.lobby} />
-                    </Tab>
+                    />
+                    <Menu
+                        right
+                        isOpen={this.state.profileOpen}
+                        onStateChange={(state) => this.handleStateChange(state, "profileOpen")}
+                        customBurgerIcon={false}
+                        pageWrapId={'lobby'}
+                        outerContainerId={'lobbyOuter'}
+                        customCrossIcon={<img src="/images/close.svg" />}
+                        id='profileSide'
+                    >
+                        <Profile />
+                    </Menu>
+                <Container fluid={true} id="lobby">
+                    <Button variant="light" className="m-2" style={{ float: 'right' }} onClick={this.handleClickCreate}><i className="fas fa-plus"></i></Button>
+                    <Button variant="light" className="m-2" style={{ float: 'right' }} onClick={() => this.toggleMenu('profileOpen')}><i className="fas fa-user-circle"></i> Profile</Button>
+                    <Tabs id="game-tabs" activeKey={this.state.key} style={{ clear: 'both' }} onSelect={key => this.setState({ key })}>
+                        <Tab eventKey="allGames" title="All Games">
+                            <All peeps={this.props.lobby} />
+                        </Tab>
 
-                    <Tab eventKey="sfwGames" title="SFW Games">
-                    <SFW peeps={this.props.lobby}  />
-                    </Tab>
+                        <Tab eventKey="sfwGames" title="SFW Games">
+                            <SFW peeps={this.props.lobby} />
+                        </Tab>
 
-                    <Tab eventKey="nsfwGames" title="NSFW Games">
-                    <NSFW peeps={this.props.lobby}  />
-                    </Tab>
-                    
-                </Tabs>
+                        <Tab eventKey="nsfwGames" title="NSFW Games">
+                            <NSFW peeps={this.props.lobby} />
+                        </Tab>
+
+                    </Tabs>
                 </Container>
             </div>
         )

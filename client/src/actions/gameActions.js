@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
 import hostname from '../config/config';
-import { 
+import {
     ADD_CHAT,
     CURRENT_GAME,
     GET_ALL_GAMES,
@@ -9,7 +9,7 @@ import {
     GET_GIFS,
     UPDATE_USERS,
     UPDATE_CURRENT_TURN,
-    UPDATE_WINS,
+    // UPDATE_WINS,
     UPDATE_WINNER,
     UPDATE_WINNING_CARD,
     UPDATE_WINNER_CHOSEN,
@@ -19,6 +19,7 @@ import {
 } from './types';
 import io from 'socket.io-client';
 import words from '../words/words-clean';
+import Phrases from '../words/Phrases';
 
 const socket = io(hostname, {
     transports: ['websocket'],
@@ -31,7 +32,6 @@ export const setUserGifs = () => async dispatch => {
         for (let i = 0; i < 3; i++) {
             word.push(words.words[~~(Math.random() * words.words.length)])
         }
-
         console.log('words===============================')
         console.log(word)
         let gifs = [];
@@ -41,7 +41,7 @@ export const setUserGifs = () => async dispatch => {
             // )
             // gifs.push(gif.data.results[0].media[0].tinygif.url);
             const gif = await axios.get(
-                `http://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
+                `https://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
             )
             console.log(gif.data.data.images.fixed_width.url)
             gifs.push(gif.data.data.images.fixed_width.url);
@@ -134,7 +134,7 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
 
 export const setCurrentTurn = (user, gameId) => async dispatch => {
     // get phrase
-    const phrase = words.words[~~(Math.random() * words.words.length)];
+    const phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
 
     try {
         const response = await axios.post(
@@ -167,7 +167,7 @@ export const imgCardChosen = card => async () => {
 
 export const winnerChosen = winnerData => async () => {
     // get phrase
-    const phrase = words.words[~~(Math.random() * words.words.length)];
+    const phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
     winnerData.phrase = phrase;
 
     try {
@@ -184,7 +184,7 @@ export const winnerChosen = winnerData => async () => {
 
 export const afterWin = r => async dispatch => {
     // update winner
-    dispatch({ type: UPDATE_WINS, payload: r.user });
+    // dispatch({ type: UPDATE_WINS, payload: r.user });
     dispatch({ type: UPDATE_WINNER, payload: r.user });
     dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
     dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
@@ -198,6 +198,6 @@ export const afterWin = r => async dispatch => {
         dispatch({ type: SET_PHRASE, payload: r.phrase });
         dispatch({ type: CARD_SELECTED, payload: false });
         // get new gifs
-        setUserGifs();
+        
     }, 3000);
 }

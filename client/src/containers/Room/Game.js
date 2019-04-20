@@ -8,7 +8,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Chat from '../Chat/Chat';
-import Profile from '../../components/Profile/Profile';
 import io from 'socket.io-client';
 import hostname from '../../config/config';
 import store from '../../store';
@@ -17,7 +16,8 @@ import {
     REMOVE_USER, 
     UPDATE_CARDS, 
     CARD_SELECTED,
-    UPDATE_CURRENT_TURN
+    UPDATE_CURRENT_TURN,
+    //UPDATE_WINS
 } from '../../actions/types';
 import './Room.css';
 import KingView from '../KingView/KingView';
@@ -143,6 +143,7 @@ class Game extends Component {
             // update winner chosen
             // reset game
             this.props.afterWin(r);
+            this.props.setUserGifs();
         });
         // remove user
         socket.on('remove user', r => {
@@ -223,25 +224,11 @@ class Game extends Component {
                     customBurgerIcon={false}
                     pageWrapId={'room'} 
                     outerContainerId={'roomOuter'}
-                    customCrossIcon={<img src="/images/close.svg" />}
+                    customCrossIcon={<img src="/images/close.svg" alt='/images/close.svg'/>}
                     id='chatSide'
                 >
                     <Chat gameId={params.gameId} socket={socket} />
                 </Menu>
-
-                <Menu
-                    right
-                    isOpen={this.state.profileOpen}
-                    onStateChange={(state) => this.handleStateChange(state, "profileOpen")}
-                    customBurgerIcon={false}
-                    pageWrapId={'room'}
-                    outerContainerId={'roomOuter'}
-                    customCrossIcon={<img src="/images/close.svg" />}
-                    id='profileSide'
-                >
-                    <Profile />
-                </Menu>
-
 
                 <Container fluid={true} id="room">
                     <Row>
@@ -253,7 +240,6 @@ class Game extends Component {
                 </Container>
                 <div id="buttonContainer" className="text-center">
                     <Button variant="light" className="m-2" onClick={() => this.toggleMenu('chatOpen')}><i className="fas fa-comment-alt"></i> Chat</Button>
-                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('profileOpen')}><i className="fas fa-user-circle"></i> Profile</Button>
                 </div>
             </div>
         );

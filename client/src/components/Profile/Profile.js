@@ -1,73 +1,72 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
-import "./Profile.css";
-// import ProfileAccord from "./ProfileAccord"
+import "./profile.css";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 class Profile extends Component {
 
-    render() {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showUpdateProfile: false
+        }
+    }
 
+    onSubmit = formProps => {
+        formProps.id = this.props._id;
+        console.log(formProps);
+        this.props.updateUser(formProps, () => {
+            console.log('submitted');
+        });
+    };
+
+    render() {
+        const closeUpdateProfile = () => this.setState({ showUpdateProfile: false });
+        const { handleSubmit } = this.props;
         const user = this.props.currentUser;
-        const total = user.wins + user.losses
-        let ratio = user.wins / user.losses
-        if (isNaN(ratio)) {
-            ratio = "Play some games"
+       
+
+        if (user.picture === '') {
+            return <div>Loading...</div>;
         }
 
         return (
 
             <div>
-
                 <div className="container-fluid pro">
 
-                    {/* <ProfileModal /> */}
                     <div className="row d-flex justify-content-center">
-                        <div className="col-sm-3 text-center">
-                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} onClick={this.hello} alt={user.username} />
+                        <div className="col-sm-4 text-center">
+                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt={user.username} />
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row mt-2">
                         <div className="col-sm-12">
                             <h1 className="text-center text" id="username" >{user.username}</h1>
                         </div>
                     </div>
-                    {/* math realted stuff */}
-                    <div className="row d-flex justify-content-center">
-                        <div className="col-3 text-center mr-5 mt-2">
-                            <h2 className="text">Ratio: {ratio}</h2>
-                        </div>
-                        <div className="col-3  text-center">
-                            <h2 className="text" id="gamesPlayed">Games Played: {total} </h2>
-                        </div>
-                    </div>
-                    {/* recent games */}
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <h2 className="text-center text">Recent Games:</h2>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-12 d-flex justify-content-center">
-                            <div className="row border ">
-                                <div className="col-4">
-                                    <img className="img-fluid img-thumbnail rounded-circle w-100" id="gamePic" src="https://i.imgur.com/AQKsp6n.jpg" alt="user" />
-                                </div>
-                                <div className="col-4 align-self-center text">
-                                    <p>User1</p>
-                                </div>
-                                <div className="col-4 align-self-center text">
-                                    <p>Win</p>
-                                </div>
-                            </div>
+                    <Form onSubmit={handleSubmit(this.onSubmit)}>
+                        <Form.Group controlId="picture">
+                            <Form.Label>Photo</Form.Label>
+                            <Field
+                                className="form-control"
+                                name="picture"
+                                type="text"
+                                component="input"
+                                autoComplete="none"
+                                placeholder={this.props.picture}
+                            />
+                        </Form.Group>
 
-                        </div>
-
-                    </div>
-
+                        <Button variant="highlight" type="submit" style={{ width: '100%' }}>
+                            Update!
+                        </Button>
+                    </Form>
                 </div>
 
             </div>
@@ -78,9 +77,19 @@ class Profile extends Component {
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser.user };
+    return {
+        currentUser: state.currentUser.user,
+        _id: state.currentUser.user._id,
+        username: state.currentUser.user.username,
+        picture: state.currentUser.user.picture,
+        initialValues: {
+            picture: state.currentUser.user.pucture
+        }
+
+    };
 }
 
 export default compose(
-    connect(mapStateToProps, actions)
+    connect(mapStateToProps, actions),
+    reduxForm({ form: 'updateUser' })
 )(requireAuth(Profile));

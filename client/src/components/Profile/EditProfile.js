@@ -10,6 +10,7 @@ import requireAuth from '../../containers/requireAuth';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+
 class EditProfile extends Component {
 
     componentDidMount = () => {
@@ -100,7 +101,6 @@ function mapStateToProps(state) {
 export default compose(
     connect(mapStateToProps, actions),
     reduxForm({ 
-        form: 'updateUser',
-        enableReinitialize: true
+        form: 'updateUser'
     })
 )(requireAuth(EditProfile));

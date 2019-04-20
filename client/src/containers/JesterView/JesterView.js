@@ -60,23 +60,29 @@ class JesterView extends React.Component {
             <Container fluid={true} id="viewComponent">
                 <Row>
                     <Col sm={12}>
-                        {/* <Container>
-                            <p><i className="fas fa-user"></i> {this.props.currentUser.username}</p>
-                        </Container> */}
                         <Row>
-                            {this.props.users.map((e, i) => {
-                                return <PlayerCard
-                                total={this.props.users.length}
-                                user={e}
-                                key={i}
-                                />
+                            {this.props.game.users.map(e => {
+                                if (e.data.username === this.props.game.current_turn) {
+                                    return <PlayerCard
+                                    key={1}
+                                    user={e}
+                                    king={true}
+                                    />
+                                }
                             })}
                         </Row>
-                        {/* <ul id="userList">
-                            {this.props.users}
-                        </ul> */}
-                        <p className="text-center">The Phrase</p>
-                        <p className="text-center">{this.props.game.phrase}</p>
+                        <h3 className="text-center">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading Phrase'}</h3>
+                        <Row>
+                            {this.props.game.users.map((e, i) => {
+                                if (e.data.username !== this.props.game.current_turn) {
+                                    return <PlayerCard
+                                    total={this.props.users.length}
+                                    user={e}
+                                    key={i}
+                                    />
+                                }
+                            })}
+                        </Row>
                         <p>Images:</p>
                         <Row>
                             {view}
