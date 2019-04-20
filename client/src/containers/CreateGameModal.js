@@ -93,13 +93,13 @@ class CreateGameModal extends React.Component {
                             </Field>
                         </Form.Group>
 
-                        <Button variant="secondary" type="submit" style={{ width: '100%' }}>
+                        <Button variant="light" type="submit" style={{ width: '100%' }}>
                             Create Game!    
                         </Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.onHide}>Close</Button>
+                    <Button variant="light" onClick={this.props.onHide}>Close</Button>
                 </Modal.Footer>
             </Modal>
         );

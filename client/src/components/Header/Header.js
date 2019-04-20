@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as actions from '../../actions';
 import './header.css';
 
 class Header extends Component {
+
+    handleShowSignin = () => {
+        console.log('show modal');
+        this.props.showSignin(true);
+    }
 
     renderLinks() {
         if (this.props.authenticated) {
@@ -16,8 +22,7 @@ class Header extends Component {
         } else {
             return (
                 <div>
-                    <Link to="/signup">Sign Up</Link>
-                    <Link to="/signin">Sign In</Link>
+                    <a href="#" onClick={this.handleShowSignin}>Log In</a>
                 </div>
             );
         }
@@ -26,7 +31,7 @@ class Header extends Component {
     render() {
         return (
             <div className="header">
-                <Link to="/" className="logo"><img src="/images/jester-color-logo.png" alt="Jester" /></Link>
+                <Link to="/" className="logo"><img src="/images/jester-logo-black.png" alt="Jester" /></Link>
                 {this.renderLinks()}
             </div>
         );
@@ -34,7 +39,10 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
-    return { authenticated: state.auth.authenticated };
+    return { 
+        showSigninForm: state.auth.showSignin,
+        authenticated: state.auth.authenticated
+    };
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, actions)(Header);

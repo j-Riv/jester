@@ -24,13 +24,14 @@ class GamesLobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showCreatedGame: false
+            showCreatedGame: false,
+            key: 'allGames'
         }
     }
 
-    state = {
-        key: 'allGames'
-    }
+    // state = {
+    //     key: 'allGames'
+    // }
     
     componentDidMount = () => {
         // fetch games
