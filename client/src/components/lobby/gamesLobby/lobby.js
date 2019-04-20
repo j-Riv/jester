@@ -15,6 +15,7 @@ import CreateGameModal from '../../../containers/CreateGameModal';
 import hostname from '../../../config/config';
 import Profile from '../../Profile/Profile';
 import { push as Menu } from 'react-burger-menu';
+import './lobby.css';
 
 
 const socket = io(hostname, {
