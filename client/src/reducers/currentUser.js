@@ -17,7 +17,6 @@ export default function (state = INITIAL_STATE, action) {
                 user: action.payload
             };
         case GET_GIFS:
-        console.log(action.payload)
             return {
                 ...state,
                 user: {

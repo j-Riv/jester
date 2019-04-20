@@ -17,7 +17,7 @@ import {
     UPDATE_CARDS, 
     CARD_SELECTED,
     UPDATE_CURRENT_TURN,
-    UPDATE_WINS
+    //UPDATE_WINS
 } from '../../actions/types';
 import './Room.css';
 import KingView from '../KingView/KingView';
@@ -143,6 +143,7 @@ class Game extends Component {
             // update winner chosen
             // reset game
             this.props.afterWin(r);
+            this.props.setUserGifs();
         });
         // remove user
         socket.on('remove user', r => {
@@ -223,7 +224,7 @@ class Game extends Component {
                     customBurgerIcon={false}
                     pageWrapId={'room'} 
                     outerContainerId={'roomOuter'}
-                    customCrossIcon={<img src="/images/close.svg" />}
+                    customCrossIcon={<img src="/images/close.svg" alt='/images/close.svg'/>}
                     id='chatSide'
                 >
                     <Chat gameId={params.gameId} socket={socket} />
