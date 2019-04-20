@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
-import "./Profile.css";
+import EditProfileModal from './EditProfileModal';
+import "./profile.css";
 
 class Profile extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            showUpdateProfile: false
+        }
+    }
+
+    handleClickEditProfile = () => {
+        console.log('show modal');
+        this.setState({ showUpdateProfile: true });
+    }
 
     render() {
+        const closeUpdateProfile = () => this.setState({ showUpdateProfile: false });
 
         const user = this.props.currentUser;
         const total = user.wins + user.losses
@@ -21,18 +33,21 @@ class Profile extends Component {
 
         return (
 
-            <div id="proContainer">
-
+            <div>
+                <EditProfileModal
+                    className="editProModal"
+                    show={this.state.showUpdateProfile}
+                    onHide={closeUpdateProfile}
+                />
                 <div className="container-fluid pro">
 
                     {/* <ProfileModal /> */}
                     <div className="row d-flex justify-content-center">
-                        <div className="col-sm-4 text-center" >
-                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={this.props.currentUser.picture} onClick={this.switch} alt={this.props.currentUser.username} />
+                        <div className="col-sm-4 text-center">
+                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt={user.username} />
                         </div>
-                    </div>
-                    <div className="row d-flex justify-content-center">
-                        <div className="col-sm-4 textcenter">
+                        <div>
+                            <i className="fas fa-cog" onClick={this.handleClickEditProfile}></i>
                         </div>
                     </div>
                     <div className="row mt-2">

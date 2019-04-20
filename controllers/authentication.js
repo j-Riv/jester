@@ -64,15 +64,12 @@ exports.getCurrentUser = (req, res) => {
 
 exports.updateUser = (req, res) => {
     const id = req.body.id;
-    const username = req.body.username;
     const picture = req.body.picture;
     console.log('this is the id: ' + id);
-    console.log('this is the username: ' + username);
     User.findOneAndUpdate({ 
         _id: id 
     }, { 
         $set: { 
-            username: username, 
             picture: picture 
         }
     }).then(result => {
