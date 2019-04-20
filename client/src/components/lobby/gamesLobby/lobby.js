@@ -26,9 +26,9 @@ class GamesLobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            profileOpen: false,
             showCreatedGame: false,
-            key: 'allGames',
-            profileOpen: false
+            key: 'allGames'
         }
     }
 
