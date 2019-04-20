@@ -1,4 +1,14 @@
-.site-footer {
-    background-color: rgb(134, 131, 131);
+.site-footer.gray {
+    background-color: rgb(212, 211, 211);
     padding: 10px;
+}
+
+.site-footer.purple {
+    background-color: rgb(170, 28, 189);
+    padding: 10px;
+    color: white;
+}
+
+.site-footer a{
+    color: black;
 }
