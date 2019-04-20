@@ -187,18 +187,22 @@ export const afterWin = r => async dispatch => {
     dispatch({ type: UPDATE_WINNER, payload: r.user });
     dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
     dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+    const run = true;
     // reset game
-    setTimeout(() => {
-        console.log('Next player is ---> ' + r.nextUser);
-        // reset game for next round
-        dispatch({ type: CLEAR_CARDS, payload: [] });
-        dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-        dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
-        dispatch({ type: SET_PHRASE, payload: r.phrase });
-        dispatch({ type: CARD_SELECTED, payload: false });
-        // get new gifs
-        setUserGifs();
-        // is this still running multiple?
-        dispatch({ type: UPDATE_WINS, payload: r.user });
-    }, 3000);
+    if (run) {
+        console.log('reset');
+        setTimeout(() => {
+            console.log('Next player is ---> ' + r.nextUser);
+            // reset game for next round
+            dispatch({ type: CLEAR_CARDS, payload: [] });
+            dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
+            dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
+            dispatch({ type: SET_PHRASE, payload: r.phrase });
+            dispatch({ type: CARD_SELECTED, payload: false });
+            // get new gifs
+            setUserGifs();
+            // is this still running multiple?
+            dispatch({ type: UPDATE_WINS, payload: r.user });
+        }, 3000);
+    }
 }
