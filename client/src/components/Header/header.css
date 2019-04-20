@@ -1,6 +1,7 @@
 .header {
     display: flex;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .header a {
@@ -11,10 +12,10 @@
 }
 
 .header a:hover {
-    color: #bc360a;
+    color: #ccc;
 }
 
 .logo img {
-    height: 50px;
+    height: 30px;
     width: auto;
 }

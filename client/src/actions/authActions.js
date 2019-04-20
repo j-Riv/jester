@@ -4,6 +4,7 @@ import {
     AUTH_USER, 
     AUTH_ERROR, 
     CURRENT_USER,
+    SHOW_SIGNIN
 } from './types';
 
 
@@ -75,4 +76,8 @@ export const updateUser = formProps => async dispatch => {
     } catch (e) {
         console.log(e);
     }
+}
+
+export const showSignin = display => async dispatch => {
+    dispatch({ type: SHOW_SIGNIN, payload: display });
 }

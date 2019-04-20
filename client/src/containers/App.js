@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import Home from '../components/Home/Home';
+import Home from '../components/Home/Home2';
 import Signup from './auth/Signup';
 import Protected from './Protected';
 import Signout from './auth/Signout';
