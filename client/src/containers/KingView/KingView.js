@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
+import PlayerCard from '../../components/Game/PlayerCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -40,7 +41,7 @@ class KingView extends React.Component {
                 <ImgCard
                     key={key}
                     img={img.card}
-                    onSelect={() => this.onCardClick(img.card, img.user)}
+                    onSelect={() => {this.onCardClick(img.card, img.user);}}
                 />
             );
         }
@@ -48,12 +49,29 @@ class KingView extends React.Component {
             <Container fluid={true} id="viewComponent">
                 <Row>
                     <Col sm={12}>
-                        <p><i className="fas fa-crown"></i> {this.props.currentUser.username}</p>
-                        <ul id="userList">
-                            {this.props.users}
-                        </ul>
-                        <p>The Phrase</p>
-                        <p className="text-center">{this.props.game.phrase}</p>
+                        <Row>
+                            {this.props.game.users.map(e => {
+                                if (e.data.username === this.props.game.current_turn) {
+                                    return <PlayerCard
+                                    user={e}
+                                    king={true}
+                                    />
+                                }
+                            })}
+                        </Row>
+                        <h3 className="text-center">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading Phrase'}</h3>
+                        <Row>
+                            {this.props.game.users.map((e, i) => {
+                                if (e.data.username != this.props.game.current_turn) {
+                                    return <PlayerCard
+                                    total={this.props.users.length}
+                                    user={e}
+                                    key={i}
+                                    selected={this.props.currentUser.card_selected}
+                                    />
+                                }
+                            })}
+                        </Row>                        
                         <p>Chosen Images:</p>
                         <Row>
                             {chosenImages}

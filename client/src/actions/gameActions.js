@@ -31,7 +31,6 @@ export const setUserGifs = () => async dispatch => {
         for (let i = 0; i < 3; i++) {
             word.push(words.words[~~(Math.random() * words.words.length)])
         }
-
         console.log('words===============================')
         console.log(word)
         let gifs = [];
@@ -41,7 +40,7 @@ export const setUserGifs = () => async dispatch => {
             // )
             // gifs.push(gif.data.results[0].media[0].tinygif.url);
             const gif = await axios.get(
-                `http://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
+                `https://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
             )
             console.log(gif.data.data.images.fixed_width.url)
             gifs.push(gif.data.data.images.fixed_width.url);
