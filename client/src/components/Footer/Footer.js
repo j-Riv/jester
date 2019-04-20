@@ -11,7 +11,7 @@ class Footer extends React.Component {
     
 
         return (
-            <div className="site-footer1">
+            <div className="site-footer gray">
                 <Container>
                     <Row>
                         <Col className=" md={8} xs={6} d-flex justify-content-center sm={6} ">
@@ -27,7 +27,7 @@ class Footer extends React.Component {
     }
 else {
     return (
-<div className="site-footer2" >
+<div className="site-footer purple" >
                 <Container>
                     <Row>
                         <Col className=" md={8} xs={6} d-flex justify-content-center sm={6} ">
