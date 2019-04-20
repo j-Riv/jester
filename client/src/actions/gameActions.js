@@ -184,7 +184,7 @@ export const winnerChosen = winnerData => async () => {
 
 export const afterWin = r => async dispatch => {
     // update winner
-    dispatch({ type: UPDATE_WINS, payload: r.user });
+    // dispatch({ type: UPDATE_WINS, payload: r.user });
     dispatch({ type: UPDATE_WINNER, payload: r.user });
     dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
     dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });

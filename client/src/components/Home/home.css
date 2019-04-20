@@ -23,6 +23,7 @@
     /* height: 80vh; */
     display: flex;
     align-items: center;
+    min-width: 0;
     /* justify-content: center; */
     /* border: 1px solid #f8f8f8; */
 }

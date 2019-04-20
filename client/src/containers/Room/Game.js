@@ -17,7 +17,8 @@ import {
     REMOVE_USER, 
     UPDATE_CARDS, 
     CARD_SELECTED,
-    UPDATE_CURRENT_TURN
+    UPDATE_CURRENT_TURN,
+    UPDATE_WINS
 } from '../../actions/types';
 import './Room.css';
 import KingView from '../KingView/KingView';
