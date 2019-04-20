@@ -8,7 +8,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Chat from '../Chat/Chat';
-import Profile from '../../components/Profile/Profile';
 import io from 'socket.io-client';
 import hostname from '../../config/config';
 import store from '../../store';
@@ -230,20 +229,6 @@ class Game extends Component {
                     <Chat gameId={params.gameId} socket={socket} />
                 </Menu>
 
-                <Menu
-                    right
-                    isOpen={this.state.profileOpen}
-                    onStateChange={(state) => this.handleStateChange(state, "profileOpen")}
-                    customBurgerIcon={false}
-                    pageWrapId={'room'}
-                    outerContainerId={'roomOuter'}
-                    customCrossIcon={<img src="/images/close.svg" />}
-                    id='profileSide'
-                >
-                    <Profile />
-                </Menu>
-
-
                 <Container fluid={true} id="room">
                     <Row>
                         <Col sm={12} className="text-center">
@@ -254,7 +239,6 @@ class Game extends Component {
                 </Container>
                 <div id="buttonContainer" className="text-center">
                     <Button variant="light" className="m-2" onClick={() => this.toggleMenu('chatOpen')}><i className="fas fa-comment-alt"></i> Chat</Button>
-                    <Button variant="light" className="m-2" onClick={() => this.toggleMenu('profileOpen')}><i className="fas fa-user-circle"></i> Profile</Button>
                 </div>
             </div>
         );

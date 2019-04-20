@@ -100,7 +100,6 @@ function mapStateToProps(state) {
 export default compose(
     connect(mapStateToProps, actions),
     reduxForm({ 
-        form: 'updateUser',
-        enableReinitialize: true
+        form: 'updateUser'
     })
 )(requireAuth(EditProfile));

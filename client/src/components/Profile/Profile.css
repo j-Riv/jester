@@ -13,3 +13,7 @@
     font-size: 100%;
     color: #000;
 }
+
+.update-profile-modal.show {
+    z-index: 2000 !important;
+}
