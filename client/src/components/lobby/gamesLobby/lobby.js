@@ -16,6 +16,7 @@ import hostname from '../../../config/config';
 import Profile from '../../Profile/Profile';
 import { push as Menu } from 'react-burger-menu';
 
+
 const socket = io(hostname, {
     transports: ['websocket'],
     secure: true

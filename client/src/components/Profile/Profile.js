@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
 import EditProfileModal from './EditProfileModal';
-import "./Profile.css";
-// import ProfileAccord from "./ProfileAccord"
+import "./profile.css";
 
 class Profile extends Component {
 
@@ -29,12 +28,14 @@ class Profile extends Component {
         let ratio = user.wins / user.losses
         if (isNaN(ratio)) {
             ratio = "Play some games"
-        }
+        };
+
 
         return (
 
             <div>
                 <EditProfileModal
+                    className="editProModal"
                     show={this.state.showUpdateProfile}
                     onHide={closeUpdateProfile}
                 />
@@ -42,11 +43,14 @@ class Profile extends Component {
 
                     {/* <ProfileModal /> */}
                     <div className="row d-flex justify-content-center">
-                        <div className="col-sm-3 text-center">
-                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} onClick={this.handleClickEditProfile} alt={user.username} />
+                        <div className="col-sm-4 text-center">
+                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt={user.username} />
+                        </div>
+                        <div>
+                            <i className="fas fa-cog" onClick={this.handleClickEditProfile}></i>
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row mt-2">
                         <div className="col-sm-12">
                             <h1 className="text-center text" id="username" >{user.username}</h1>
                         </div>
@@ -60,30 +64,6 @@ class Profile extends Component {
                             <h2 className="text" id="gamesPlayed">Games Played: {total} </h2>
                         </div>
                     </div>
-                    {/* recent games */}
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <h2 className="text-center text">Recent Games:</h2>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-sm-12 d-flex justify-content-center">
-                            <div className="row border ">
-                                <div className="col-4">
-                                    <img className="img-fluid img-thumbnail rounded-circle w-100" id="gamePic" src="https://i.imgur.com/AQKsp6n.jpg" alt="user" />
-                                </div>
-                                <div className="col-4 align-self-center text">
-                                    <p>User1</p>
-                                </div>
-                                <div className="col-4 align-self-center text">
-                                    <p>Win</p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
             </div>
