@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
 import "./Profile.css";
+// import ProfileAccord from "./ProfileAccord"
 
-class Profile extends React.Component {
+class Profile extends Component {
 
     render() {
 
@@ -16,15 +18,16 @@ class Profile extends React.Component {
             ratio = "Play some games"
         }
 
-
         return (
 
             <div>
+
                 <div className="container-fluid pro">
+
                     {/* <ProfileModal /> */}
-                    <div className="row">
-                        <div className="col-sm-12 text-center">
-                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt="profile picture" />
+                    <div className="row d-flex justify-content-center">
+                        <div className="col-sm-3 text-center">
+                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} onClick={this.hello} alt={user.username} />
                         </div>
                     </div>
                     <div className="row">
@@ -74,7 +77,6 @@ class Profile extends React.Component {
 
 }
 
-// export default Profile;
 function mapStateToProps(state) {
     return { currentUser: state.currentUser.user };
 }

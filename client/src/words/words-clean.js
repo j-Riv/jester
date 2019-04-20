@@ -32,6 +32,23 @@ export default {
     'spongebob',
     'y2k',
     'crazy',
-    'basic'
+    'basic',
+    'dab',
+    'dragons',
+    'seed',
+    'dude',
+    'captain',
+    'goof',
+    'derp',
+    'jester'
+    ],
+    dirty: [
+        'ass',
+        'fuck you',
+        'penis',
+        'jack off',
+        'middle finger',
+        'lick',
+        'penatration'
     ]
 }

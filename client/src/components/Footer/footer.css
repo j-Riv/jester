@@ -1,6 +1,9 @@
 .site-footer1 {
     background-color: rgb(134, 131, 131);
+padding: 10px;
 }
 .site-footer2 {
     background-color: rgb(170, 28, 189);
+padding: 10px;
+color: white
 }

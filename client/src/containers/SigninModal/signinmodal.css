@@ -1,0 +1,31 @@
+/* sign in modal */
+
+.signin-modal .modal-header {
+    border-bottom: none;
+}
+
+.signin-modal .modal-content {
+    background-color: #390040;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.signin-modal .close {
+    color: #fff;
+    transition: all .1s;
+    text-shadow: none;
+}
+
+.signin-modal .close:hover {
+    color: #8c2e66;
+}
+
+.signin-modal a {
+    color: #fff;
+    transition: all .1s;
+    text-decoration: none;
+}
+
+.signin-modal a:hover {
+    color: #8c2e66;
+}

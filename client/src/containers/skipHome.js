@@ -6,17 +6,17 @@ export default ChildComponent => {
 
         // Our component just got rendered
         componentDidMount() {
-            this.shouldNavigateAway();
+            this.navigateToLobby();
         }
 
         // Our component just got updated
         componentDidUpdate() {
-            this.shouldNavigateAway();
+            this.navigateToLobby();
         }
 
-        shouldNavigateAway() {
-            if (!this.props.auth) {
-                this.props.history.push('/');
+        navigateToLobby() {
+            if (this.props.auth) {
+                this.props.history.push('/lobby');
             }
         }
 

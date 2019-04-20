@@ -1,5 +1,6 @@
 export const AUTH_USER = 'auth_user';
 export const AUTH_ERROR = 'auth_error';
+export const SHOW_SIGNIN = 'SHOW_SIGNIN';
 export const ADD_CHAT = 'ADD_CHAT';
 export const CURRENT_USER = 'CURRENT_USER';
 export const CURRENT_GAME = 'CURRENT_GAME';
@@ -17,4 +18,5 @@ export const CARD_SELECTED = 'CARD_SELECTED';
 export const UPDATE_CURRENT_TURN = 'UPDATE_CURRENT_TURN';
 export const CLEAR_CARDS = 'CLEAR_CARDS';
 export const UPDATE_WINS = 'UPDATE_WINS';
+export const SET_PHRASE = 'SET_PHRASE';
 // organize this stuff later.

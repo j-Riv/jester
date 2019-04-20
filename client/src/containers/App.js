@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-import Home from '../components/Home/Home';
+import Home from '../components/Home/Home2';
 import Signup from './auth/Signup';
 import Protected from './Protected';
 import Signout from './auth/Signout';
 import Signin from './auth/Signin';
-import Profile from "../components/Profile/ProfileBar";
-import GamesLobby from "../components/lobby/gamesLobby/lobby2";
+import EditProfile from "../components/Profile/EditProfile";
+import GamesLobby from "../components/lobby/gamesLobby/lobby";
 import GameContainer from '../pages/GameContainer';
 import Room from './Room/Game';
 import "./App.css";
@@ -40,7 +40,7 @@ class App extends Component {
                         <Route path="/protected" component={Protected} />
                         <Route path="/signout" component={Signout} />
                         <Route path="/signin" component={Signin} />
-                        <Route path="/profile" component={Profile} />
+                        <Route path="/profile" component={EditProfile} />
                         <Route path="/lobby" component={GamesLobby} />
                         <Route path="/room/:gameId" component={Room} />
                         <Route path='/game' component={GameContainer} />

@@ -47,7 +47,19 @@ module.exports = io => {
             // disconnect
             let userObj = findByKey(people, socket.id);
             if (typeof userObj === 'object') {
-                Game.findOneAndUpdate({ _id: userObj.gameId }, { $pull: { 'users': { user: userObj.user } } }, { safe: true, multi: true, new: true }).then(function (result) {
+                Game.findOneAndUpdate({ 
+                    _id: userObj.gameId 
+                }, { 
+                    $pull: { 
+                        'users': { 
+                            user: userObj.user 
+                        } 
+                    } 
+                }, { 
+                    safe: true, 
+                    multi: true, 
+                    new: true 
+                }).then(function (result) {
                     // remove user
                     console.log('User ' + userObj.user + ' has been removed --->');
                     console.log(result.users);
