@@ -22,7 +22,7 @@ class Header extends Component {
         } else {
             return (
                 <div>
-                    <a href="/" onClick={this.handleShowSignin}>LOG IN</a>
+                    <a href="#" onClick={this.handleShowSignin}>LOG IN</a>
                 </div>
             );
         }
