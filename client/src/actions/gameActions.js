@@ -95,6 +95,7 @@ export const getAllGames = () => async dispatch => {
         // get all games
         dispatch({ type: GET_ALL_GAMES });
         dispatch({ type: ALL_GAMES, payload: response.data.games });
+        console.log('got games?');
     } catch (e) {
         console.log(e);
     }
@@ -198,6 +199,6 @@ export const afterWin = r => async dispatch => {
         dispatch({ type: SET_PHRASE, payload: r.phrase });
         dispatch({ type: CARD_SELECTED, payload: false });
         // get new gifs
-        
+
     }, 3000);
 }

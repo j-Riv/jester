@@ -17,6 +17,17 @@ class Profile extends Component {
         }
     }
 
+    componentDidMount = () => {
+        let token = localStorage.getItem('token');
+        if (!token || token === '') {//if there is no token, dont bother
+            return;
+        }
+        // fetch user from token (if server deems it's valid token)
+        this.props.getCurrentUser(token, (response) => {
+            console.log(response);
+        });
+    }
+
     onSubmit = formProps => {
         formProps.id = this.props._id;
         console.log(formProps);
@@ -26,7 +37,6 @@ class Profile extends Component {
     };
 
     render() {
-        const closeUpdateProfile = () => this.setState({ showUpdateProfile: false });
         const { handleSubmit } = this.props;
         const user = this.props.currentUser;
        

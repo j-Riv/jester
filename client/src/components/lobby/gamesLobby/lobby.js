@@ -50,6 +50,15 @@ class GamesLobby extends Component {
     componentDidMount = () => {
         // fetch games
         this.props.getAllGames();
+        // get current user
+        let token = localStorage.getItem('token');
+        if (!token || token === '') {//if there is no token, dont bother
+            return;
+        }
+        // fetch user from token (if server deems it's valid token)
+        this.props.getCurrentUser(token, (response) => {
+            console.log(response);
+        });
         // on new game added re fetch
         socket.on('game added', () => {
             this.props.getAllGames();
@@ -69,7 +78,6 @@ class GamesLobby extends Component {
     }
 
     handleClickCreate = () => {
-        console.log('show modal');
         this.setState({ showCreateGame: true });
     }
 
@@ -92,7 +100,7 @@ class GamesLobby extends Component {
                         customBurgerIcon={false}
                         pageWrapId={'lobby'}
                         outerContainerId={'lobbyOuter'}
-                        customCrossIcon={<img src="/images/close.svg" />}
+                        customCrossIcon={<img src="/images/close.svg" alt="close" />}
                         id='profileSide'
                     >
                         <Profile />

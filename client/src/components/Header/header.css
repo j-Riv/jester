@@ -4,14 +4,16 @@
     padding: 10px;
 }
 
-.header a {
+.header a,
+.header span {
     margin: 0 10px;
     color: #000;
     transition: all .5s;
     text-decoration: none;
 }
 
-.header a:hover {
+.header a:hover,
+.header span:hover {
     color: #ccc;
 }
 

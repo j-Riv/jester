@@ -11,10 +11,10 @@ import Chat from '../Chat/Chat';
 import io from 'socket.io-client';
 import hostname from '../../config/config';
 import store from '../../store';
-import { 
+import {
     UPDATE_USERS,
-    REMOVE_USER, 
-    UPDATE_CARDS, 
+    REMOVE_USER,
+    UPDATE_CARDS,
     CARD_SELECTED,
     UPDATE_CURRENT_TURN,
     //UPDATE_WINS
@@ -82,7 +82,7 @@ class Game extends Component {
                 // setting initial current turn
                 console.log('setting initial current turn');
                 this.props.setCurrentTurn(this.props.user, params.gameId);
-            }else{
+            } else {
                 console.log('not setting initial');
             }
         });
@@ -201,7 +201,7 @@ class Game extends Component {
                 users = this.props.game.users.map((player, key) => {
                     return (
                         <li key={key}>
-                            <i className={`fas ${this.props.game.current_turn === player.user ? 'fa-crown' : 'fa-user' } ${this.props.user === player.user ? 'text-red' : 'text-black'}`} ></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
+                            <i className={`fas ${this.props.game.current_turn === player.user ? 'fa-crown' : 'fa-user'} ${this.props.user === player.user ? 'text-red' : 'text-black'}`} ></i> {player.user} <i className="fas fa-long-arrow-alt-right"></i> {player.wins}
                         </li>
                     );
                 });
@@ -210,9 +210,9 @@ class Game extends Component {
         // display views
         let view;
         if (this.props.game.current_turn === this.props.user) {
-            view = <KingView viewStyle='king-view' users={users} getNext={getNext}/>
-        }else{
-            view = <JesterView viewStyle='jester-view'  users={users} />
+            view = <KingView viewStyle='king-view' users={users} getNext={getNext} />
+        } else {
+            view = <JesterView viewStyle='jester-view' users={users} />
         }
 
         return (
@@ -222,9 +222,9 @@ class Game extends Component {
                     isOpen={this.state.chatOpen}
                     onStateChange={(state) => this.handleStateChange(state, "chatOpen")}
                     customBurgerIcon={false}
-                    pageWrapId={'room'} 
+                    pageWrapId={'room'}
                     outerContainerId={'roomOuter'}
-                    customCrossIcon={<img src="/images/close.svg" alt='/images/close.svg'/>}
+                    customCrossIcon={<img src="/images/close.svg" alt='/images/close.svg' />}
                     id='chatSide'
                 >
                     <Chat gameId={params.gameId} socket={socket} />
@@ -253,8 +253,8 @@ function getNext(all, user) {
         nextUser = all[index + 1].user;
     } else {
         if (all.length > 1) {
-            nextUser = all[0].user;   
-        }else{
+            nextUser = all[0].user;
+        } else {
             nextUser = '';
         }
     }
@@ -262,12 +262,12 @@ function getNext(all, user) {
 }
 
 function mapStateToProps(state) {
-    return { 
+    return {
         game: state.game.game,
         user: state.currentUser.user.username,
         userId: state.currentUser.user._id,
         currentUser: state.currentUser.user
-     };
+    };
 }
 
 export default compose(
