@@ -5,7 +5,15 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    user: localStorage.getItem('user')
+    // user: localStorage.getItem('user')
+    user: {
+        _id: '',
+        email: '',
+        username: '',
+        picture: '',
+        images: [],
+        card_selected: false
+    }
 };
 
 export default function (state = INITIAL_STATE, action) {

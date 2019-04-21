@@ -20,12 +20,15 @@
     color: #8c2e66;
 }
 
-.signin-modal a {
+.signin-modal a,
+.signin-modal span {
     color: #fff;
     transition: all .1s;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.signin-modal a:hover {
+.signin-modal a:hover,
+.signin-modal span:hover {
     color: #8c2e66;
 }

@@ -2,13 +2,16 @@
     background-color: #390040;
 }
 
-.home .header a {
+.home .header a,
+.home .header span {
     color: #fff;
     transition: all .1s;
 }
 
-.home .header a:hover {
+.home .header a:hover,
+.home .header span:hover {
     color: #8c2e66;
+    cursor: pointer;
 }
 
 .home .site-footer {

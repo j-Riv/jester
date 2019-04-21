@@ -7,7 +7,6 @@ import './header.css';
 class Header extends Component {
 
     handleShowSignin = () => {
-        console.log('show modal');
         this.props.showSignin(true);
     }
 
@@ -22,7 +21,7 @@ class Header extends Component {
         } else {
             return (
                 <div>
-                    <a href="#" onClick={this.handleShowSignin}>LOG IN</a>
+                    <span onClick={this.handleShowSignin}>LOG IN</span>
                 </div>
             );
         }

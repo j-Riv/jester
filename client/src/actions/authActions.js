@@ -44,14 +44,13 @@ export const signin = (formProps, callback) => async dispatch => {
     }
 };
 
-export const getCurrentUser = userToken => async dispatch => {
+export const getCurrentUser = (userToken, callback) => async dispatch => {
     try {
         const response = await axios.get(
             host + '/users/current/' + userToken
         );
-        console.log('Response');
-        console.log(response.data);
         dispatch({ type: CURRENT_USER, payload: response.data.currentUser });
+        callback(response.data.currentUser);
     } catch (e) {
         console.log(e);
     }

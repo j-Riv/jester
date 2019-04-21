@@ -14,16 +14,16 @@ import "./App.css";
 
 class App extends Component {
 
-    componentDidMount = () => {
-        let token = localStorage.getItem('token');
-        if (!token || token === '') {//if there is no token, dont bother
-            return;
-        }
-        // fetch user from token (if server deems it's valid token)
-        this.props.getCurrentUser(token, (response) => {
-            console.log(response);
-        });
-    }
+    // componentDidMount = () => {
+    //     let token = localStorage.getItem('token');
+    //     if (!token || token === '') {//if there is no token, dont bother
+    //         return;
+    //     }
+    //     // fetch user from token (if server deems it's valid token)
+    //     this.props.getCurrentUser(token, (response) => {
+    //         console.log(response);
+    //     });
+    // }
 
     render() {
         return (

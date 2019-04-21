@@ -56,7 +56,9 @@ exports.getCurrentUser = (req, res) => {
             _id: result._id,
             email: result.email,
             username: result.username,
-            picture: result.picture
+            picture: result.picture,
+            images: [],
+            card_selected: false
         };
         res.json({ currentUser: userObj });
     });
@@ -150,6 +152,7 @@ exports.addUser = (req, res) => {
     if (user !== null) {
         // get user data then --->
         // updating game with new user
+        console.log('THIS IS THE ID: ' + user_id);
         User.findOne({ 
             _id: user_id 
         }).then(userData => {
@@ -174,6 +177,7 @@ exports.addUser = (req, res) => {
                 }).then(result => {
                     req.io.in(id).emit('add user', { user: user, wins: 0, data: userObj });
                     // user has been added
+                    console.log('adding user');
                     console.log(result.users);
                     // emit event to clients in lobby
                     req.io.emit('update games');

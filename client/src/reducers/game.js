@@ -1,6 +1,6 @@
-import { 
-    CURRENT_GAME, 
-    ADD_CHAT, 
+import {
+    CURRENT_GAME,
+    ADD_CHAT,
     UPDATE_USERS,
     REMOVE_USER,
     UPDATE_CARDS,
@@ -61,7 +61,7 @@ export default function (state = INITIAL_STATE, action) {
         case UPDATE_USERS:
             let UserExists = state.game.users.some(e => e.user === action.payload.user);
             let users = state.game.users.slice();
-            if(!UserExists) {
+            if (!UserExists) {
                 console.log('User doesnt exist lets add them');
                 users.push(action.payload);
             }
@@ -103,7 +103,7 @@ export default function (state = INITIAL_STATE, action) {
         case UPDATE_CARDS:
             let AlreadyExists = state.game.images.some(el => el.user === action.payload.user);
             let chosenImages = state.game.images.slice();
-            if(!AlreadyExists) {
+            if (!AlreadyExists) {
                 console.log('image doesnt exist');
                 chosenImages.push(action.payload);
             }
