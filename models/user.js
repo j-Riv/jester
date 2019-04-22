@@ -7,7 +7,7 @@ const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
   username: { type: String, unique: true },
-  picture: { type: String, default: 'https://i.imgur.com/AQKsp6n.jpg' },
+  picture: { type: String, default: 'http://icons.iconarchive.com/icons/icons8/windows-8/512/Users-User-icon.png' },
   images: [],
   card_selected: { type: Boolean, default: false }
 });

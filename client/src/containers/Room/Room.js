@@ -36,12 +36,18 @@ const socket = io(hostname, {
 
 class Game extends Component {
 
+    style = {
+        body: {
+            backgroundColor: '#0f0728;'
+        }
+    }
+
     componentDidMount = () => {
         console.log('Hostname: ' + hostname);
-        // crete game
+        // create game
         const { match: { params } } = this.props;
         socket.emit('create', params.gameId);
-        console.log('creating game: ' + params.gameId);
+        console.log('Game ID: ' + params.gameId);
         // update users
         if (this.props.currentUser.username !== undefined) {
             this.props.addUser(this.props.currentUser.username, params.gameId, (response) => {
@@ -64,18 +70,6 @@ class Game extends Component {
                 this.props.setCurrentTurn(this.props.currentUser.username, params.gameId);
             }
         });
-        // get gifs
-        const word = [
-            words.words[~~(Math.random() * words.words.length)],
-            words.words[~~(Math.random() * words.words.length)],
-            words.words[~~(Math.random() * words.words.length)]
-        ];
-        console.log(`word ${word}`);
-        // this.props.getGifs(word, (response) => {
-        //     const gifs = response.data.game;
-        //     console.log('got gifs');
-        //     console.log(gifs);
-        // });
 
         // new user connected send update to server
         socket.on('connect', () => {
@@ -130,6 +124,9 @@ class Game extends Component {
             store.dispatch({ type: UPDATE_WINNER, payload: response.user });
             store.dispatch({ type: UPDATE_WINNING_CARD, payload: response.card });
             store.dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+            // update wins
+            console.log('Updating winner: ' + response.user);
+            store.dispatch({ type: UPDATE_WINS, payload: {winner: response.user, user: this.props.currentUser.username} });
             // reset game
             setTimeout(() => {
                 // const next = getNext(this.props.game.users, this.props.game.current_turn);
@@ -148,9 +145,6 @@ class Game extends Component {
                     console.log(response);
                 });
             }, 3000);
-            // update wins
-            console.log('Updating winner: ' + response.user);
-            store.dispatch({ type: UPDATE_WINS, payload: response.user });
         });
         // remove user
         socket.on('remove user', r => {
@@ -187,14 +181,14 @@ class Game extends Component {
         // display views
         let view;
         if (this.props.game.current_turn === this.props.currentUser.username) {
-            view = <KingView users={users} />
+            view = <KingView users={users}/>
         }else{
-            view = <JesterView users={users} />
+            view = <JesterView users={users}/>
         }
         return (
             <div id="roomOuter">
                 <Sidebar gameId={params.gameId} socket={socket} />
-                <Container fluid={true} id="room">
+                <Container fluid={true} id="room" style={this.style.body}>
                     <Row>
                         <Col sm={12} className="text-center">
                             <h3 className="text-uppercase"><i className="fab fa-fort-awesome"></i> {this.props.game.game_name}</h3>

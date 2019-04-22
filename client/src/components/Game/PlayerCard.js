@@ -12,6 +12,7 @@ class PlayerCard extends Component {
             backgroundImage: 'url(' + this.props.user.data.picture + ')',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
             zIndex: '2'
         },
         light: {
@@ -32,16 +33,16 @@ class PlayerCard extends Component {
     }
 
     render() {
-        let colSize = 6;
+        let colSize = 12;
         let icon = '';
         const total = this.props.total;
         total >= 5 ? colSize = 3 : total === 4 ? colSize = 4 : total === 3 ? colSize = 6 : total <= 2 ? colSize = 12 : colSize = 12;
         if (this.props.king) { colSize = 12 }
         if (this.props.user.data.username === this.props.currentUser.username) {
-            icon = 'fas fa-user';
+            icon = 'fas fa-user mr-1';
         }
         return (
-            <Col md={colSize}>
+            <Col md={colSize} className='slide'>
                 {this.props.king ? <div className='d-flex justify-content-center'><i className='fas fa-crown' style={this.style.crown}></i></div> : null}
                 <div className='rounded-circle mx-auto d-flex align-items-center' style={this.props.king ? null : this.props.currentUser.card_selected ? this.style.selected : this.style.light}>
                     <div className='rounded-circle mx-auto border border-secondary' style={this.style.picture}>
