@@ -88,6 +88,7 @@ class Game extends Component {
         });
         // new user connected send update to server
         socket.on('connect', () => {
+            console.log('CONNECT');
             // new user has joined log session/socket id
             // console.log('new user ' + this.props.user + ' joined: connected --> ' + sessionid);
             // update users on new user connect
@@ -102,6 +103,7 @@ class Game extends Component {
         });
         // user disconnected send update to server
         socket.on('disconnect', (reason) => {
+            console.log('DISCONNECT');
             // user has disconnected try to reconnect
             // console.log('user ' + this.props.user + ' has disconnected');
             if (reason === 'io server disconnect') {
@@ -113,6 +115,7 @@ class Game extends Component {
         });
         // socket reconnected
         socket.on('reconnect', (attemptNumber) => {
+            console.log('RECONNECT');
             // reconnectiong user display log attempts
             // console.log('reconnecting ' + this.props.user + ' attempts: ' + attemptNumber);
             // update users on socket reconnect
@@ -142,8 +145,12 @@ class Game extends Component {
             // update winning card
             // update winner chosen
             // reset game
-            this.props.afterWin(r);
-            this.props.setUserGifs();
+            this.props.resetGifs((gifs) => {
+                r.gifs = gifs;
+                this.props.afterWin(r);
+            });
+            // this.props.afterWin(r);
+            // this.props.setUserGifs();
         });
         // remove user
         socket.on('remove user', r => {

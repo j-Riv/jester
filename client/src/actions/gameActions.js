@@ -15,7 +15,8 @@ import {
     UPDATE_WINNER_CHOSEN,
     CLEAR_CARDS,
     CARD_SELECTED,
-    SET_PHRASE
+    SET_PHRASE,
+    UPDATE_AND_RESET
 } from './types';
 import io from 'socket.io-client';
 import words from '../words/words-clean';
@@ -27,8 +28,8 @@ const socket = io(hostname, {
 });
 
 export const setUserGifs = () => async dispatch => {
+    let word = [];
     try {
-        let word = [];
         for (let i = 0; i < 3; i++) {
             word.push(words.words[~~(Math.random() * words.words.length)])
         }
@@ -183,22 +184,62 @@ export const winnerChosen = winnerData => async () => {
     }
 }
 
+export const resetGifs = callback => async () => {
+    let word = [];
+    try {
+        for (let i = 0; i < 3; i++) {
+            word.push(words.words[~~(Math.random() * words.words.length)])
+        }
+        console.log('words===============================')
+        console.log(word)
+        let gifs = [];
+        for (let i = 0; i < 3; i++) {
+            const gif = await axios.get(
+                `https://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
+            )
+            console.log(gif.data.data.images.fixed_width.url)
+            gifs.push(gif.data.data.images.fixed_width.url);
+        }
+        console.log('gifs================')
+        console.log(gifs)
+        callback(gifs);
+    } catch (e) {
+        console.log(e)
+    }
+};
+
 export const afterWin = r => async dispatch => {
     // update winner
     // dispatch({ type: UPDATE_WINS, payload: r.user });
-    dispatch({ type: UPDATE_WINNER, payload: r.user });
-    dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
-    dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+    // dispatch({ type: UPDATE_WINNER, payload: r.user });
+    // dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
+    // dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+    // // reset game
+    // setTimeout(() => {
+    //     console.log('Next player is ---> ' + r.nextUser);
+    //     // reset game for next round
+    //     dispatch({ type: CLEAR_CARDS, payload: [] });
+    //     dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
+    //     dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
+    //     dispatch({ type: SET_PHRASE, payload: r.phrase });
+    //     dispatch({ type: CARD_SELECTED, payload: false });
+    //     // get new gifs
+
+    // }, 3000);
+    // new
+    const wObj = {
+        user: r.user,
+        card: r.card,
+        gifs: r.gifs
+    };
+    dispatch({ type: UPDATE_WINNER, payload: wObj });
     // reset game
     setTimeout(() => {
-        console.log('Next player is ---> ' + r.nextUser);
-        // reset game for next round
-        dispatch({ type: CLEAR_CARDS, payload: [] });
-        dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-        dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
-        dispatch({ type: SET_PHRASE, payload: r.phrase });
-        dispatch({ type: CARD_SELECTED, payload: false });
-        // get new gifs
-
+        const rObj = {
+            user: r.user,
+            phrase: r.phrase,
+            nextUser: r.nextUser
+        }
+        dispatch({ type: UPDATE_AND_RESET, payload: rObj });
     }, 3000);
 }

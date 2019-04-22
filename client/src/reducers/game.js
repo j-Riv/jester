@@ -10,7 +10,8 @@ import {
     UPDATE_CURRENT_TURN,
     CLEAR_CARDS,
     UPDATE_WINS,
-    SET_PHRASE
+    SET_PHRASE,
+    UPDATE_AND_RESET
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -82,24 +83,24 @@ export default function (state = INITIAL_STATE, action) {
                     users: removed
                 }
             };
-        case UPDATE_WINS:
-            let updateWins = state.game.users.slice();
-            console.log('UPDATE_WINS');
-            updateWins.forEach(obj => {
-                console.log('user: ' + obj.user);
-                console.log('Winning user: ' + action.payload);
-                if (obj.user === action.payload) {
-                    obj.wins++;
-                    console.log('Wins: ---> ' + obj.wins);
-                }
-            });
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    users: updateWins
-                }
-            };
+        // case UPDATE_WINS:
+        //     let updateWins = state.game.users.slice();
+        //     console.log('UPDATE_WINS');
+        //     updateWins.forEach(obj => {
+        //         console.log('user: ' + obj.user);
+        //         console.log('Winning user: ' + action.payload);
+        //         if (obj.user === action.payload) {
+        //             obj.wins++;
+        //             console.log('Wins: ---> ' + obj.wins);
+        //         }
+        //     });
+        //     return {
+        //         ...state,
+        //         game: {
+        //             ...state.game,
+        //             users: updateWins
+        //         }
+        //     };
         case UPDATE_CARDS:
             let AlreadyExists = state.game.images.some(el => el.user === action.payload.user);
             let chosenImages = state.game.images.slice();
@@ -127,7 +128,9 @@ export default function (state = INITIAL_STATE, action) {
                 ...state,
                 game: {
                     ...state.game,
-                    winner: action.payload
+                    winner: action.payload.user,
+                    winning_card: action.payload.card,
+                    winner_chosen: true
                 }
             };
         case UPDATE_WINNING_CARD:
@@ -154,6 +157,28 @@ export default function (state = INITIAL_STATE, action) {
                     current_turn: action.payload
                 }
             }
+        case UPDATE_AND_RESET:
+            let updateWins = state.game.users.slice();
+            console.log('UPDATE_WINS');
+            updateWins.forEach(obj => {
+                console.log('user: ' + obj.user);
+                console.log('Winning user: ' + action.payload.user);
+                if (obj.user === action.payload.user) {
+                    obj.wins++;
+                    console.log('Wins: ---> ' + obj.wins);
+                }
+            });
+            return {
+                ...state,
+                game: {
+                    ...state.game,
+                    phrase: action.payload.phrase,
+                    current_turn: action.payload.nextUser,
+                    images: [],
+                    users: updateWins,
+                    winner_chosen: false
+                }
+            }
         default:
             return state;
     }
@@ -170,3 +195,18 @@ function removeByKey(array, params) {
     });
     return array;
 }
+
+        // phrase: '',
+        // users: [],
+        // current_turn: '',
+        // images: [],
+        // messages: [],
+        // username: '',
+        // user_pic: '',
+        // game_name: '',
+        // max_players: 5,
+        // category: '',
+        // status: '',
+        // winner: '',
+        // winning_card: '',
+        // winner_chosen: false

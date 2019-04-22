@@ -19,4 +19,5 @@ export const UPDATE_CURRENT_TURN = 'UPDATE_CURRENT_TURN';
 export const CLEAR_CARDS = 'CLEAR_CARDS';
 export const UPDATE_WINS = 'UPDATE_WINS';
 export const SET_PHRASE = 'SET_PHRASE';
+export const UPDATE_AND_RESET = 'UPDATE_AND_RESET';
 // organize this stuff later.
