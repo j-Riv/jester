@@ -62,7 +62,7 @@ export default function (state = INITIAL_STATE, action) {
         case UPDATE_USERS:
             let UserExists = state.game.users.some(e => e.user === action.payload.user);
             let users = state.game.users.slice();
-            if(!UserExists) {
+            if (!UserExists) {
                 console.log('User doesnt exist lets add them');
                 users.push(action.payload);
             }
@@ -90,6 +90,7 @@ export default function (state = INITIAL_STATE, action) {
             updateWins.forEach(obj => {
                 console.log('user: ' + obj.user);
                 console.log('Winning user: ' + action.payload);
+                // Checks if current user is the winner
                 if (obj.user === winner && winner === user) {
                     obj.wins++;
                     console.log('Wins: ---> ' + obj.wins);
@@ -105,7 +106,7 @@ export default function (state = INITIAL_STATE, action) {
         case UPDATE_CARDS:
             let AlreadyExists = state.game.images.some(el => el.user === action.payload.user);
             let chosenImages = state.game.images.slice();
-            if(!AlreadyExists) {
+            if (!AlreadyExists) {
                 console.log('image doesnt exist');
                 chosenImages.push(action.payload);
             }

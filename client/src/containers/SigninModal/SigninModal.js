@@ -63,7 +63,7 @@ class SigninModal extends React.Component {
                         </Button>
                     </Form>
                 </Modal.Body>
-                <a className="text-center pb-2" href="#" onClick={this.props.onHide}>Don't have an account? Sign up here.</a>
+                <a className="text-center pb-2" href="/" onClick={this.props.onHide}>Don't have an account? Sign up here.</a>
             </Modal>
         );
     }

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import * as actions from '../../actions';
 import requireAuth from '../../containers/requireAuth';
-import EditProfileModal from './EditProfileModal';
-import "./Profile.css";
+import "./profile.css";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 class Profile extends Component {
 
@@ -15,39 +17,42 @@ class Profile extends Component {
         }
     }
 
-    handleClickEditProfile = () => {
-        console.log('show modal');
-        this.setState({ showUpdateProfile: true });
+    componentDidMount = () => {
+        let token = localStorage.getItem('token');
+        if (!token || token === '') {//if there is no token, dont bother
+            return;
+        }
+        // fetch user from token (if server deems it's valid token)
+        this.props.getCurrentUser(token, (response) => {
+            console.log(response);
+        });
     }
 
+    onSubmit = formProps => {
+        formProps.id = this.props._id;
+        console.log(formProps);
+        this.props.updateUser(formProps, () => {
+            console.log('submitted');
+        });
+    };
+
     render() {
-        const closeUpdateProfile = () => this.setState({ showUpdateProfile: false });
-
+        const { handleSubmit } = this.props;
         const user = this.props.currentUser;
-        const total = user.wins + user.losses
-        let ratio = user.wins / user.losses
-        if (isNaN(ratio)) {
-            ratio = "Play some games"
-        };
+       
 
+        if (user.picture === '') {
+            return <div>Loading...</div>;
+        }
 
         return (
 
             <div>
-                <EditProfileModal
-                    className="editProModal"
-                    show={this.state.showUpdateProfile}
-                    onHide={closeUpdateProfile}
-                />
                 <div className="container-fluid pro">
 
-                    {/* <ProfileModal /> */}
                     <div className="row d-flex justify-content-center">
                         <div className="col-sm-4 text-center">
                             <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt={user.username} />
-                        </div>
-                        <div>
-                            <i className="fas fa-cog" onClick={this.handleClickEditProfile}></i>
                         </div>
                     </div>
                     <div className="row mt-2">
@@ -55,15 +60,23 @@ class Profile extends Component {
                             <h1 className="text-center text" id="username" >{user.username}</h1>
                         </div>
                     </div>
-                    {/* math realted stuff */}
-                    <div className="row d-flex justify-content-center">
-                        <div className="col-3 text-center mr-5 mt-2">
-                            <h2 className="text">Ratio: {ratio}</h2>
-                        </div>
-                        <div className="col-3  text-center">
-                            <h2 className="text" id="gamesPlayed">Games Played: {total} </h2>
-                        </div>
-                    </div>
+                    <Form onSubmit={handleSubmit(this.onSubmit)}>
+                        <Form.Group controlId="picture">
+                            <Form.Label>Photo</Form.Label>
+                            <Field
+                                className="form-control"
+                                name="picture"
+                                type="text"
+                                component="input"
+                                autoComplete="none"
+                                placeholder={this.props.picture}
+                            />
+                        </Form.Group>
+
+                        <Button variant="highlight" type="submit" style={{ width: '100%' }}>
+                            Update!
+                        </Button>
+                    </Form>
                 </div>
 
             </div>
@@ -74,9 +87,19 @@ class Profile extends Component {
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser.user };
+    return {
+        currentUser: state.currentUser.user,
+        _id: state.currentUser.user._id,
+        username: state.currentUser.user.username,
+        picture: state.currentUser.user.picture,
+        initialValues: {
+            picture: state.currentUser.user.pucture
+        }
+
+    };
 }
 
 export default compose(
-    connect(mapStateToProps, actions)
+    connect(mapStateToProps, actions),
+    reduxForm({ form: 'updateUser' })
 )(requireAuth(Profile));
