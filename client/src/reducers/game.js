@@ -1,4 +1,5 @@
 import { 
+    CURRENT_USER,
     CURRENT_GAME, 
     ADD_CHAT, 
     UPDATE_USERS,
@@ -84,11 +85,12 @@ export default function (state = INITIAL_STATE, action) {
             };
         case UPDATE_WINS:
             let updateWins = state.game.users.slice();
+            const { winner, user } = action.payload;
             console.log('UPDATE_WINS');
             updateWins.forEach(obj => {
                 console.log('user: ' + obj.user);
                 console.log('Winning user: ' + action.payload);
-                if (obj.user === action.payload) {
+                if (obj.user === winner && winner === user) {
                     obj.wins++;
                     console.log('Wins: ---> ' + obj.wins);
                 }

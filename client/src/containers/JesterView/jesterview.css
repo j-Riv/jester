@@ -1,6 +1,11 @@
 #winningCard {
     display: block;
     margin: auto;
-    width: 66.66%;
+    width: 50%;
     height: auto;
+}
+
+body {
+    background-color: #0f0728;
+    color: #fff0db;
 }

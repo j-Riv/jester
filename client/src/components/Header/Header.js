@@ -29,7 +29,7 @@ class Header extends Component {
     }
 
     renderLogo() {
-        if (window.location.pathname === '/' || window.location.pathname === '/signout') {
+        if (window.location.pathname === '/' || window.location.pathname === '/signout' || window.location.pathname === '/room') {
             return '/images/jester-logo-white.png';
         }else{
             return '/images/jester-logo-black.png';
