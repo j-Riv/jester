@@ -51,7 +51,8 @@ class PlayerCard extends Component {
                 <div>
                     <p><i className={icon}></i>{this.props.user.data.username}</p>
                 </div>
-                {!this.props.king ? <div><p>{this.props.user.wins}</p></div> : null}
+                {/* {!this.props.king ? <div><p>{this.props.user.wins}</p></div> : null} */}
+                <div><p>{this.props.user.wins}</p></div> 
             </Col>
         )
     }
