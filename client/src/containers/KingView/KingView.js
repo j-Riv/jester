@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
-import PlayerCard from '../../components/Game/PlayerCard';
+import PlayerCard from '../Game/PlayerCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,7 +11,6 @@ import store from '../../store';
 import {
     CARD_SELECTED
 } from '../../actions/types';
-// import './KingView.css';
 
 class KingView extends React.Component {
 
