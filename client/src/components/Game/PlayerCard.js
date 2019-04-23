@@ -18,18 +18,18 @@ class PlayerCard extends Component {
             zIndex: '2'
         },
         light: {
-            width: isMobile ? '100px' : '135px',
-            height: isMobile ? '100px' : '135px',
+            width: isMobile ? '97px' : '135px',
+            height: isMobile ? '97px' : '135px',
             backgroundColor: 'transparent'
         },
         selected: {
-            width: isMobile ? '100px' : '135px',
-            height: isMobile ? '100px' : '135px',
+            width: isMobile ? '97px' : '135px',
+            height: isMobile ? '97px' : '135px',
             backgroundColor: '#42f49e'
         },
         crown: {
             color: '#ffbd07',
-            fontSize: '2em',
+            fontSize: isMobile ? '1em' : '2em',
             paddingBottom: '5px'
         }
     }
@@ -37,15 +37,16 @@ class PlayerCard extends Component {
     render() {
         let colSize = 12;
         let icon = '';
+        let animate = 'animated fadeInRight';
         const total = this.props.total;
         total >= 5 ? colSize = 3 : total === 4 ? colSize = 4 : total === 3 ? colSize = 6 : total <= 2 ? colSize = 12 : colSize = 12;
-        if (this.props.king) { colSize = 12 }
+        if (this.props.king) { colSize = 12; animate = 'animated fadeInLeft' }
         if (this.props.user.data.username === this.props.currentUser.username) {
             icon = 'fas fa-user mr-1';
         }
         return (
-            <Col md={colSize} className='slide'>
-                <h3>{isMobile ? 'On Mobile' : 'On Browser'}</h3>
+            <Col md={colSize} className={animate}>
+                {/* <h3>{isMobile ? 'On Mobile' : 'On Browser'}</h3> */}
                 {this.props.king ? <div className='d-flex justify-content-center'><i className='fas fa-crown' style={this.style.crown}></i></div> : null}
                 <div className='rounded-circle mx-auto d-flex align-items-center' style={this.props.king ? null : this.props.currentUser.card_selected ? this.style.selected : this.style.light}>
                     <div className='rounded-circle mx-auto border border-secondary' style={this.style.picture}>

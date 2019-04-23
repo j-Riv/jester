@@ -75,7 +75,7 @@ class KingView extends React.Component {
                                 }
                             })}
                         </Row>                        
-                        <p>{chosenImages.length === 0 ? 'Waiting for other players' : 'Choose an Image!'}</p>
+                        <p className='animated fadeIn'>{chosenImages.length === 0 ? 'Waiting for other players' : 'Choose an Image!'}</p>
                         <Row>
                             {chosenImages}
                         </Row>

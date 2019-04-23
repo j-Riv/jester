@@ -37,8 +37,8 @@ class Header extends Component {
 
     render() {
         return (
-            <div className="header">
-                <Link to="/" className="logo"><img src={this.renderLogo()} alt="Jester" /></Link>
+            <div className="header mb-4">
+                <Link to="/" className="logo"><img src={'/images/jester-logo-white.png'} alt="Jester" /></Link>
                 {this.renderLinks()}
             </div>
         );
