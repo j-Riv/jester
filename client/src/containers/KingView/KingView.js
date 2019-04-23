@@ -46,7 +46,7 @@ class KingView extends React.Component {
             );
         }
         return (
-            <Container fluid={true} id="viewComponent">
+            <Container  id="viewComponent">
                 <Row>
                     <Col sm={12}>
                         <Row>
@@ -57,6 +57,8 @@ class KingView extends React.Component {
                                     user={e}
                                     king={true}
                                     />
+                                } else {
+                                    return
                                 }
                             })}
                         </Row>
@@ -73,7 +75,7 @@ class KingView extends React.Component {
                                 }
                             })}
                         </Row>                        
-                        <p>Choose an Image!</p>
+                        <p className='animated fadeIn'>{chosenImages.length === 0 ? 'Waiting for other players' : 'Choose an Image!'}</p>
                         <Row>
                             {chosenImages}
                         </Row>

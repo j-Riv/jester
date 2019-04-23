@@ -15,3 +15,16 @@
     width: auto;
     border: 2px solid #fff;
 }
+
+.overlay-shadow {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0;
+}
+
+.overlay-shadow:hover {
+    opacity: 0.7;
+    transition: 0.2s;
+    transition-timing-function: ease-in-out;
+}

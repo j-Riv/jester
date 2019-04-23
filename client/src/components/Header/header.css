@@ -2,19 +2,20 @@
     display: flex;
     justify-content: space-between;
     padding: 10px;
+    background-color: #040016;
 }
 
 .header a,
 .header span {
     margin: 0 10px;
-    color: #000;
+    color: #fff0db;
     transition: all .5s;
     text-decoration: none;
 }
 
 .header a:hover,
 .header span:hover {
-    color: #ccc;
+    color: rgb(255, 174, 43);
 }
 
 .logo img {
