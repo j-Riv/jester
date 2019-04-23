@@ -46,7 +46,7 @@ class KingView extends React.Component {
             );
         }
         return (
-            <Container  id="viewComponent">
+            <Container id="viewComponent" style={{ height: "auto" }}>
                 <Row>
                     <Col sm={12}>
                         <Row>
@@ -57,8 +57,8 @@ class KingView extends React.Component {
                                     user={e}
                                     king={true}
                                     />
-                                } else {
-                                    return
+                                }else{
+                                    return '';
                                 }
                             })}
                         </Row>
@@ -72,6 +72,8 @@ class KingView extends React.Component {
                                     key={i}
                                     selected={this.props.currentUser.card_selected}
                                     />
+                                }else{
+                                    return '';
                                 }
                             })}
                         </Row>                        

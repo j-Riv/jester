@@ -34,7 +34,7 @@ class App extends Component {
                         <Route path="/" exact component={Home} />
                         <Route path="/profile" component={EditProfile} />
                         <Route path="/lobby" component={GamesLobby} />
-                        <Route path="/room/:gameId" component={Room} />
+                        <Route path="/room/:gameId" component={Room} key={window.location.pathname}/>
                         <Route path="/signout" component={Signout} />
                         <Route component={Home} />
                     </Switch>
