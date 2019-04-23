@@ -1,0 +1,36 @@
+#createGameModal .modal-header {
+    border-bottom: none;
+}
+
+#createGameModal .modal-content {
+    background-color: #390040;
+    color: #fff;
+    border-radius: 10px;
+}
+
+#createGameModal .close {
+    color: #fff;
+    transition: all .1s;
+    text-shadow: none;
+}
+
+#createGameModal .close:hover {
+    color: #8c2e66;
+}
+
+#createGameModal a,
+#createGameModal span {
+    color: #fff;
+    transition: all .1s;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#createGameModal a:hover,
+#createGameModal span:hover {
+    color: #8c2e66;
+}
+
+#createGameModal .modal-footer {
+    border-top: none;
+}

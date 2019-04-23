@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import requireAuth from '../../../containers/requireAuth';
-import CreateGameModal from '../../../containers/CreateGameModal';
+import CreateGameModal from '../../../containers/CreateGameModal/CreateGameModal';
 import hostname from '../../../config/config';
 import Profile from '../../Profile/Profile';
 import { push as Menu } from 'react-burger-menu';
@@ -48,6 +48,7 @@ class GamesLobby extends Component {
     }
     
     componentDidMount = () => {
+        document.body.classList.add('lobby');
         // fetch games
         this.props.getAllGames();
         // get current user
@@ -68,6 +69,10 @@ class GamesLobby extends Component {
             this.props.getAllGames();
         });
     }
+
+    componentWillUnmount = () => {
+        document.body.classList.remove('lobby');
+    } 
 
     handleNewGame = () => {
         this.props.createGame((response) => {
