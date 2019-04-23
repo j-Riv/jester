@@ -3,6 +3,7 @@ import Col from 'react-bootstrap/Col';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import { isMobile } from 'react-device-detect';
 
 class PlayerCard extends Component {
     style = {
@@ -13,16 +14,27 @@ class PlayerCard extends Component {
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
+            backgroundColor: 'white',
+            zIndex: '2'
+        },
+        mobilePicture: {
+            width: '90px',
+            height: '90px',
+            backgroundImage: 'url(' + this.props.user.data.picture + ')',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundColor: 'white',
             zIndex: '2'
         },
         light: {
-            width: '135px',
-            height: '135px',
+            width: isMobile ? '100px' : '135px',
+            height: isMobile ? '100px' : '135px',
             backgroundColor: 'transparent'
         },
         selected: {
-            width: '135px',
-            height: '135px',
+            width: isMobile ? '100px' : '135px',
+            height: isMobile ? '100px' : '135px',
             backgroundColor: '#42f49e'
         },
         crown: {
@@ -43,16 +55,17 @@ class PlayerCard extends Component {
         }
         return (
             <Col md={colSize} className='slide'>
+                <h3>{isMobile ? 'On Mobile' : 'On Browser'}</h3>
                 {this.props.king ? <div className='d-flex justify-content-center'><i className='fas fa-crown' style={this.style.crown}></i></div> : null}
                 <div className='rounded-circle mx-auto d-flex align-items-center' style={this.props.king ? null : this.props.currentUser.card_selected ? this.style.selected : this.style.light}>
-                    <div className='rounded-circle mx-auto border border-secondary' style={this.style.picture}>
+                    <div className='rounded-circle mx-auto border border-secondary' style={isMobile ? this.style.mobilePicture : this.style.picture}>
                     </div>
                 </div>
                 <div>
-                    <p><i className={icon}></i>{this.props.user.data.username}</p>
+                    <p className='mb-1'><i className={icon}></i>{this.props.user.data.username}</p>
+                    <p className='mb-1'>{this.props.user.wins}</p>
                 </div>
                 {/* {!this.props.king ? <div><p>{this.props.user.wins}</p></div> : null} */}
-                <div><p>{this.props.user.wins}</p></div> 
             </Col>
         )
     }

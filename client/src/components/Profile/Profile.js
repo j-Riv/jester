@@ -17,6 +17,16 @@ class Profile extends Component {
         }
     }
 
+    pic = {
+        height: '200px',
+        width: '200px',
+        backgroundImage: 'url(' + this.props.currentUser.picture + ')',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundColor: 'white'
+    }
+
     componentDidMount = () => {
         let token = localStorage.getItem('token');
         if (!token || token === '') {//if there is no token, dont bother
@@ -50,9 +60,10 @@ class Profile extends Component {
             <div>
                 <div className="container-fluid pro">
 
-                    <div className="row d-flex justify-content-center">
-                        <div className="col-sm-4 text-center">
-                            <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt={user.username} />
+                    <div className="d-flex justify-content-center">
+                        <div className="rounded-circle" style={this.pic}>
+                            
+                            {/* <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt={user.username} /> */}
                         </div>
                     </div>
                     <div className="row mt-2">
