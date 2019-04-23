@@ -18,4 +18,4 @@ A multiplayer web game.
 * [Bootstrap](https://getbootstrap.com/)
 
 ## Description
-Have an idea for a story? Create a new book with others who share the same ideas! You'll be able to write the story line by line with other users! Once you're finished, share the book with the rest of the world!
+
