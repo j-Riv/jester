@@ -85,3 +85,12 @@
     color: #fff;
     background-color: #66184a;
 }
+
+.span-link {
+    cursor: pointer;
+    transition: all .1s;
+}
+
+.span-link:hover {
+    color: #8c2e66;
+}
