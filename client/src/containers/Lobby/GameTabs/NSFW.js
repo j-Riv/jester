@@ -21,12 +21,18 @@ class NSFW extends Component {
         
                         <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
-                                <Link to={`/room/${item._id}`}>
-                                <h3>{item.game_name}</h3>
-                                <p>{item.users.length}/{item.max_players}</p>
-                                </Link>
+                                {item.users.length <= 5 ?
+                                    <Link to={`/room/${item._id}`}>
+                                        <h3>{item.game_name}</h3>
+                                        <p>{item.users.length}/{item.max_players}</p>
+                                    </Link>
+                                    :
+                                    <div>
+                                        <h3>{item.game_name}</h3>
+                                        <p>{item.users.length}/{item.max_players}</p>
+                                    </div>
+                                }
                             </div>
-        
                         </Col>
         
                         <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
