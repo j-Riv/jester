@@ -4,7 +4,8 @@ import {
     AUTH_USER, 
     AUTH_ERROR, 
     CURRENT_USER,
-    SHOW_SIGNIN
+    SHOW_SIGNIN,
+    UPDATE_PICTURE
 } from './types';
 
 
@@ -69,9 +70,7 @@ export const updateUser = formProps => async dispatch => {
             host + '/users/update',
             formProps
         );
-        console.log(formProps);
-        console.log('updated user');
-        console.log(response.data.currentUser);
+        dispatch({ type: UPDATE_PICTURE, payload: response.data.picture });
     } catch (e) {
         console.log(e);
     }

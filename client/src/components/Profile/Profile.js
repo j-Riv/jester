@@ -48,10 +48,8 @@ class Profile extends Component {
 
     render() {
         const { handleSubmit } = this.props;
-        const user = this.props.currentUser;
-       
 
-        if (user.picture === '') {
+        if (this.props.picture === '') {
             return <div>Loading...</div>;
         }
 
@@ -62,13 +60,11 @@ class Profile extends Component {
 
                     <div className="d-flex justify-content-center">
                         <div className="rounded-circle" style={this.pic}>
-                            
-                            {/* <img className="img-fluid img-thumbnail rounded-circle mt-4" id='proPic' src={user.picture} alt={user.username} /> */}
                         </div>
                     </div>
                     <div className="row mt-2">
                         <div className="col-sm-12">
-                            <h1 className="text-center text" id="username" >{user.username}</h1>
+                            <h1 className="text-center text" id="username" >{this.props.username}</h1>
                         </div>
                     </div>
                     <Form onSubmit={handleSubmit(this.onSubmit)}>

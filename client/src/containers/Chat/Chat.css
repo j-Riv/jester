@@ -11,6 +11,10 @@
     color: #000 !important;
 }
 
+#chatComponent .title {
+    color: #fff0db;
+}
+
 #chatArea {
     height: 100%;
     min-height: 70vh;

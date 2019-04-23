@@ -9,13 +9,9 @@ import {
     GET_GIFS,
     UPDATE_USERS,
     UPDATE_CURRENT_TURN,
-    UPDATE_WINS,
     UPDATE_WINNER,
-    UPDATE_WINNING_CARD,
-    UPDATE_WINNER_CHOSEN,
-    CLEAR_CARDS,
-    CARD_SELECTED,
-    SET_PHRASE
+    SET_PHRASE,
+    UPDATE_AND_RESET
 } from './types';
 import io from 'socket.io-client';
 import words from '../words/words-clean';
@@ -27,8 +23,8 @@ const socket = io(hostname, {
 });
 
 export const setUserGifs = () => async dispatch => {
+    let word = [];
     try {
-        let word = [];
         for (let i = 0; i < 3; i++) {
             word.push(words.words[~~(Math.random() * words.words.length)])
         }
@@ -95,7 +91,6 @@ export const getAllGames = () => async dispatch => {
         // get all games
         dispatch({ type: GET_ALL_GAMES });
         dispatch({ type: ALL_GAMES, payload: response.data.games });
-        console.log('got games?');
     } catch (e) {
         console.log(e);
     }
@@ -110,8 +105,6 @@ export const addUser = (user, userId, gameId, callback) => async dispatch => {
         );
         // add user
         dispatch({ type: UPDATE_USERS, payload: response.data.added });
-        console.log('user added ----->');
-        console.log(response.data.added);
         callback(response.data.added);
     } catch (e) {
         console.log(e);
@@ -159,7 +152,7 @@ export const imgCardChosen = card => async () => {
             hostname + '/games/update/cards',
             card
         );
-        console.log('updateCards');
+        console.log('updated cards');
         console.log(response.data.card);
     } catch (e) {
         console.log(e);
@@ -176,29 +169,27 @@ export const winnerChosen = winnerData => async () => {
             hostname + '/games/update/winner',
             winnerData
         );
-        console.log('updateWinner');
+        console.log('updated winner');
         console.log(response.data.winner);
     } catch (e) {
         console.log(e);
     }
 }
 
-export const afterWin = r => async dispatch => {
-    // update winner
-    dispatch({ type: UPDATE_WINS, payload: r.user });
-    dispatch({ type: UPDATE_WINNER, payload: r.user });
-    dispatch({ type: UPDATE_WINNING_CARD, payload: r.card });
-    dispatch({ type: UPDATE_WINNER_CHOSEN, payload: true });
+export const afterWin = (r, callback) => async dispatch => {
+    const wObj = {
+        user: r.user,
+        card: r.card
+    };
+    dispatch({ type: UPDATE_WINNER, payload: wObj });
     // reset game
     setTimeout(() => {
-        console.log('Next player is ---> ' + r.nextUser);
-        // reset game for next round
-        dispatch({ type: CLEAR_CARDS, payload: [] });
-        dispatch({ type: UPDATE_WINNER_CHOSEN, payload: false });
-        dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
-        dispatch({ type: SET_PHRASE, payload: r.phrase });
-        dispatch({ type: CARD_SELECTED, payload: false });
-        // get new gifs
-
+        const rObj = {
+            user: r.user,
+            phrase: r.phrase,
+            nextUser: r.nextUser
+        }
+        dispatch({ type: UPDATE_AND_RESET, payload: rObj });
     }, 3000);
+    callback('after win has run');
 }

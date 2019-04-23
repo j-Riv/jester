@@ -57,7 +57,7 @@ class JesterView extends React.Component {
             }
         }
         return (
-            <Container  id="viewComponent">
+            <Container  id="viewComponent" style={{ height: "auto" }}>
                 <Row>
                     <Col sm={12}>
                         <Row>
@@ -68,6 +68,8 @@ class JesterView extends React.Component {
                                     user={e}
                                     king={true}
                                     />
+                                }else{
+                                    return '';
                                 }
                             })}
                         </Row>
@@ -81,6 +83,8 @@ class JesterView extends React.Component {
                                     user={e}
                                     key={i}
                                     />
+                                }else{
+                                    return '';
                                 }
                             })}
                         </Row>

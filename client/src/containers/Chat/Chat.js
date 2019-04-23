@@ -44,7 +44,7 @@ class Chat extends Component {
         }
         return (
             <div id="chatComponent">
-                <p className="text-center">Chat <i className="fas fa-comment-alt"></i></p>
+                <p className="title text-center">Chat <i className="fas fa-comment-alt"></i></p>
                 <div id="chatWrapper">
                     <div id="chatArea">
                         <div className="messages" id="messages">
@@ -65,7 +65,7 @@ class Chat extends Component {
                                 autoComplete="none"
                             />
                             <InputGroup.Append>
-                                <Button variant="secondary" id="sendMessage" type="submit">Send!</Button>
+                                <Button variant="highlight" id="sendMessage" type="submit">Send!</Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form>

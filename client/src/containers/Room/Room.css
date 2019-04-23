@@ -8,6 +8,10 @@
     list-style: none;
 }
 
+.viewComponent {
+    height: auto;
+}
+
 @media only screen and (max-width: 768px) {
     #viewComponent {
         min-height: 80vh;
@@ -16,11 +20,7 @@
 
 
 /* #buttonContainer {
-    position: absolute;
-    bottom: 75px;
-    right: 0;
-    left: 0;
-    width: 100%;
+    padding-top: 100px;
 } */
 
 
@@ -38,13 +38,13 @@
 /* General sidebar styles */
 
 .bm-menu {
-    background: #fff;
+    background: #390040;
     padding: 2.5em 1.5em 0;
     font-size: 1.15em;
 }
 
 .bm-item-list {
-    color: #000;
+    color: #fff0db;
     padding: 0.8em;
 }
 
