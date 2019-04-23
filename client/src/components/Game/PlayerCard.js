@@ -8,18 +8,8 @@ import { isMobile } from 'react-device-detect';
 class PlayerCard extends Component {
     style = {
         picture: {
-            width: '125px',
-            height: '125px',
-            backgroundImage: 'url(' + this.props.user.data.picture + ')',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            backgroundColor: 'white',
-            zIndex: '2'
-        },
-        mobilePicture: {
-            width: '90px',
-            height: '90px',
+            width: isMobile ? '90px' : '125px',
+            height: isMobile ? '90px' : '125px',
             backgroundImage: 'url(' + this.props.user.data.picture + ')',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -58,12 +48,12 @@ class PlayerCard extends Component {
                 <h3>{isMobile ? 'On Mobile' : 'On Browser'}</h3>
                 {this.props.king ? <div className='d-flex justify-content-center'><i className='fas fa-crown' style={this.style.crown}></i></div> : null}
                 <div className='rounded-circle mx-auto d-flex align-items-center' style={this.props.king ? null : this.props.currentUser.card_selected ? this.style.selected : this.style.light}>
-                    <div className='rounded-circle mx-auto border border-secondary' style={isMobile ? this.style.mobilePicture : this.style.picture}>
+                    <div className='rounded-circle mx-auto border border-secondary' style={this.style.picture}>
                     </div>
                 </div>
                 <div>
-                    <p className='mb-1'><i className={icon}></i>{this.props.user.data.username}</p>
-                    <p className='mb-1'>{this.props.user.wins}</p>
+                    <p className='mb-1'><i className={icon}></i>{this.props.user.data.username} | {this.props.user.wins}</p>
+                    {/* <p className='mb-1'>{this.props.user.wins}</p> */}
                 </div>
                 {/* {!this.props.king ? <div><p>{this.props.user.wins}</p></div> : null} */}
             </Col>

@@ -44,7 +44,7 @@ class JesterView extends React.Component {
                         </Col>
             } else if (this.props.currentUser.card_selected) {
                 view = <Col sm={12} className="text-center">
-                            <p>You have already selected a card.</p>
+                            <p>Submitted!</p>
                         </Col>
             } else {
                 view = this.props.currentUser.images.map((img, key) =>
@@ -57,7 +57,7 @@ class JesterView extends React.Component {
             }
         }
         return (
-            <Container fluid={true} id="viewComponent">
+            <Container  id="viewComponent">
                 <Row>
                     <Col sm={12}>
                         <Row>
@@ -71,6 +71,7 @@ class JesterView extends React.Component {
                                 }
                             })}
                         </Row>
+                        <p>Says:</p>
                         <h3 className="text-center my-3">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading'}</h3>
                         <Row>
                             {this.props.game.users.map((e, i) => {
@@ -83,7 +84,7 @@ class JesterView extends React.Component {
                                 }
                             })}
                         </Row>
-                        <h4>Select a GIF!</h4>
+                        <h4>{this.props.currentUser.card_selected ? 'Waiting for the king to choose...' : 'Select a GIF!'}</h4>
                         <Row>
                             {view}
                         </Row>
