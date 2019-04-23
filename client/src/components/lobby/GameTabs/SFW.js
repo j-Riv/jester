@@ -10,7 +10,7 @@ class SFW extends Component {
         const sfwGames = props.peeps.filter(g => g.category === 'Safe For Work')
         const sfw = sfwGames.map(item => {
                 return (
-                    <Row key={item._id}>
+                    <Row className="game-row" key={item._id}>
                     
                         <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
@@ -41,7 +41,7 @@ class SFW extends Component {
                 );
         });
         
-        return sfw.length > 0 ? sfw : <p>no game to show</p>
+        return sfw.length > 0 ? sfw : <h1 className='emptyGames'>No Games in this Category</h1>
     };
         
     render(){

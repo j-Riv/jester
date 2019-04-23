@@ -9,7 +9,7 @@ function All(props) {
         <div>
         {props.peeps.map(item => { 
             return (
-                <Row key={item._id}>
+                <Row className="game-row" key={item._id}>
                 
                     <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                         <div>
@@ -26,7 +26,6 @@ function All(props) {
                             <p>{item.users.length}/{item.max_players}</p>
                             </Link>
                         </div>
-
                     </Col>
 
                     <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>

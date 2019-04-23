@@ -109,15 +109,15 @@ class GamesLobby extends Component {
                     <Button variant="light" className="m-2" style={{ float: 'right' }} onClick={this.handleClickCreate}><i className="fas fa-plus"></i></Button>
                     <Button variant="light" className="m-2" style={{ float: 'right' }} onClick={() => this.toggleMenu('profileOpen')}><i className="fas fa-user-circle"></i> Profile</Button>
                     <Tabs id="game-tabs" activeKey={this.state.key} style={{ clear: 'both' }} onSelect={key => this.setState({ key })}>
-                        <Tab eventKey="allGames" title="All Games">
+                        <Tab eventKey="allGames" title="All Games" className="tab-select">
                             <All peeps={this.props.lobby} />
                         </Tab>
 
-                        <Tab eventKey="sfwGames" title="SFW Games">
+                        <Tab eventKey="sfwGames" title="SFW Games" className="tab-select">
                             <SFW peeps={this.props.lobby} />
                         </Tab>
 
-                        <Tab eventKey="nsfwGames" title="NSFW Games">
+                        <Tab eventKey="nsfwGames" title="NSFW Games" className="tab-select">
                             <NSFW peeps={this.props.lobby} />
                         </Tab>
 
