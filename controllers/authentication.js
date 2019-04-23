@@ -152,7 +152,7 @@ exports.addUser = (req, res) => {
     if (user !== null) {
         // get user data then --->
         // updating game with new user
-        console.log('THIS IS THE ID: ' + user_id);
+        console.log('THIS IS THE ID: ' + user_id + ' of the added user');
         User.findOne({ 
             _id: user_id 
         }).then(userData => {

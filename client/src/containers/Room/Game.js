@@ -53,6 +53,7 @@ class Game extends Component {
     }
 
     componentDidMount = () => {
+        console.log('component mounted');
         console.log('Host: ' + hostname);
         // declare words for api call later
         // crete game room
@@ -92,12 +93,12 @@ class Game extends Component {
             // new user has joined log session/socket id
             // console.log('new user ' + this.props.user + ' joined: connected --> ' + sessionid);
             // update users on new user connect
-            if (this.props.user !== undefined) {
-                this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
-                    console.log('users have been updated');
-                    console.log(response);
-                });
-            }
+            // if (this.props.user !== undefined) {
+            //     this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
+            //         console.log('users have been updated');
+            //         console.log(response);
+            //     });
+            // }
             // emit event so other clients know to update users in game state
             socket.emit('user connected', { gameId: params.gameId, user: this.props.user });
         });
@@ -119,11 +120,11 @@ class Game extends Component {
             // reconnectiong user display log attempts
             // console.log('reconnecting ' + this.props.user + ' attempts: ' + attemptNumber);
             // update users on socket reconnect
-            if (this.props.user !== undefined) {
-                this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
-                    console.log(response);
-                });
-            }
+            // if (this.props.user !== undefined) {
+            //     this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
+            //         console.log(response);
+            //     });
+            // }
         });
         // update users
         socket.on('add user', r => {
@@ -141,16 +142,15 @@ class Game extends Component {
         });
         // update winner
         socket.on('update winner', r => {
+            console.log('Socket ----> Winner has been updated on server');
             // update winner --> wins
             // update winning card
             // update winner chosen
             // reset game
-            this.props.resetGifs((gifs) => {
-                r.gifs = gifs;
-                this.props.afterWin(r);
-            });
-            // this.props.afterWin(r);
             // this.props.setUserGifs();
+            this.props.afterWin(r, response => {
+                console.log(response);
+            });
         });
         // remove user
         socket.on('remove user', r => {
@@ -197,6 +197,8 @@ class Game extends Component {
         });
         // reset card selected when user leaves
         store.dispatch({ type: CARD_SELECTED, payload: false });
+        // remove listeners
+        socket.removeAllListeners();
     }
 
     render() {

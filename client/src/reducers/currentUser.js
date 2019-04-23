@@ -46,12 +46,15 @@ export default function (state = INITIAL_STATE, action) {
                 ...state,
                 user: {
                     ...state.user,
-                    images: action.payload.gifs
+                    images: [
+                        "https://media2.giphy.com/media/Se2X2MM8N4HPa/200w.gif",
+                        "https://media0.giphy.com/media/2SXRjxjXDZhKcOmKcH/200w.gif",
+                        "https://media3.giphy.com/media/FyH83LEK2hytq/200w.gif"
+                    ]
                 }
             }
         case UPDATE_AND_RESET:
         console.log('UPDATE AND RESET');
-        console.log(action.payload.gifs);
             return {
                 ...state,
                 user: {

@@ -60,7 +60,7 @@ class KingView extends React.Component {
                                 }
                             })}
                         </Row>
-                        <h3 className="text-center">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading Phrase'}</h3>
+                        <h3 className="text-center my-3">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading Phrase'}</h3>
                         <Row>
                             {this.props.game.users.map((e, i) => {
                                 if (e.data.username !== this.props.game.current_turn) {
@@ -73,7 +73,7 @@ class KingView extends React.Component {
                                 }
                             })}
                         </Row>                        
-                        <p>Chosen Images:</p>
+                        <p>Choose an Image!</p>
                         <Row>
                             {chosenImages}
                         </Row>

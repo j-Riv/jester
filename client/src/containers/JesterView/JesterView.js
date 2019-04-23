@@ -38,14 +38,14 @@ class JesterView extends React.Component {
         if (Array.isArray(this.props.currentUser.images)) {
             if (this.props.currentUser.card_selected && this.props.game.winner_chosen === true) {
                 view = <Col sm={12} className="text-center">
-                            {this.props.game.winner === this.props.currentUser.username ? <p>You Won!</p> : <p>The winner is: {this.props.game.winner}</p>}
-                            <p>The Winning card is:</p>
+                            {this.props.game.winner === this.props.currentUser.username ? <h4>You Won!</h4> : <h4>The winner is: {this.props.game.winner}</h4>}
+                            <h6>The Winning card is:</h6>
                             <img id="winningCard" src={this.props.game.winning_card} alt={this.props.game.winner} />
                         </Col>
             } else if (this.props.currentUser.card_selected) {
                 view = <Col sm={12} className="text-center">
                             <p>You have already selected a card.</p>
-                        </Col>;
+                        </Col>
             } else {
                 view = this.props.currentUser.images.map((img, key) =>
                     <ImgCard
@@ -71,7 +71,7 @@ class JesterView extends React.Component {
                                 }
                             })}
                         </Row>
-                        <h3 className="text-center">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading Phrase'}</h3>
+                        <h3 className="text-center my-3">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading'}</h3>
                         <Row>
                             {this.props.game.users.map((e, i) => {
                                 if (e.data.username !== this.props.game.current_turn) {
@@ -83,7 +83,7 @@ class JesterView extends React.Component {
                                 }
                             })}
                         </Row>
-                        <p>Images:</p>
+                        <h4>Select a GIF!</h4>
                         <Row>
                             {view}
                         </Row>
