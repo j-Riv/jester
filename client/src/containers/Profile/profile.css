@@ -11,15 +11,12 @@
 .text {
     width: 100%;
     font-size: 100%;
-
 }
 
 .update-profile-modal.show {
     z-index: 2000 !important;
 }
 
-.pro{
-    background-color: #0f0728;
+.pro {
     color: #fff0db;
 }
-

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 class SFW extends Component {
-    renderSFWGames(){
+    renderSFWGames() {
         let props = this.props;
         const sfwGames = props.peeps.filter(g => g.category === 'Safe For Work')
         const sfw = sfwGames.map(item => {

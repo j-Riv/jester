@@ -132,7 +132,7 @@ export const setCurrentTurn = (user, gameId, gameType) => async dispatch => {
     console.log(gameType)
     if (gameType === 'Safe For Work') {
         phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
-        console.log('this is not safe for work')
+        console.log('this is safe for work')
     } else if (gameType === 'Not Safe For Work') {
         phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
         console.log('this is safe for work')
@@ -172,7 +172,7 @@ export const winnerChosen = (winnerData, gameType) => async () => {
     let phrase = '';
     if (gameType === 'Safe For Work') {
         phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
-        console.log('this is not safe for work')
+        console.log('this is safe for work')
     } else if (gameType === 'Not Safe For Work') {
         phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
         console.log('this is safe for work')

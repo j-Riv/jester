@@ -56,6 +56,8 @@ class KingView extends React.Component {
                                     user={e}
                                     king={true}
                                     />
+                                }else{
+                                    return '';
                                 }
                             })}
                         </Row>

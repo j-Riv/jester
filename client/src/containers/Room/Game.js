@@ -78,7 +78,7 @@ class Game extends Component {
             if (this.props.game.current_turn === '' || this.props.game.phrase === null) {
                 // setting initial current turn
                 console.log('setting initial current turn');
-                this.props.setCurrentTurn(this.props.user, params.gameId);
+                this.props.setCurrentTurn(this.props.user, params.gameId, this.props.game.category);
             } else {
                 console.log('not setting initial');
             }
