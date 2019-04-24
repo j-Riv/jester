@@ -74,7 +74,7 @@ class JesterView extends React.Component {
                             })}
                         </Row>
                         <p>Says:</p>
-                        <h3 className="text-center my-3">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading'}</h3>
+                        <h3 className="text-center my-3">{this.props.game.phrase ? '"' + this.props.game.phrase + '"' : 'Loading Phrase'}</h3>
                         <Row>
                             {this.props.game.users.map((e, i) => {
                                 if (e.data.username !== this.props.game.current_turn) {

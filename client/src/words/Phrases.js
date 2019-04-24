@@ -15,6 +15,5 @@ export default {
         'Oh yeah, suck that, bitch.',
         "I'm about to shit my pants",
         "We don't serve your kind here",
-        
     ]
 }

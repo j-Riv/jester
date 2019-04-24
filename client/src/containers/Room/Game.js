@@ -70,10 +70,7 @@ class Game extends Component {
             // logging the game object
             console.log(game);
             // get gifs from api and update game state
-            this.props.setUserGifs(response => {
-                // got gifs
-                console.log(response);
-            });
+            this.props.setUserGifs(this.props.game.category);
             // set current turn on first user in game
             if (this.props.game.current_turn === '' || this.props.game.phrase === null) {
                 // setting initial current turn
@@ -133,7 +130,7 @@ class Game extends Component {
         });
         // update winner
         socket.on('update winner', r => {
-            this.props.setUserGifs();
+            this.props.setUserGifs(this.props.game.category);
             this.props.afterWin(r, response => {
                 console.log(response);
             });
@@ -154,10 +151,7 @@ class Game extends Component {
                 // logging the game object
                 console.log(game);
                 // get gifs from api and update game state
-                this.props.setUserGifs(response => {
-                    // got gifs
-                    console.log(response);
-                });
+                this.props.setUserGifs(this.props.game.category);
                 // set current turn on first user in game
                 if (this.props.game.current_turn === '' || this.props.game.current_turn === null) {
                     // setting initial current turn

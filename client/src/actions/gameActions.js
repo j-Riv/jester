@@ -22,27 +22,25 @@ const socket = io(hostname, {
     secure: true
 });
 
-export const setUserGifs = () => async dispatch => {
+export const setUserGifs = (gameType) => async dispatch => {
     let word = [];
     try {
-        for (let i = 0; i < 3; i++) {
-            word.push(words.words[~~(Math.random() * words.words.length)])
+        if (gameType === 'Safe For Work') {
+            for (let i = 0; i < 3; i++) {
+                word.push(words.clean[~~(Math.random() * words.clean.length)])
+            }
+        } else if (gameType === 'Not Safe For Work') {
+            for (let i = 0; i < 3; i++) {
+                word.push(words.dirty[~~(Math.random() * words.dirty.length)])
+            }
         }
-        console.log('words===============================')
-        console.log(word)
         let gifs = [];
         for (let i = 0; i < 3; i++) {
-            // const gif = await axios.get(
-            //     `https://api.tenor.com/v1/search?tag=${word[i]}&limit=1&media_filter=minimal&ar_range=standard&key=OZVKWPE1OFF3`
-            // )
-            // gifs.push(gif.data.results[0].media[0].tinygif.url);
             const gif = await axios.get(
                 `https://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
             )
             gifs.push(gif.data.data.images.fixed_width.webp);
         }
-        console.log('gifs================')
-        console.log(gifs)
         dispatch({ type: GET_GIFS, payload: gifs })
     } catch (e) {
         console.log(e)
@@ -128,14 +126,12 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
 export const setCurrentTurn = (user, gameId, gameType) => async dispatch => {
     // get phrase
     let phrase = ''
-    console.log('game type is currently:')
-    console.log(gameType)
     if (gameType === 'Safe For Work') {
         phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
-        console.log('this is safe for work')
     } else if (gameType === 'Not Safe For Work') {
         phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
-        console.log('this is safe for work')
+    } else {
+        phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
     }
 
     try {
@@ -169,14 +165,18 @@ export const imgCardChosen = card => async () => {
 
 export const winnerChosen = (winnerData, gameType) => async () => {
     // get phrase
-    let phrase = '';
-    if (gameType === 'Safe For Work') {
-        phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
-        console.log('this is safe for work')
-    } else if (gameType === 'Not Safe For Work') {
-        phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
-        console.log('this is safe for work')
-    }
+    let type;
+    gameType === 'Safe For Work' ? type = Phrases.clean : Phrases.dirty;
+    let phrase = type[~~(Math.random() * type.length)];
+    
+    
+    // if (gameType === 'Safe For Work') {
+    //     phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
+    // } else if (gameType === 'Not Safe For Work') {
+    //     phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
+    // } else {
+    //     phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
+    // }
     winnerData.phrase = phrase;
 
     try {

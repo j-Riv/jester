@@ -1,5 +1,5 @@
 export default {
-    words: ['balloons', 
+    clean: ['balloons', 
     'puppies', 
     'apples', 
     'minions', 
