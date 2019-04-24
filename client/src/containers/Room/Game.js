@@ -51,36 +51,21 @@ class Game extends Component {
     }
 
     componentDidMount = () => {
-        console.log('component mounted');
-        console.log('Host: ' + hostname);
         // crete game room
         const { match: { params } } = this.props;
         socket.emit('create', params.gameId);
-        console.log('creating game: ' + params.gameId);
         // add user to game room
         if (this.props.user !== undefined) {
-            this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
-                // users have been updated
-                console.log(response);
-            });
+            this.props.addUser(this.props.user, this.props.userId, params.gameId);
         }
         // get game object from server and save to game state
         this.props.getGame(params.gameId, (response) => {
-            const game = response.data.game;
-            // logging the game object
-            console.log(game);
             // get gifs from api and update game state
-            this.props.setUserGifs(response => {
-                // got gifs
-                console.log(response);
-            });
+            this.props.setUserGifs();
             // set current turn on first user in game
             if (this.props.game.current_turn === '' || this.props.game.phrase === null) {
                 // setting initial current turn
-                console.log('setting initial current turn');
                 this.props.setCurrentTurn(this.props.user, params.gameId, this.props.game.category);
-            } else {
-                console.log('not setting initial');
             }
         });
         // new user connected send update to server
@@ -112,14 +97,6 @@ class Game extends Component {
         // socket reconnected
         socket.on('reconnect', (attemptNumber) => {
             console.log('RECONNECT');
-            // reconnectiong user display log attempts
-            // console.log('reconnecting ' + this.props.user + ' attempts: ' + attemptNumber);
-            // update users on socket reconnect
-            // if (this.props.user !== undefined) {
-            //     this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
-            //         console.log(response);
-            //     });
-            // }
         });
         // update users
         socket.on('add user', r => {
@@ -134,9 +111,7 @@ class Game extends Component {
         // update winner
         socket.on('update winner', r => {
             this.props.setUserGifs();
-            this.props.afterWin(r, response => {
-                console.log(response);
-            });
+            this.props.afterWin(r);
         });
         // remove user
         socket.on('remove user', r => {
@@ -150,18 +125,11 @@ class Game extends Component {
             store.dispatch({ type: REMOVE_USER, payload: r.user });
             // get game object from server and save to game state
             this.props.getGame(params.gameId, (response) => {
-                const game = response.data.game;
-                // logging the game object
-                console.log(game);
                 // get gifs from api and update game state
-                this.props.setUserGifs(response => {
-                    // got gifs
-                    console.log(response);
-                });
+                this.props.setUserGifs();
                 // set current turn on first user in game
                 if (this.props.game.current_turn === '' || this.props.game.current_turn === null) {
                     // setting initial current turn
-                    // console.log('setting initial current turn');
                     this.props.setCurrentTurn(this.props.user, params.gameId, this.props.game.category);
                 }
             });
@@ -175,9 +143,7 @@ class Game extends Component {
         // unmounting ---> remove user from room and pass next user
         // next user: will be used if current turn (king) has left the room
         socket.emit('leave room', { user: this.props.user, gameId: params.gameId, nextUser: nextUser });
-        this.props.removeUser(this.props.user, params.gameId, nextUser, (response) => {
-            console.log(response);
-        });
+        this.props.removeUser(this.props.user, params.gameId, nextUser);
         // reset card selected when user leaves
         store.dispatch({ type: CARD_SELECTED, payload: false });
         // remove listeners
