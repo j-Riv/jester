@@ -1,29 +1,28 @@
-# Create React Express App
+# JESTER
 
-## About This Boilerplate
+A turn based multiplayer web game.
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+**Link** [Jester](https://the-jester.herokuapp.com/)
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+![jester](client/public/images/screenshot/the-jester.jpg)
 
-## Starting the app locally
+## Built With:
+* [NodeJS](https://nodejs.org/en/docs/)
+* [Express](https://expressjs.com/)
+* [Socket.io](https://socket.io/)
+* [Passport](http://www.passportjs.org/)
+* [MongoDB](https://www.mongodb.com/)
+* [Mongoose](https://mongoosejs.com/)
+* [React](https://reactjs.org/)
+* [Redux](https://redux.js.org/)
+* [Bootstrap](https://getbootstrap.com/)
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+## Description
+Users take turns being the King or a Jester. The Jesters select a Gif that best matches the King's current phrase. The King will then select the winner and the round will be over. Every round there is a new King.
 
-```
-yarn install
-```
-
-This should install node modules within the server and the client folder.
-
-After both installations complete, run the following command in your terminal:
-
-```
-yarn start
-```
-
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
-
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
+## Contributors
+* [j-Riv](https://github.com/j-Riv)
+* [Daffyd Zephyr](https://github.com/helloimdavidhaha)
+* [Miguel Landin](https://github.com/MigPerLan)
+* [Tyler Maples](https://github.com/tylerkmaples)
+* [Yusuf Serunjogi](https://github.com/come2america)
