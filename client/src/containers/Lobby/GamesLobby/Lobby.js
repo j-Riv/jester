@@ -86,6 +86,12 @@ class GamesLobby extends Component {
         this.setState({ showCreateGame: true });
     }
 
+    style = {
+        card: {
+            backgroundColor: '#f3f2ff',
+        }
+    }
+
     render() {
         const closeCreateGame = () => this.setState({ showCreateGame: false });
         if (this.props.loading) {
