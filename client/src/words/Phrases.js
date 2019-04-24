@@ -7,7 +7,7 @@ export default {
         "I feel like someone is watching me...",
         'The airport has banned your kind of people',
         'Weird flex but okay',
-        'When you you pull the reverse card in UNO.',
+        'When you pull the reverse card in UNO.',
         'My reaction when I stepped on LEGO.',
         'When you need to go to the bathroom but you only have 5 % battery left on your phone.',
         'My reaction when you’re at work and look at the clock and you still have 7 hours and 59 minutes left.',
@@ -20,7 +20,7 @@ export default {
         'When Windows asks you to use Microsoft Edge.',
         'When you look at the picture you posted back in highschool.',
         'My reaction when I accidentally like a picture of my crush from 3 years ago.',
-        'When you get that piece of popcorn out of your teeth. ',
+        'When you get that piece of popcorn out of your teeth.',
 
     ],
     dirty: [
@@ -30,6 +30,5 @@ export default {
         'Oh yeah, suck that, bitch.',
         "I'm about to shit my pants",
         "We don't serve your kind here",
-        
     ]
 }
