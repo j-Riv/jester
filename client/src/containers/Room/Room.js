@@ -67,7 +67,9 @@ class Game extends Component {
             // set current turn
             if (this.props.game.current_turn === '' || this.props.game.current_turn === null) {
                 console.log('SET CURRENT TURN');
-                this.props.setCurrentTurn(this.props.currentUser.username, params.gameId);
+                console.log('the game category is')
+                console.log(this.props.game.category)
+                this.props.setCurrentTurn(this.props.currentUser.username, params.gameId, this.props.game.category);
             }
         });
 

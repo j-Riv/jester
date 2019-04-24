@@ -81,6 +81,12 @@ class GamesLobby extends Component {
         this.setState({ showCreateGame: true });
     }
 
+    style = {
+        card: {
+            backgroundColor: '#f3f2ff',
+        }
+    }
+
     render() {
         const closeCreateGame = () => this.setState({ showCreateGame: false });
         if (this.props.loading) {
@@ -110,7 +116,7 @@ class GamesLobby extends Component {
                     <Button variant="light" className="m-2" style={{ float: 'right' }} onClick={() => this.toggleMenu('profileOpen')}><i className="fas fa-user-circle"></i> Profile</Button>
                     <Tabs id="game-tabs" activeKey={this.state.key} style={{ clear: 'both' }} onSelect={key => this.setState({ key })}>
                         <Tab eventKey="allGames" title="All Games">
-                            <All peeps={this.props.lobby} />
+                            <All peeps={this.props.lobby} style={this.style.card}/>
                         </Tab>
 
                         <Tab eventKey="sfwGames" title="SFW Games">

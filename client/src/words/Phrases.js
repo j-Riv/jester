@@ -13,5 +13,8 @@ export default {
         'When you walk in on your uncle fucking your dog',
         'Mind if I jack off in front of you?',
         'Oh yeah, suck that, bitch.',
+        "I'm about to shit my pants",
+        "We don't serve your kind here",
+        
     ]
 }
