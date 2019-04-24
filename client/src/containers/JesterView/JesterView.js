@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import ImgCard from '../../components/ImgCard/ImgCard';
-import PlayerCard from '../../components/Game/PlayerCard';
+import PlayerCard from '../Game/PlayerCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -57,7 +57,7 @@ class JesterView extends React.Component {
             }
         }
         return (
-            <Container  id="viewComponent">
+            <Container  id="viewComponent" style={{ height: "auto" }}>
                 <Row>
                     <Col sm={12}>
                         <Row>
@@ -68,6 +68,8 @@ class JesterView extends React.Component {
                                     user={e}
                                     king={true}
                                     />
+                                }else{
+                                    return '';
                                 }
                             })}
                         </Row>
@@ -81,6 +83,8 @@ class JesterView extends React.Component {
                                     user={e}
                                     key={i}
                                     />
+                                }else{
+                                    return '';
                                 }
                             })}
                         </Row>

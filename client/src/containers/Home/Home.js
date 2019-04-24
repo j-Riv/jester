@@ -96,7 +96,7 @@ class Home extends Component {
                                     Sign Up!
                                 </Button>
                             </Form>
-                            <a href="/" onClick={this.handleShowSignin}>You already have an account? Log in here.</a>
+                            <span className="span-link" onClick={this.handleShowSignin}>You already have an account? Log in here.</span>
                         </Col>
                     </Row>
                 </Jumbotron>

@@ -3,10 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import * as actions from '../actions';
+import * as actions from '../../actions';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import './creategamemodal.css';
 
 class CreateGameModal extends React.Component {
     handleNewGame = formProps => {
@@ -52,6 +53,7 @@ class CreateGameModal extends React.Component {
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                id="createGameModal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
@@ -93,13 +95,13 @@ class CreateGameModal extends React.Component {
                             </Field>
                         </Form.Group>
 
-                        <Button variant="light" type="submit" style={{ width: '100%' }}>
+                        <Button variant="highlight" type="submit" style={{ width: '100%' }}>
                             Create Game!    
                         </Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="light" onClick={this.props.onHide}>Cancel</Button>
+                    <Button variant="highlight" onClick={this.props.onHide}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         );

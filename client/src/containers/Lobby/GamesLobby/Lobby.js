@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import requireAuth from '../../../containers/requireAuth';
-import CreateGameModal from '../../../containers/CreateGameModal';
+import CreateGameModal from '../../../containers/CreateGameModal/CreateGameModal';
 import hostname from '../../../config/config';
 import Profile from '../../Profile/Profile';
 import { push as Menu } from 'react-burger-menu';
@@ -36,7 +36,7 @@ class GamesLobby extends Component {
 
     // This keeps your state in sync with the opening/closing of the menu
     handleStateChange(state, menu) {
-        this.setState({ [menu]: state.isOpen });
+        this.setState({ [menu]: state.profileOpen });
     }
     // This can be used to close the menu, e.g. when a user clicks a menu item
     closeMenu(menu) {
@@ -44,10 +44,11 @@ class GamesLobby extends Component {
     }
     // This can be used to toggle the menu, e.g. when using a custom icon
     toggleMenu(menu) {
-        this.setState({ [menu]: !this.state.menuOpen });
+        this.setState({ [menu]: !this.state.profileOpen });
     }
     
     componentDidMount = () => {
+        document.body.classList.add('lobby');
         // fetch games
         this.props.getAllGames();
         // get current user
@@ -68,6 +69,10 @@ class GamesLobby extends Component {
             this.props.getAllGames();
         });
     }
+
+    componentWillUnmount = () => {
+        document.body.classList.remove('lobby');
+    } 
 
     handleNewGame = () => {
         this.props.createGame((response) => {
@@ -115,15 +120,15 @@ class GamesLobby extends Component {
                     <Button variant="light" className="m-2" style={{ float: 'right' }} onClick={this.handleClickCreate}><i className="fas fa-plus"></i></Button>
                     <Button variant="light" className="m-2" style={{ float: 'right' }} onClick={() => this.toggleMenu('profileOpen')}><i className="fas fa-user-circle"></i> Profile</Button>
                     <Tabs id="game-tabs" activeKey={this.state.key} style={{ clear: 'both' }} onSelect={key => this.setState({ key })}>
-                        <Tab eventKey="allGames" title="All Games">
-                            <All peeps={this.props.lobby} style={this.style.card}/>
+                        <Tab eventKey="allGames" title="All Games" className="tab-select">
+                            <All peeps={this.props.lobby} />
                         </Tab>
 
-                        <Tab eventKey="sfwGames" title="SFW Games">
+                        <Tab eventKey="sfwGames" title="SFW Games" className="tab-select">
                             <SFW peeps={this.props.lobby} />
                         </Tab>
 
-                        <Tab eventKey="nsfwGames" title="NSFW Games">
+                        <Tab eventKey="nsfwGames" title="NSFW Games" className="tab-select">
                             <NSFW peeps={this.props.lobby} />
                         </Tab>
 

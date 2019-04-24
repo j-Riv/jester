@@ -16,8 +16,7 @@ import {
     REMOVE_USER,
     UPDATE_CARDS,
     CARD_SELECTED,
-    UPDATE_CURRENT_TURN,
-    //UPDATE_WINS
+    UPDATE_CURRENT_TURN
 } from '../../actions/types';
 import './Room.css';
 import KingView from '../KingView/KingView';
@@ -35,13 +34,12 @@ class Game extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            chatOpen: false,
-            profileOpen: false
+            chatOpen: false
         }
     }
     // This keeps your state in sync with the opening/closing of the menu
     handleStateChange(state, menu) {
-        this.setState({ [menu]: state.isOpen });
+        this.setState({ [menu]: state.chatOpen });
     }
     // This can be used to close the menu, e.g. when a user clicks a menu item
     closeMenu(menu) {
@@ -49,12 +47,12 @@ class Game extends Component {
     }
     // This can be used to toggle the menu, e.g. when using a custom icon
     toggleMenu(menu) {
-        this.setState({ [menu]: !this.state.menuOpen });
+        this.setState({ [menu]: !this.state.chatOpen });
     }
 
     componentDidMount = () => {
+        console.log('component mounted');
         console.log('Host: ' + hostname);
-        // declare words for api call later
         // crete game room
         const { match: { params } } = this.props;
         socket.emit('create', params.gameId);
@@ -74,7 +72,6 @@ class Game extends Component {
             // get gifs from api and update game state
             this.props.setUserGifs(response => {
                 // got gifs
-                // console.log('got gifs with setUserGifs');
                 console.log(response);
             });
             // set current turn on first user in game
@@ -88,22 +85,23 @@ class Game extends Component {
         });
         // new user connected send update to server
         socket.on('connect', () => {
+            console.log('CONNECT');
             // new user has joined log session/socket id
             // console.log('new user ' + this.props.user + ' joined: connected --> ' + sessionid);
             // update users on new user connect
-            if (this.props.user !== undefined) {
-                this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
-                    console.log('users have been updated');
-                    console.log(response);
-                });
-            }
+            // if (this.props.user !== undefined) {
+            //     this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
+            //         console.log('users have been updated');
+            //         console.log(response);
+            //     });
+            // }
             // emit event so other clients know to update users in game state
             socket.emit('user connected', { gameId: params.gameId, user: this.props.user });
         });
         // user disconnected send update to server
         socket.on('disconnect', (reason) => {
+            console.log('DISCONNECT');
             // user has disconnected try to reconnect
-            // console.log('user ' + this.props.user + ' has disconnected');
             if (reason === 'io server disconnect') {
                 // the disconnection was initiated by the server, you need to reconnect manually
                 socket.connect();
@@ -113,41 +111,35 @@ class Game extends Component {
         });
         // socket reconnected
         socket.on('reconnect', (attemptNumber) => {
+            console.log('RECONNECT');
             // reconnectiong user display log attempts
             // console.log('reconnecting ' + this.props.user + ' attempts: ' + attemptNumber);
             // update users on socket reconnect
-            if (this.props.user !== undefined) {
-                this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
-                    console.log(response);
-                });
-            }
+            // if (this.props.user !== undefined) {
+            //     this.props.addUser(this.props.user, this.props.userId, params.gameId, (response) => {
+            //         console.log(response);
+            //     });
+            // }
         });
         // update users
         socket.on('add user', r => {
-            // console.log('Update users socket');
             // add new user to state
-            // console.log(r);
             store.dispatch({ type: UPDATE_USERS, payload: r });
         });
         // update cards
         socket.on('update cards', r => {
-            // console.log('Update cards socket');
             // update cards
-            // console.log(r);
             store.dispatch({ type: UPDATE_CARDS, payload: r });
         });
         // update winner
         socket.on('update winner', r => {
-            // update winner --> wins
-            // update winning card
-            // update winner chosen
-            // reset game
-            this.props.afterWin(r);
             this.props.setUserGifs();
+            this.props.afterWin(r, response => {
+                console.log(response);
+            });
         });
         // remove user
         socket.on('remove user', r => {
-            // console.log('PLEASE REMOVE USER: ' + r.user + '--> and next turn: ' + r.nextUser);
             // remove user and update current turn
             store.dispatch({ type: REMOVE_USER, payload: r.user });
             store.dispatch({ type: UPDATE_CURRENT_TURN, payload: r.nextUser });
@@ -156,7 +148,6 @@ class Game extends Component {
         socket.on('remove disconnected', r => {
             // remove user --> might need to fix current turn as well
             store.dispatch({ type: REMOVE_USER, payload: r.user });
-            // fix this --->
             // get game object from server and save to game state
             this.props.getGame(params.gameId, (response) => {
                 const game = response.data.game;
@@ -165,7 +156,6 @@ class Game extends Component {
                 // get gifs from api and update game state
                 this.props.setUserGifs(response => {
                     // got gifs
-                    // console.log('got gifs with setUserGifs');
                     console.log(response);
                 });
                 // set current turn on first user in game
@@ -190,6 +180,8 @@ class Game extends Component {
         });
         // reset card selected when user leaves
         store.dispatch({ type: CARD_SELECTED, payload: false });
+        // remove listeners
+        socket.removeAllListeners();
     }
 
     render() {

@@ -9,7 +9,7 @@ class NSFW extends Component {
         const nsfwGames = props.peeps.filter(g => g.category === 'Not Safe For Work')
         const nsfw = nsfwGames.map(item => {
                 return (
-                    <Row key={item._id}>
+                    <Row className="game-row" key={item._id}>
                     
                         <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
@@ -21,12 +21,18 @@ class NSFW extends Component {
         
                         <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
-                                <Link to={`/room/${item._id}`}>
-                                <h3>{item.game_name}</h3>
-                                <p>{item.users.length}/{item.max_players}</p>
-                                </Link>
+                                {item.users.length <= 5 ?
+                                    <Link to={`/room/${item._id}`}>
+                                        <h3>{item.game_name}</h3>
+                                        <p>{item.users.length}/{item.max_players}</p>
+                                    </Link>
+                                    :
+                                    <div>
+                                        <h3>{item.game_name}</h3>
+                                        <p>{item.users.length}/{item.max_players}</p>
+                                    </div>
+                                }
                             </div>
-        
                         </Col>
         
                         <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
@@ -40,7 +46,7 @@ class NSFW extends Component {
                 );
         });
         
-        return nsfw.length > 0 ? nsfw : <p>no game to show</p>
+        return nsfw.length > 0 ? nsfw : <h1 className='emptyGames'>No Games in this Category</h1>
     };
         
     render(){

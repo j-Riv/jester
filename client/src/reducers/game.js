@@ -1,17 +1,13 @@
 import { 
-    // CURRENT_USER,
     CURRENT_GAME, 
     ADD_CHAT, 
     UPDATE_USERS,
     REMOVE_USER,
     UPDATE_CARDS,
     UPDATE_WINNER,
-    UPDATE_WINNING_CARD,
-    UPDATE_WINNER_CHOSEN,
     UPDATE_CURRENT_TURN,
-    CLEAR_CARDS,
-    UPDATE_WINS,
-    SET_PHRASE
+    SET_PHRASE,
+    UPDATE_AND_RESET
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -63,7 +59,6 @@ export default function (state = INITIAL_STATE, action) {
             let UserExists = state.game.users.some(e => e.user === action.payload.user);
             let users = state.game.users.slice();
             if (!UserExists) {
-                console.log('User doesnt exist lets add them');
                 users.push(action.payload);
             }
             return {
@@ -83,31 +78,10 @@ export default function (state = INITIAL_STATE, action) {
                     users: removed
                 }
             };
-        case UPDATE_WINS:
-            let updateWins = state.game.users.slice();
-            const { winner, user } = action.payload;
-            console.log('UPDATE_WINS');
-            updateWins.forEach(obj => {
-                console.log('user: ' + obj.user);
-                console.log('Winning user: ' + action.payload);
-                // Checks if current user is the winner
-                if (obj.user === winner && winner === user) {
-                    obj.wins++;
-                    console.log('Wins: ---> ' + obj.wins);
-                }
-            });
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    users: updateWins
-                }
-            };
         case UPDATE_CARDS:
             let AlreadyExists = state.game.images.some(el => el.user === action.payload.user);
             let chosenImages = state.game.images.slice();
             if (!AlreadyExists) {
-                console.log('image doesnt exist');
                 chosenImages.push(action.payload);
             }
             return {
@@ -117,36 +91,14 @@ export default function (state = INITIAL_STATE, action) {
                     images: chosenImages
                 }
             };
-        case CLEAR_CARDS:
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    images: action.payload
-                }
-            }
         case UPDATE_WINNER:
             return {
                 ...state,
                 game: {
                     ...state.game,
-                    winner: action.payload
-                }
-            };
-        case UPDATE_WINNING_CARD:
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    winning_card: action.payload
-                }
-            };
-        case UPDATE_WINNER_CHOSEN:
-            return {
-                ...state,
-                game: {
-                    ...state.game,
-                    winner_chosen: action.payload
+                    winner: action.payload.user,
+                    winning_card: action.payload.card,
+                    winner_chosen: true
                 }
             };
         case UPDATE_CURRENT_TURN:
@@ -155,6 +107,24 @@ export default function (state = INITIAL_STATE, action) {
                 game: {
                     ...state.game,
                     current_turn: action.payload
+                }
+            }
+        case UPDATE_AND_RESET:
+            let updateWins = state.game.users.slice();
+            updateWins.forEach(obj => {
+                if (obj.user === action.payload.user) {
+                    obj.wins++;
+                }
+            });
+            return {
+                ...state,
+                game: {
+                    ...state.game,
+                    phrase: action.payload.phrase,
+                    current_turn: action.payload.nextUser,
+                    images: [],
+                    users: updateWins,
+                    winner_chosen: false
                 }
             }
         default:

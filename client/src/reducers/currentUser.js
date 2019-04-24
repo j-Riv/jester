@@ -1,7 +1,9 @@
 import { 
     CURRENT_USER,
     CARD_SELECTED,
-    GET_GIFS
+    GET_GIFS,
+    UPDATE_AND_RESET,
+    UPDATE_PICTURE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,7 +19,6 @@ const INITIAL_STATE = {
 };
 
 export default function (state = INITIAL_STATE, action) {
-    // console.log(action);
     switch (action.type) {
         case CURRENT_USER:
             return {
@@ -40,6 +41,22 @@ export default function (state = INITIAL_STATE, action) {
                     card_selected: action.payload
                 }
             };
+        case UPDATE_AND_RESET:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    card_selected: false
+                }
+            };
+        case UPDATE_PICTURE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    picture: action.payload
+                }
+            }
         default:
             return state;
     }
