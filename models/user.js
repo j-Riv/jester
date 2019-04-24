@@ -4,15 +4,15 @@ const bcrypt = require('bcrypt-nodejs');
 
 // Define our model
 const userSchema = new Schema({
-  email: { type: String, unique: true, lowercase: true },
-  password: String,
-  username: { type: String, unique: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  password: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   picture: { type: String, default: 'http://icons.iconarchive.com/icons/icons8/windows-8/512/Users-User-icon.png' },
   images: [],
   card_selected: { type: Boolean, default: false }
 });
 
-// On Save Hook, encrypt password
+// On Save Hook, encrypt passwor
 // Before saving a model, run this function
 userSchema.pre('save', function (next) {
   // get access to the user model
