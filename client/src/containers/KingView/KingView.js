@@ -28,7 +28,7 @@ class KingView extends React.Component {
         }
         console.log('card clicked');
         console.log(winnerData);
-        this.props.winnerChosen(winnerData);
+        this.props.winnerChosen(winnerData, this.props.game.category);
         store.dispatch({ type: CARD_SELECTED, payload: true });
     }
 
@@ -56,8 +56,6 @@ class KingView extends React.Component {
                                     user={e}
                                     king={true}
                                     />
-                                }else{
-                                    return '';
                                 }
                             })}
                         </Row>

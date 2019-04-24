@@ -36,7 +36,7 @@ class GamesLobby extends Component {
 
     // This keeps your state in sync with the opening/closing of the menu
     handleStateChange(state, menu) {
-        this.setState({ [menu]: state.isOpen });
+        this.setState({ [menu]: state.profileOpen });
     }
     // This can be used to close the menu, e.g. when a user clicks a menu item
     closeMenu(menu) {
@@ -44,7 +44,7 @@ class GamesLobby extends Component {
     }
     // This can be used to toggle the menu, e.g. when using a custom icon
     toggleMenu(menu) {
-        this.setState({ [menu]: !this.state.menuOpen });
+        this.setState({ [menu]: !this.state.profileOpen });
     }
     
     componentDidMount = () => {
@@ -84,6 +84,12 @@ class GamesLobby extends Component {
 
     handleClickCreate = () => {
         this.setState({ showCreateGame: true });
+    }
+
+    style = {
+        card: {
+            backgroundColor: '#f3f2ff',
+        }
     }
 
     render() {

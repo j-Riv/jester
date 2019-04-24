@@ -39,8 +39,7 @@ export const setUserGifs = () => async dispatch => {
             const gif = await axios.get(
                 `https://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
             )
-            console.log(gif.data.data.images.fixed_width.url)
-            gifs.push(gif.data.data.images.fixed_width.url);
+            gifs.push(gif.data.data.images.fixed_width.webp);
         }
         console.log('gifs================')
         console.log(gifs)
@@ -126,9 +125,18 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
     }
 }
 
-export const setCurrentTurn = (user, gameId) => async dispatch => {
+export const setCurrentTurn = (user, gameId, gameType) => async dispatch => {
     // get phrase
-    const phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
+    let phrase = ''
+    console.log('game type is currently:')
+    console.log(gameType)
+    if (gameType === 'Safe For Work') {
+        phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
+        console.log('this is not safe for work')
+    } else if (gameType === 'Not Safe For Work') {
+        phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
+        console.log('this is safe for work')
+    }
 
     try {
         const response = await axios.post(
@@ -159,9 +167,16 @@ export const imgCardChosen = card => async () => {
     }
 }
 
-export const winnerChosen = winnerData => async () => {
+export const winnerChosen = (winnerData, gameType) => async () => {
     // get phrase
-    const phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
+    let phrase = '';
+    if (gameType === 'Safe For Work') {
+        phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
+        console.log('this is not safe for work')
+    } else if (gameType === 'Not Safe For Work') {
+        phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
+        console.log('this is safe for work')
+    }
     winnerData.phrase = phrase;
 
     try {

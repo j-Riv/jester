@@ -7,37 +7,44 @@ import { Link } from 'react-router-dom';
 function All(props) {
     return (
         <div>
-        {props.peeps.map(item => { 
-            return (
-                <Row className="game-row" key={item._id}>
-                
-                    <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                        <div>
-                            <h5>Creator: {item.username}</h5>
-                            {/* <Image src={item.image} roundedCircle /> */}
-                        </div>
+            {props.peeps.map(item => {
+                return (
+                    <Row className="game-row" key={item._id}>
 
-                    </Col>
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <h5>Creator: {item.username}</h5>
+                                {/* <Image src={item.image} roundedCircle /> */}
+                            </div>
 
-                    <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
-                        <div>
-                            <Link to={`/room/${item._id}`}>
-                            <h3>{item.game_name}</h3>
-                            <p>{item.users.length}/{item.max_players}</p>
-                            </Link>
-                        </div>
-                    </Col>
+                        </Col>
 
-                    <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
-                        <div>
-                            <p>{item.category}</p>
-                            <p>{item.status}</p>
-                        </div>
-                    </Col>
+                        <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                {item.users.length <= 5 ?
+                                    <Link to={`/room/${item._id}`}>
+                                        <h3>{item.game_name}</h3>
+                                        <p>{item.users.length}/{item.max_players}</p>
+                                    </Link>
+                                    :
+                                    <div>
+                                        <h3>{item.game_name}</h3>
+                                        <p>{item.users.length}/{item.max_players}</p>
+                                    </div>
+                                }
+                            </div>
+                        </Col>
 
-                </Row>
-            )
-        })}
+                        <Col md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div>
+                                <p>{item.category}</p>
+                                <p>{item.status}</p>
+                            </div>
+                        </Col>
+
+                    </Row>
+                )
+            })}
         </div>
     )
 }
