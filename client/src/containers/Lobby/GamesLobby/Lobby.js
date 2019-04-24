@@ -57,9 +57,7 @@ class GamesLobby extends Component {
             return;
         }
         // fetch user from token (if server deems it's valid token)
-        this.props.getCurrentUser(token, (response) => {
-            console.log(response);
-        });
+        this.props.getCurrentUser(token);
         // on new game added re fetch
         socket.on('game added', () => {
             this.props.getAllGames();

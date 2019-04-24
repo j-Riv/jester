@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { isMobile } from 'react-device-detect';
+import './game-style.css';
 
 class PlayerCard extends Component {
     style = {
@@ -42,7 +43,7 @@ class PlayerCard extends Component {
         total >= 5 ? colSize = 3 : total === 4 ? colSize = 4 : total === 3 ? colSize = 6 : total <= 2 ? colSize = 12 : colSize = 12;
         if (this.props.king) { colSize = 12; animate = 'animated fadeInLeft' }
         if (this.props.user.data.username === this.props.currentUser.username) {
-            icon = 'fas fa-user mr-1';
+            icon = 'fas fa-user mr-1 animated heartBeat';
         }
         return (
             <Col md={colSize} className={animate}>

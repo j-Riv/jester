@@ -26,16 +26,31 @@ class KingView extends React.Component {
             gameId: this.props.game._id,
             nextUser: nextUser
         }
-        console.log('card clicked');
-        console.log(winnerData);
         this.props.winnerChosen(winnerData, this.props.game.category);
         store.dispatch({ type: CARD_SELECTED, payload: true });
+    }
+
+    remainingPlayers() {
+        if (this.props.game.users.length === 1) {
+            return <p>Waiting for more players!</p>;
+        } else {
+            let rem = this.props.game.users.length - this.props.game.images.length - 1;
+            if (this.props.currentUser.card_selected) {
+                return <p>You have chosen!</p>;
+            } else if (rem === 0) {
+                return <p className="animated fadeIn heartBeat">Choose an image!</p>;
+            } else if (rem > 1) {
+                return <p className="animated fadeIn heartBeat">{'Waiting for ' + rem + ' images.'}</p>;
+            } else {
+                return <p className="animated fadeIn heartBeat">{'Waiting for ' + rem + ' image.'}</p>;
+            }
+        }
     }
 
     render() {
         // chosen images
         let chosenImages = '';
-        if (Array.isArray(this.props.game.images)) {
+        if (Array.isArray(this.props.game.images) && this.props.currentUser.card_selected === false) {
             chosenImages = this.props.game.images.map((img, key) =>
                 <ImgCard
                     key={key}
@@ -44,6 +59,7 @@ class KingView extends React.Component {
                 />
             );
         }
+
         return (
             <Container id="viewComponent" style={{ height: "auto" }}>
                 <Row>
@@ -52,10 +68,10 @@ class KingView extends React.Component {
                             {this.props.game.users.map(e => {
                                 if (e.data.username === this.props.game.current_turn) {
                                     return <PlayerCard
-                                    key={1}
-                                    user={e}
-                                    king={true}
-                                    />
+                                                key={1}
+                                                user={e}
+                                                king={true}
+                                            />
                                 }else{
                                     return '';
                                 }
@@ -66,17 +82,19 @@ class KingView extends React.Component {
                             {this.props.game.users.map((e, i) => {
                                 if (e.data.username !== this.props.game.current_turn) {
                                     return <PlayerCard
-                                    total={this.props.users.length}
-                                    user={e}
-                                    key={i}
-                                    selected={this.props.currentUser.card_selected}
-                                    />
+                                                total={this.props.users.length}
+                                                user={e}
+                                                key={i}
+                                                selected={this.props.currentUser.card_selected}
+                                            />
                                 }else{
                                     return '';
                                 }
                             })}
-                        </Row>                        
-                        <p className='animated fadeIn'>{chosenImages.length === 0 ? 'Waiting for other players' : 'Choose an Image!'}</p>
+                        </Row>
+                        <div className="p-2">
+                            {this.remainingPlayers()}
+                        </div>
                         <Row>
                             {chosenImages}
                         </Row>
