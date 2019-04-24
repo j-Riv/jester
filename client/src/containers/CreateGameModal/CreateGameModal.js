@@ -30,11 +30,11 @@ class CreateGameModal extends React.Component {
             'Not Safe For Work'
         ];
 
-        const status = [
-            'Select',
-            'public',
-            'private'
-        ];
+        // const status = [
+        //     'Select',
+        //     'public',
+        //     'private'
+        // ];
 
         const DropDownSelect = (x) => {
             let value = x;
