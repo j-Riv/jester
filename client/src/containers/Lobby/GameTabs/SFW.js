@@ -22,17 +22,10 @@ class SFW extends Component {
         
                         <Col md={6} style={{ display: 'flex', justifyContent: 'center' }}>
                             <div>
-                                {item.users.length <= 5 ?
-                                    <Link to={`/room/${item._id}`}>
-                                        <h3>{item.game_name}</h3>
-                                        <p>{item.users.length}/{item.max_players}</p>
-                                    </Link>
-                                    :
-                                    <div>
-                                        <h3>{item.game_name}</h3>
-                                        <p>{item.users.length}/{item.max_players}</p>
-                                    </div>
-                                }
+                                <Link to={`/room/${item._id}`}>
+                                    <h3>{item.game_name}</h3>
+                                    <p>{item.users.length} players in game</p>
+                                </Link>
                             </div>
         
                         </Col>
