@@ -73,7 +73,7 @@ class GamesLobby extends Component {
     } 
 
     handleNewGame = () => {
-        this.props.createGame((response) => {
+        this.props.createGame(response => {
             const game = response.data.game;
             console.log(game._id);
             this.props.history.push('/room/' + game._id);

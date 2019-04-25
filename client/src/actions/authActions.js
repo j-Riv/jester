@@ -1,5 +1,6 @@
 import axios from 'axios';
-import host from '../config/config';
+import store from '../store';
+import hostname from '../config/config';
 import { 
     AUTH_USER, 
     AUTH_ERROR, 
@@ -8,13 +9,13 @@ import {
     UPDATE_PICTURE
 } from './types';
 
-
 export const signup = (formProps, callback) => async dispatch => {
     try {
-        const response = await axios.post(
-            host + '/signup',
-            formProps
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/signup',
+            data: formProps
+        });
 
         dispatch({ type: AUTH_USER, payload: response.data.token });
         localStorage.setItem('token', response.data.token);
@@ -29,10 +30,11 @@ export const signup = (formProps, callback) => async dispatch => {
 
 export const signin = (formProps, callback) => async dispatch => {
     try {
-        const response = await axios.post(
-            host + '/signin',
-            formProps
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/signin',
+            data: formProps
+        });
 
         dispatch({ type: AUTH_USER, payload: response.data.token });
         localStorage.setItem('token', response.data.token);
@@ -47,9 +49,11 @@ export const signin = (formProps, callback) => async dispatch => {
 
 export const getCurrentUser = userToken => async dispatch => {
     try {
-        const response = await axios.get(
-            host + '/users/current/' + userToken
-        );
+        const response = await axios({
+            method: 'GET',
+            url: hostname + '/users/current/' + userToken,
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         dispatch({ type: CURRENT_USER, payload: response.data.currentUser });
     } catch (e) {
         console.log(e);
@@ -65,10 +69,12 @@ export const signout = () => async dispatch => {
 
 export const updateUser = formProps => async dispatch => {
     try {
-        const response = await axios.post(
-            host + '/users/update',
-            formProps
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/users/update',
+            data: formProps,
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         dispatch({ type: UPDATE_PICTURE, payload: response.data.picture });
     } catch (e) {
         console.log(e);

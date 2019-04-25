@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { reset } from 'redux-form';
+import store from '../store';
 import hostname from '../config/config';
 import {
     ADD_CHAT,
@@ -50,10 +51,12 @@ export const addMessage = (formProps, callback) => async dispatch => {
 export const createGame = (formProps, callback) => async () => {
     // create game
     try {
-        const response = await axios.post(
-            hostname + '/games/new',
-            formProps
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/games/new',
+            data: formProps,
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         callback(response);
     } catch (e) {
         console.log(e);
@@ -63,9 +66,12 @@ export const createGame = (formProps, callback) => async () => {
 export const getGame = (id, callback) => async dispatch => {
     // get current game
     try {
-        const response = await axios.get(
-            hostname + '/games/game/' + id
-        );
+        const response = await axios({
+            method: 'GET',
+            url: hostname + '/games/game/' + id,
+            headers: { authorization: store.getState().auth.authenticated }
+        });
+
         localStorage.setItem('game', response.data.game);
         dispatch({ type: CURRENT_GAME, payload: response.data.game });
         callback(response);
@@ -76,9 +82,11 @@ export const getGame = (id, callback) => async dispatch => {
 
 export const getAllGames = () => async dispatch => {
     try {
-        const response = await axios.get(
-            hostname + '/games/all/'
-        );
+        const response = await axios({
+            method: 'GET',
+            url: hostname + '/games/all/',
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         // get all games
         dispatch({ type: GET_ALL_GAMES });
         dispatch({ type: ALL_GAMES, payload: response.data.games });
@@ -90,10 +98,12 @@ export const getAllGames = () => async dispatch => {
 export const addUser = (user, userId, gameId) => async dispatch => {
     // add user to room
     try {
-        const response = await axios.post(
-            hostname + '/games/add/users',
-            { user, userId, gameId }
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/games/add/users',
+            data: { user, userId, gameId },
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         // add user
         dispatch({ type: UPDATE_USERS, payload: response.data.added });
     } catch (e) {
@@ -104,10 +114,12 @@ export const addUser = (user, userId, gameId) => async dispatch => {
 export const removeUser = (user, gameId, nextUser) => async dispatch => {
     // remove user from room
     try {
-        const response = await axios.post(
-            hostname + '/games/remove/users',
-            { user, gameId, nextUser }
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/games/remove/users',
+            data: { user, gameId, nextUser },
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         // remove user
         dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.removed.nextUser });
     } catch (e) {
@@ -125,10 +137,12 @@ export const setCurrentTurn = (user, gameId, gameType) => async dispatch => {
     }
 
     try {
-        const response = await axios.post(
-            hostname + '/games/game/turn',
-            { user, gameId, phrase }
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/games/game/turn',
+            data: { user, gameId, phrase },
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         // set current turn to response from server
         dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.turn });
         dispatch({ type: SET_PHRASE, payload: response.data.phrase });
@@ -142,10 +156,12 @@ export const imgCardChosen = card => async () => {
     console.log(card);
     socket.emit('card selected', card);
     try {
-        const response = await axios.post(
-            hostname + '/games/update/cards',
-            card
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/games/update/cards',
+            data: card,
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         console.log(response.data.card);
     } catch (e) {
         console.log(e);
@@ -163,10 +179,12 @@ export const winnerChosen = (winnerData, gameType) => async () => {
     winnerData.phrase = phrase;
 
     try {
-        const response = await axios.post(
-            hostname + '/games/update/winner',
-            winnerData
-        );
+        const response = await axios({
+            method: 'POST',
+            url: hostname + '/games/update/winner',
+            data: winnerData,
+            headers: { authorization: store.getState().auth.authenticated }
+        });
         console.log(response.data.winner);
     } catch (e) {
         console.log(e);

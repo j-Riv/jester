@@ -14,6 +14,7 @@ class CreateGameModal extends React.Component {
         formProps.current_turn = this.props.currentUser.username;
         formProps.user_pic = this.props.currentUser.users;
         formProps.username = this.props.currentUser.username;
+        formProps.authorization = this.props.auth; 
         this.props.createGame(formProps, (response) => {
             const game = response.data.game;
             console.log(game._id);
@@ -109,7 +110,10 @@ class CreateGameModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser.user };
+    return { 
+        currentUser: state.currentUser.user,
+        auth: state.auth.authorization
+    };
 }
 
 export default compose(
