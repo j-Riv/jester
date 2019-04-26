@@ -28,21 +28,13 @@ export const setUserGifs = () => async dispatch => {
         for (let i = 0; i < 3; i++) {
             word.push(words.words[~~(Math.random() * words.words.length)])
         }
-        console.log('words===============================')
-        console.log(word)
         let gifs = [];
         for (let i = 0; i < 3; i++) {
-            // const gif = await axios.get(
-            //     `https://api.tenor.com/v1/search?tag=${word[i]}&limit=1&media_filter=minimal&ar_range=standard&key=OZVKWPE1OFF3`
-            // )
-            // gifs.push(gif.data.results[0].media[0].tinygif.url);
             const gif = await axios.get(
                 `https://api.giphy.com/v1/gifs/random?tag=${word[i]}&rating=r&api_key=kygFzz8jXFLD2kI2IsPll2kxWJjTeKxZ&limit=1`
             )
             gifs.push(gif.data.data.images.fixed_width.webp);
         }
-        console.log('gifs================')
-        console.log(gifs)
         dispatch({ type: GET_GIFS, payload: gifs })
     } catch (e) {
         console.log(e)
@@ -95,7 +87,7 @@ export const getAllGames = () => async dispatch => {
     }
 }
 
-export const addUser = (user, userId, gameId, callback) => async dispatch => {
+export const addUser = (user, userId, gameId) => async dispatch => {
     // add user to room
     try {
         const response = await axios.post(
@@ -104,13 +96,12 @@ export const addUser = (user, userId, gameId, callback) => async dispatch => {
         );
         // add user
         dispatch({ type: UPDATE_USERS, payload: response.data.added });
-        callback(response.data.added);
     } catch (e) {
         console.log(e);
     }
 }
 
-export const removeUser = (user, gameId, nextUser, callback) => async dispatch => {
+export const removeUser = (user, gameId, nextUser) => async dispatch => {
     // remove user from room
     try {
         const response = await axios.post(
@@ -119,7 +110,6 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
         );
         // remove user
         dispatch({ type: UPDATE_CURRENT_TURN, payload: response.data.removed.nextUser });
-        callback(response.data.removed.user);
     } catch (e) {
         console.log(e);
     }
@@ -128,14 +118,10 @@ export const removeUser = (user, gameId, nextUser, callback) => async dispatch =
 export const setCurrentTurn = (user, gameId, gameType) => async dispatch => {
     // get phrase
     let phrase = ''
-    console.log('game type is currently:')
-    console.log(gameType)
     if (gameType === 'Safe For Work') {
         phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
-        console.log('this is not safe for work')
     } else if (gameType === 'Not Safe For Work') {
         phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
-        console.log('this is safe for work')
     }
 
     try {
@@ -160,7 +146,6 @@ export const imgCardChosen = card => async () => {
             hostname + '/games/update/cards',
             card
         );
-        console.log('updated cards');
         console.log(response.data.card);
     } catch (e) {
         console.log(e);
@@ -172,10 +157,8 @@ export const winnerChosen = (winnerData, gameType) => async () => {
     let phrase = '';
     if (gameType === 'Safe For Work') {
         phrase = Phrases.clean[~~(Math.random() * Phrases.clean.length)];
-        console.log('this is not safe for work')
     } else if (gameType === 'Not Safe For Work') {
         phrase = Phrases.dirty[~~(Math.random() * Phrases.dirty.length)];
-        console.log('this is safe for work')
     }
     winnerData.phrase = phrase;
 
@@ -184,14 +167,13 @@ export const winnerChosen = (winnerData, gameType) => async () => {
             hostname + '/games/update/winner',
             winnerData
         );
-        console.log('updated winner');
         console.log(response.data.winner);
     } catch (e) {
         console.log(e);
     }
 }
 
-export const afterWin = (r, callback) => async dispatch => {
+export const afterWin = r => async dispatch => {
     const wObj = {
         user: r.user,
         card: r.card
@@ -206,5 +188,4 @@ export const afterWin = (r, callback) => async dispatch => {
         }
         dispatch({ type: UPDATE_AND_RESET, payload: rObj });
     }, 3000);
-    callback('after win has run');
 }

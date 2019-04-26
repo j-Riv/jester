@@ -30,11 +30,11 @@ class CreateGameModal extends React.Component {
             'Not Safe For Work'
         ];
 
-        const status = [
-            'Select',
-            'public',
-            'private'
-        ];
+        // const status = [
+        //     'Select',
+        //     'public',
+        //     'private'
+        // ];
 
         const DropDownSelect = (x) => {
             let value = x;
@@ -84,7 +84,7 @@ class CreateGameModal extends React.Component {
                             </Field>
                         </Form.Group>
 
-                        <Form.Group controlId="game_status">
+                        {/* <Form.Group controlId="game_status">
                             <Form.Label>Game Status</Form.Label>
                             <Field
                                 className="form-control"
@@ -93,7 +93,7 @@ class CreateGameModal extends React.Component {
                             >
                                 {status.map(DropDownSelect)}
                             </Field>
-                        </Form.Group>
+                        </Form.Group> */}
 
                         <Button variant="highlight" type="submit" style={{ width: '100%' }}>
                             Create Game!    

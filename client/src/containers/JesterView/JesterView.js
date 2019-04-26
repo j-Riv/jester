@@ -24,12 +24,20 @@ class JesterView extends React.Component {
             card: src,
             gameId: this.props.game._id
         }
-        console.log('card src')
-        console.log(src)
-        console.log('card clicked');
-        console.log(card);
         this.props.imgCardChosen(card);
         store.dispatch({ type: CARD_SELECTED, payload: true });
+    }
+
+    message() {
+        if (this.props.game.winner_chosen) {
+            return '';
+        } else {
+            if (this.props.currentUser.card_selected) {
+                return <p>Waiting for the King to choose...</p>;
+            } else {
+                return <p className="animated fadeIn heartBeat">Select a GIF!</p>;
+            }
+        }
     }
 
     render() {
@@ -64,10 +72,10 @@ class JesterView extends React.Component {
                             {this.props.game.users.map(e => {
                                 if (e.data.username === this.props.game.current_turn) {
                                     return <PlayerCard
-                                    key={1}
-                                    user={e}
-                                    king={true}
-                                    />
+                                                key={1}
+                                                user={e}
+                                                king={true}
+                                            />
                                 }else{
                                     return '';
                                 }
@@ -79,16 +87,18 @@ class JesterView extends React.Component {
                             {this.props.game.users.map((e, i) => {
                                 if (e.data.username !== this.props.game.current_turn) {
                                     return <PlayerCard
-                                    total={this.props.users.length}
-                                    user={e}
-                                    key={i}
-                                    />
+                                                total={this.props.users.length}
+                                                user={e}
+                                                key={i}
+                                            />
                                 }else{
                                     return '';
                                 }
                             })}
                         </Row>
-                        <h4>{this.props.currentUser.card_selected ? 'Waiting for the king to choose...' : 'Select a GIF!'}</h4>
+                        <div className="p-2">
+                            {this.message()}
+                        </div>
                         <Row>
                             {view}
                         </Row>

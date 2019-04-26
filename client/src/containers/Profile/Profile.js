@@ -10,20 +10,9 @@ import Form from 'react-bootstrap/Form';
 
 class Profile extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showUpdateProfile: false
-        }
-    }
-
-    pic = {
+    picStyles = {
         height: '200px',
         width: '200px',
-        backgroundImage: 'url(' + this.props.currentUser.picture + ')',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
         backgroundColor: 'white'
     }
 
@@ -33,17 +22,12 @@ class Profile extends Component {
             return;
         }
         // fetch user from token (if server deems it's valid token)
-        this.props.getCurrentUser(token, (response) => {
-            console.log(response);
-        });
+        this.props.getCurrentUser(token);
     }
 
     onSubmit = formProps => {
         formProps.id = this.props._id;
-        console.log(formProps);
-        this.props.updateUser(formProps, () => {
-            console.log('submitted');
-        });
+        this.props.updateUser(formProps);
     };
 
     render() {
@@ -59,7 +43,8 @@ class Profile extends Component {
                 <div className="container-fluid pro">
 
                     <div className="d-flex justify-content-center">
-                        <div className="rounded-circle" style={this.pic}>
+                        <div className="rounded-circle" style={this.picStyles}>
+                            <img className="w-100 rounded-circle" src={this.props.picture} alt={this.props.username} />
                         </div>
                     </div>
                     <div className="row mt-2">
