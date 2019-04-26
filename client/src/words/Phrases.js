@@ -21,7 +21,6 @@ export default {
         'When you look at the picture you posted back in highschool.',
         'My reaction when I accidentally like a picture of my crush from 3 years ago.',
         'When you get that piece of popcorn out of your teeth.',
-        'When you get that piece of popcorn out of your teeth. ',
         'When you order a steak medium and they give you well-done.',
         'Dad says he went to the liquor store to buy milk and cigarettes.',
         'When youre finish pooping and you just notice theres no toilet paper',
