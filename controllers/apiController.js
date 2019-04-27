@@ -3,17 +3,27 @@ const jwt = require('jwt-simple');
 const User = require('../models/user');
 const Game = require('../models/game');
 
+/**
+ * Generates a token using user id, timestamp and secret.
+ * @param {Object} user - user object
+ */
 function tokenForUser(user) {
     const timestamp = new Date().getTime();
     return jwt.encode({ sub: user.id, iat: timestamp }, process.env.PASSPORT_SECRET);
 }
 
+/**
+ * Signin
+ */
 exports.signin = (req, res) => {
     // User has already had their email and password auth'd
     // We just need to give them a token
     res.send({ token: tokenForUser(req.user), currentUser: req.user });
 }
 
+/**
+ * Signup
+ */
 exports.signup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -45,6 +55,9 @@ exports.signup = (req, res, next) => {
     });
 }
 
+/**
+ * Gets current user from DB by decoding jwt token.
+ */
 exports.getCurrentUser = (req, res) => {
     const token = req.params.token;
     const decoded = jwt.decode(token, process.env.PASSPORT_SECRET);
@@ -64,6 +77,9 @@ exports.getCurrentUser = (req, res) => {
     });
 }
 
+/**
+ * Searches for user by id and updates their picture.
+ */
 exports.updateUser = (req, res) => {
     const id = req.body.id;
     const picture = req.body.picture;
@@ -82,6 +98,9 @@ exports.updateUser = (req, res) => {
     });
 }
 
+/**
+ * Creates a new game and emits a 'game added' event via socket.
+ */
 exports.createGame = (req, res, next) => {
     // create new game
     const game = new Game({
@@ -105,6 +124,9 @@ exports.createGame = (req, res, next) => {
     });
 }
 
+/**
+ * Gets the current game object.
+ */
 exports.getGame = (req, res) => {
     const id = req.params.id;
     // get game by id
@@ -115,6 +137,9 @@ exports.getGame = (req, res) => {
     });
 }
 
+/** 
+ * Gets all games in DB.
+ */
 exports.getAllGames = (req, res, next) => {
     // get all games for lobby update
     Game.find({}).then(result => {
@@ -125,6 +150,9 @@ exports.getAllGames = (req, res, next) => {
     });
 }
 
+/** 
+ * Updates game via id.
+ */
 exports.updateGame = (req, res) => {
     const id = req.params.id;
     const game = {
@@ -146,6 +174,9 @@ exports.updateGame = (req, res) => {
     });
 }
 
+/**
+ * Adds user to game in DB then emits an 'add user' and 'update games' event via socket.
+ */
 exports.addUser = (req, res) => {
     const id = req.body.gameId;
     const user = req.body.user;
@@ -195,6 +226,9 @@ exports.addUser = (req, res) => {
     }
 }
 
+/**
+ * Removes user from DB and emits a 'remove user' event via socket.
+ */
 exports.removeUser = (req, res) => {
     const id = req.body.gameId;
     const user = req.body.user;
@@ -264,6 +298,9 @@ exports.removeUser = (req, res) => {
     }
 }
 
+/**
+ * Updates the games current turn & phrase.
+ */
 exports.updateCurrentTurn = (req, res) => {
     const id = req.body.gameId;
     const user = req.body.user;
@@ -286,6 +323,9 @@ exports.updateCurrentTurn = (req, res) => {
     });
 }
 
+/**
+ * Emits an 'update cards' event via socket.
+ */
 exports.updateGameCards = (req, res) => {
     const id = req.body.gameId;
     // update room with card
@@ -293,6 +333,10 @@ exports.updateGameCards = (req, res) => {
     res.json({ card: req.body });
 }
 
+/**
+ * Emits an 'update winner' event via socket.
+ * This updates/resets the game on round end.
+ */
 exports.updateGameWinner = (req, res) => {
     const id = req.body.gameId;
     const user = req.body.user;

@@ -132,6 +132,14 @@ export default function (state = INITIAL_STATE, action) {
     }
 }
 
+/**
+ * Remove user from users in game
+ * @param {array} array - all users in current game
+ * @param {object} params
+ * @param {string} params.key - the key to use
+ * @param {string} params.value - the username to look for
+ * @return {array} - returns all users in current game
+ */
 function removeByKey(array, params) {
     array.some(function (item, index) {
         if (array[index][params.key] === params.value) {

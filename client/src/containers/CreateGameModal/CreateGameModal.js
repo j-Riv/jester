@@ -14,7 +14,6 @@ class CreateGameModal extends React.Component {
         formProps.current_turn = this.props.currentUser.username;
         formProps.user_pic = this.props.currentUser.users;
         formProps.username = this.props.currentUser.username;
-        formProps.authorization = this.props.auth; 
         this.props.createGame(formProps, (response) => {
             const game = response.data.game;
             console.log(game._id);

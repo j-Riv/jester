@@ -23,6 +23,9 @@ const socket = io(hostname, {
     secure: true
 });
 
+/**
+ * Sets user gifs by requesting 3 images from the giphy api.
+ */
 export const setUserGifs = () => async dispatch => {
     let word = [];
     try {
@@ -42,12 +45,32 @@ export const setUserGifs = () => async dispatch => {
     }
 };
 
+/**
+ * Adds message to game state.
+ * The callback emits a 'new chat' event via socket.
+ * @param {Object} formProps - message object
+ * @param {string} formProps.gameId - the games id
+ * @param {string} formProps.username - from username
+ * @param {string} formProps.message - the message
+ * @param {function} callback - the function to run on success
+ */
 export const addMessage = (formProps, callback) => async dispatch => {
     dispatch({ type: ADD_CHAT, payload: formProps });
     dispatch(reset('chat'));
     callback();
 };
 
+/**
+ * Creates new game via api.
+ * @param {Object} formProps - game object
+ * @param {string} current_turn - current turn
+ * @param {string} user_pic - users picture
+ * @param {string} username - username
+ * @param {string} game_name - name of game
+ * @param {string} game_category - category of game
+ * @param {string} game_status - status of game
+ * @param {function} callback - the function to run on success
+ */
 export const createGame = (formProps, callback) => async () => {
     // create game
     try {
@@ -63,6 +86,11 @@ export const createGame = (formProps, callback) => async () => {
     }
 }
 
+/**
+ * Gets current game from DB using the api.
+ * @param {string} id - game id
+ * @param {function} callback - the function to run on success
+ */
 export const getGame = (id, callback) => async dispatch => {
     // get current game
     try {
@@ -80,6 +108,9 @@ export const getGame = (id, callback) => async dispatch => {
     }
 }
 
+/**
+ * Gets all games from DB using the api.
+ */
 export const getAllGames = () => async dispatch => {
     try {
         const response = await axios({
@@ -95,6 +126,12 @@ export const getAllGames = () => async dispatch => {
     }
 }
 
+/**
+ * Adds the user to the game in the DB using the api.
+ * @param {string} user - username
+ * @param {string} userId - user id
+ * @param {string} gameId - game id
+ */
 export const addUser = (user, userId, gameId) => async dispatch => {
     // add user to room
     try {
@@ -111,6 +148,12 @@ export const addUser = (user, userId, gameId) => async dispatch => {
     }
 }
 
+/**
+ * Removes the user from the game in the DB using the api.
+ * @param {string} user - username
+ * @param {string} gameId - game id
+ * @param {string} nextUser - next user username
+ */
 export const removeUser = (user, gameId, nextUser) => async dispatch => {
     // remove user from room
     try {
@@ -127,6 +170,12 @@ export const removeUser = (user, gameId, nextUser) => async dispatch => {
     }
 }
 
+/**
+ * Sets next player and updates phrase.
+ * @param {string} user - next user
+ * @param {string} gameId - the games id
+ * @param {string} gameType - safe for work or not safe for work
+ */
 export const setCurrentTurn = (user, gameId, gameType) => async dispatch => {
     // get phrase
     let phrase = ''
@@ -151,6 +200,13 @@ export const setCurrentTurn = (user, gameId, gameType) => async dispatch => {
     }
 }
 
+/**
+ * Updates the db with the card (gif) chosen by the jester(s) using the api.
+ * @param {Object} card
+ * @param {string} card.user - the users name
+ * @param {string} card.card - the users gif
+ * @param {string} card.gameId - the games id
+ */
 export const imgCardChosen = card => async () => {
     console.log('Card info:');
     console.log(card);
@@ -168,6 +224,14 @@ export const imgCardChosen = card => async () => {
     }
 }
 
+/**
+ * Updates the db with the King's chosen Winner using the api.
+ * @param {Object} winnerData - the winners data
+ * @param {string} winnerData.user - the winners username
+ * @param {string} winnerData.card - the winners card (gif)
+ * @param {string} winnerData.gameId - the games id
+ * @param {string} winnerData.nextUser - the next user to be king
+ */
 export const winnerChosen = (winnerData, gameType) => async () => {
     // get phrase
     let phrase = '';
@@ -191,6 +255,15 @@ export const winnerChosen = (winnerData, gameType) => async () => {
     }
 }
 
+/**
+ * Updates and resets game state for next round.
+ * @param {Object} r - the socket response object
+ * @param {string} r.gameId - the games id
+ * @param {string} r.user - the winners username
+ * @param {string} r.phrase - the next phrase
+ * @param {string} r.nextUser - the next user to be king
+ * @param {string} r.card - the winners card (gif)
+ */
 export const afterWin = r => async dispatch => {
     const wObj = {
         user: r.user,
