@@ -54,11 +54,17 @@ export default {
 
     ],
     dirty: [
-        'Clap my ass cheeks, please',
-        'When you walk in on your uncle fucking your dog',
-        'Mind if I jack off in front of you?',
-        'Oh yeah, suck that, bitch.',
-        "I'm about to shit my pants",
-        "We don't serve your kind here",
+        'Im about to shit my pants',
+        'Ive always liked “User Interface,” if you know what I mean…',
+        'Is your data dirty or clean?',
+        'How big is your pipe?',
+        'What you see is what you get.',
+        'Is your fiber long-distance?',
+        'Can we do a hot-swap?',
+        'Do you have a preference for groupware?',
+        'Can I use your joystick?',
+        'I need more RAM.',
+        'Do any of you guys have a stiffy?',
+        'You make me want to calibrate my joystick without the latest drivers'
     ]
 }
