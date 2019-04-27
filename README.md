@@ -18,7 +18,7 @@ A turn based multiplayer web game.
 * [Bootstrap](https://getbootstrap.com/)
 
 ## Description
-A multiplayer web game designed with the concept of friends or strangers, taking turns to amuse each other. Each turn a new king will be selected. Jesters can submit a gif in an attempt to make the king laugh.
+A multiplayer web game designed with the concept of friends or strangers, taking turns to amuse each other. Each turn a new king will be selected and jesters can submit a gif in an attempt to make the king laugh.
 
 ## Contributors
 * [j-Riv](https://github.com/j-Riv)
