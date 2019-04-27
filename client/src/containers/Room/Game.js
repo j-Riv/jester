@@ -204,6 +204,11 @@ class Game extends Component {
     }
 }
 
+/**
+ * Selects next user to be king.
+ * @param {array} all - all users in current game
+ * @param {string} user - current user
+ */
 function getNext(all, user) {
     const index = all.findIndex(u => u.user === user);
     let nextUser;

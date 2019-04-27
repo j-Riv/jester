@@ -109,7 +109,10 @@ class CreateGameModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return { currentUser: state.currentUser.user };
+    return { 
+        currentUser: state.currentUser.user,
+        auth: state.auth.authorization
+    };
 }
 
 export default compose(

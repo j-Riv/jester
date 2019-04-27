@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const PORT = process.env.PORT || 3001;;
 const routes = require('./routes/apiRoutes');
-
+const passport = require('passport');
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +31,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use(passport.initialize());
 // Define API routes here
 routes(app);
 
