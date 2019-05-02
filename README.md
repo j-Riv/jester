@@ -4,7 +4,7 @@ A turn based multiplayer web game.
 
 **Link** [Jester](https://the-jester.herokuapp.com/)
 
-![jester](client/public/images/screenshot/the-jester.jpg)
+![Jester](client/public/images/screenshot/jester-platform.jpg)
 
 ## Built With:
 * [NodeJS](https://nodejs.org/en/docs/)
@@ -19,6 +19,9 @@ A turn based multiplayer web game.
 
 ## Description
 A multiplayer web game designed with the concept of friends or strangers, taking turns to amuse each other. Each turn a new king will be selected and jesters can submit a gif in an attempt to make the king laugh.
+
+![Server - Client](client/public/images/screenshot/jester-server-client.jpg)
+![Views](client/public/images/screenshot/jester-views.jpg)
 
 ## Contributors
 * [j-Riv](https://github.com/j-Riv)
